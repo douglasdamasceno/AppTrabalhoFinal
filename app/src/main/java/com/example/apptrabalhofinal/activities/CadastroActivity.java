@@ -8,9 +8,9 @@ import android.widget.EditText;
 
 import com.example.apptrabalhofinal.R;
 
+public class CadastroActivity extends AppCompatActivity {
 
-public class LoginActivity extends AppCompatActivity {
-
+    private EditText inputUsername;
     private EditText inputEmail;
     private  EditText inputSenha;
     private Button btnLogin;
@@ -19,12 +19,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        inputEmail = findViewById(R.id.inputEmail);
-        inputSenha = findViewById(R.id.inputSenha);
-        btnLogin = findViewById(R.id.btnCriar);
-        btnCancelar = findViewById(R.id.btnCancelarCriar);
-
+        setContentView(R.layout.activity_cadastro);
     }
 }

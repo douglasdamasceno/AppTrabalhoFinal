@@ -21,7 +21,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnCriar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -40,9 +40,9 @@
         android:layout_marginTop="14dp"
         android:background="@drawable/bg_botao_rounde_gmail"
         android:text="Login com Gmail"
-        app:layout_constraintEnd_toEndOf="@+id/btnLogin"
-        app:layout_constraintStart_toStartOf="@+id/btnLogin"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+        app:layout_constraintEnd_toEndOf="@+id/btnCriar"
+        app:layout_constraintStart_toStartOf="@+id/btnCriar"
+        app:layout_constraintTop_toBottomOf="@+id/btnCriar" />
 
     <TextView
         android:id="@+id/txtCriarConta"

@@ -1,5 +1,6 @@
 package com.example.apptrabalhofinal.activities;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -26,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnCriar);
         btnLoginGmail = findViewById(R.id.btnLoginGmail);
         txtCriarConta = findViewById(R.id.txtCriarConta);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Bem Vindo");
 
         txtCriarConta.setOnClickListener(new View.OnClickListener() {
             @Override

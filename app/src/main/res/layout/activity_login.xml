@@ -90,7 +90,7 @@
             style="@style/FatButton"/>
 
         <Button
-            android:id="@+id/btnCriar"
+            android:id="@+id/idBtnLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

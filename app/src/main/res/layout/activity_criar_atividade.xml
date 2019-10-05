@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.CriarAtividadeActivity">
+
+    <TextView
+        android:id="@+id/criar_atvidade_titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="512dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/perfil_senha"
+        app:layout_constraintStart_toStartOf="@+id/perfil_senha"
+        app:layout_constraintTop_toBottomOf="@+id/criar_atividade_nome"
+        tools:ignore="MissingConstraints">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/sexo_masculino"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/criar_atividade_individual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Individual" />
+
+            <RadioButton
+                android:id="@+id/criar_atividade_Grupo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Grupo" />
+
+            <RadioButton
+                android:id="@+id/criar_atividade_ambos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Ambos" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/criar_atividade_nome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="nome atividade"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/criar_atvidade_titulo" />
+
+    <EditText
+        android:id="@+id/criar_atividade_descricao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="descricao atividade"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="@+id/criar_atividade_nome"
+        app:layout_constraintStart_toStartOf="@+id/criar_atividade_nome"
+        app:layout_constraintTop_toBottomOf="@+id/criar_atividade_nome" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
@@ -9,7 +9,7 @@
     </style>
 
     <style name="FatButton" parent="Widget.AppCompat.Button.Borderless" />
-        <style name="MyTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <style name="MyTheme" parent="Theme.AppCompat.Light.NoActionBar">
             <!-- Customize your theme here. -->
             <item name="colorPrimary">#d602ee</item>
             <item name="colorPrimaryDark">#021aee</item>

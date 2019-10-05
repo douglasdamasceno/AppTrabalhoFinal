@@ -4,56 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#77ECE8E8"
-    tools:context=".activities.MainActivity">
-
-    <ImageView
-        android:id="@+id/imgLogo"
-        android:layout_width="wrap_content"
+    tools:context=".ui.activities.MainActivity">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:background="@color/colorAccent"
         android:layout_height="wrap_content"
-        android:layout_margin="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:ignore="MissingConstraints"
+        android:id="@+id/bottomNav"
+        app:menu="@menu/bottom_menu"
+        android:layout_gravity="bottom"
+        />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <Button
-        android:id="@+id/btnCriar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/bg_botao_rounde"
-        android:text="Login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgLogo" />
-
-    <Button
-        android:id="@+id/btnLoginGmail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:background="@drawable/bg_botao_rounde_gmail"
-        android:text="Login com Gmail"
-        app:layout_constraintEnd_toEndOf="@+id/btnCriar"
-        app:layout_constraintStart_toStartOf="@+id/btnCriar"
-        app:layout_constraintTop_toBottomOf="@+id/btnCriar" />
-
-    <TextView
-        android:id="@+id/txtCriarConta"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="32dp"
-        android:text="Não tem conta, Crie Aqui?"
-        android:textColor="#050505"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/btnLoginGmail"
-        app:layout_constraintStart_toStartOf="@+id/btnLoginGmail"
-        app:layout_constraintTop_toBottomOf="@+id/btnLoginGmail" />
 </androidx.constraintlayout.widget.ConstraintLayout>

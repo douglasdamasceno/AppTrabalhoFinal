@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.LoginActivity"
     android:orientation="vertical">
+
     <include layout="@layout/minha_toolbar" />
 
     <ImageView

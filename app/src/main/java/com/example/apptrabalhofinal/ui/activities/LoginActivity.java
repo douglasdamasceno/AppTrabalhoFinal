@@ -35,11 +35,11 @@ public class LoginActivity extends AppCompatActivity {
 
 
         setSupportActionBar(myToolbar);
-        myToolbar.setTitle("Login");
+        //myToolbar.setTitle("Loginxx");
         getSupportActionBar().setTitle("Login");
        // ActionBar actionBar = getSupportActionBar();
        // actionBar.setTitle("Login");
-        myToolbar.setTitle("Login");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //aparecer seta.
         //actionBar.setDisplayHomeAsUpEnabled(true);
         //actionBar.setDisplayShowCustomEnabled(true);

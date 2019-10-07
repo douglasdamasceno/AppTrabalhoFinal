@@ -6,27 +6,68 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.CriarAtividadeActivity">
 
-    <TextView
-        android:id="@+id/criar_atvidade_titulo"
-        android:layout_width="wrap_content"
+    <include layout="@layout/minha_toolbar" />
+
+    <EditText
+        android:id="@+id/criar_atividade_nome"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="120dp"
         android:layout_marginEnd="8dp"
-        android:text="TextView"
+        android:ems="10"
+        android:hint="nome atividade"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/criar_atividade_descricao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="descricao atividade"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="@+id/criar_atividade_nome"
+        app:layout_constraintStart_toStartOf="@+id/criar_atividade_nome"
+        app:layout_constraintTop_toBottomOf="@+id/criar_atividade_nome" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/criar_atividade_descricao">
+
+        <TextView
+            android:id="@+id/criar_atividade_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:text="Data " />
+
+        <TextView
+            android:id="@+id/criar_atividade_horario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Horario" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="512dp"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@+id/perfil_senha"
         app:layout_constraintStart_toStartOf="@+id/perfil_senha"
-        app:layout_constraintTop_toBottomOf="@+id/criar_atividade_nome"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
         tools:ignore="MissingConstraints">
 
         <RadioGroup
@@ -57,34 +98,6 @@
                 android:text="Ambos" />
         </RadioGroup>
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/criar_atividade_nome"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="nome atividade"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/criar_atvidade_titulo" />
-
-    <EditText
-        android:id="@+id/criar_atividade_descricao"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="descricao atividade"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="@+id/criar_atividade_nome"
-        app:layout_constraintStart_toStartOf="@+id/criar_atividade_nome"
-        app:layout_constraintTop_toBottomOf="@+id/criar_atividade_nome" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

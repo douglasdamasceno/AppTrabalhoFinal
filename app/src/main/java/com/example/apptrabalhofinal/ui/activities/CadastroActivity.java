@@ -1,6 +1,7 @@
 package com.example.apptrabalhofinal.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +9,11 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.apptrabalhofinal.R;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class CadastroActivity extends AppCompatActivity {
 
@@ -18,6 +21,11 @@ public class CadastroActivity extends AppCompatActivity {
     private EditText inputEmail;
     private  EditText inputSenha;
     private Button btnLogin;
+    private ImageView imageViewPerfil;
+
+    private Toolbar myToolbar;
+
+    BottomSheetDialog bottomSheetDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +36,37 @@ public class CadastroActivity extends AppCompatActivity {
         inputEmail = findViewById(R.id.inputEmailCadastro);
         inputSenha = findViewById(R.id.inputSenhaCadastro);
         btnLogin = findViewById(R.id.btnCadastro);
+        myToolbar = findViewById(R.id.minhaToolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle("Cadastro");
 
+        imageViewPerfil = findViewById(R.id.imageFotoPerfil);
+
+        bottomSheetDialog = new BottomSheetDialog(CadastroActivity.this);
+        View menu_foto = getLayoutInflater().inflate(R.layout.dialog_foto_fragmento,null);
+        bottomSheetDialog.setContentView(menu_foto);
+
+        View camera = menu_foto.findViewById(R.id.id_camera);
+        View galeria = menu_foto.findViewById(R.id.id_galeria);
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(CadastroActivity.this,"camera",Toast.LENGTH_LONG).show();
+            }
+        });
+        galeria.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(CadastroActivity.this,"galeria",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        imageViewPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.show();
+            }
+        });
 
         //ActionBar actionBar = getSupportActionBar();
         //actionBar.setTitle("Cadastro");

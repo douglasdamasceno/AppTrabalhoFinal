@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activities.CadastroActivity">
+    <include layout="@layout/minha_toolbar" />
 
-
-    <ImageButton
-        android:id="@+id/btnFotoPerfil"
+    <ImageView
+        android:id="@+id/imageFotoPerfil"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Button"
+        android:src="@drawable/ic_perfil_padrao"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -29,7 +29,7 @@
         android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFotoPerfil"
+        app:layout_constraintTop_toBottomOf="@+id/imageFotoPerfil"
         tools:ignore="DuplicateIds,MissingConstraints">
 
         <androidx.appcompat.widget.AppCompatEditText

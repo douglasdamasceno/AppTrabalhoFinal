@@ -1,13 +1,20 @@
 package com.example.apptrabalhofinal.data.model;
 
 public class Atividade {
+    private int id;
     private String nome;
     private String descricao;
     private String tipoDeAtividade;
     private int vagasParticipantes;
     private Endereco endereco;
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;

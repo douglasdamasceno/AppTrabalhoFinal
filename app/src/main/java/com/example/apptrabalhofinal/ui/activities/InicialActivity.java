@@ -21,13 +21,10 @@ public class InicialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicial);
 
-       // imgLogo = findViewById(R.id.imgLogo);
         btnLogin = findViewById(R.id.btnCriar);
         btnLoginGmail = findViewById(R.id.btnLoginGmail);
         txtCriarConta = findViewById(R.id.txtCriarConta);
 
-        //ActionBar actionBar = getSupportActionBar();
-        //actionBar.setTitle("Bem Vindo");
 
         txtCriarConta.setOnClickListener(new View.OnClickListener() {
             @Override

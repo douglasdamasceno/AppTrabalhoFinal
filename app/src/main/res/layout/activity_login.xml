@@ -80,7 +80,7 @@
         android:layout_marginEnd="8dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
 
@@ -89,8 +89,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Login"
-            android:background="@drawable/bg_botao_rounde"/>
+            android:background="@drawable/bg_botao_rounde"
+            android:text="Login" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

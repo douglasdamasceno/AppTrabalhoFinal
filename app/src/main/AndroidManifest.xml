@@ -2,11 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.apptrabalhofinal">
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality.
-    -->
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -24,7 +20,10 @@
         <activity android:name=".ui.activities.PerfilUsuarioActivity"></activity>
         <activity android:name=".ui.activities.AtividadeDetalheActivity" />
         <activity android:name=".ui.activities.MainActivity" >
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -42,17 +41,11 @@
             android:name=".ui.activities.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".ui.activities.CadastroActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ui.activities.LoginActivity" android:parentActivityName=".ui.activities.InicialActivity">
 
         </activity>
         <activity android:name=".ui.activities.InicialActivity">
-
         </activity>
 
     </application>

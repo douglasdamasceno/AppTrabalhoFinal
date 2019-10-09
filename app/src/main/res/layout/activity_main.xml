@@ -22,18 +22,18 @@
         android:layout_margin="10dp"
         app:srcCompat="@drawable/ic_add_atividade" />
 
-    <!--<androidx.coordinatorlayout.widget.CoordinatorLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-    <!--<com.google.android.material.bottomnavigation.BottomNavigationView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:background="@color/colorAccent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--tools:ignore="MissingConstraints"-->
-        <!--android:id="@+id/bottomNav"-->
-        <!--app:menu="@menu/bottom_menu"-->
-        <!--android:layout_gravity="bottom"-->
-        <!--/>-->
-    <!--</androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:background="@color/colorAccent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        android:id="@+id/bottomNav"
+        app:menu="@menu/bottom_menu"
+        android:layout_gravity="bottom"
+        />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

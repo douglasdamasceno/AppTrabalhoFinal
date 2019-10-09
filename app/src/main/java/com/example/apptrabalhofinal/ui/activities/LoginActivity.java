@@ -5,23 +5,24 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.apptrabalhofinal.R;
+import com.example.apptrabalhofinal.present.interfaces.Login;
+import com.example.apptrabalhofinal.present.PresentLogin;
 
 
-
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity  implements Login.view {
 
     private EditText inputEmail;
     private  EditText inputSenha;
     private Button btnLogin;
     private Toolbar myToolbar;
 
+    private PresentLogin presentLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,15 +36,10 @@ public class LoginActivity extends AppCompatActivity {
 
 
         setSupportActionBar(myToolbar);
-        //myToolbar.setTitle("Loginxx");
         getSupportActionBar().setTitle("Login");
-       // ActionBar actionBar = getSupportActionBar();
-       // actionBar.setTitle("Login");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //aparecer seta.
-        //actionBar.setDisplayHomeAsUpEnabled(true);
-        //actionBar.setDisplayShowCustomEnabled(true);
 
+        presentLogin = new PresentLogin(this);
 
         //Pegando intent
         Bundle bundle = getIntent().getExtras();
@@ -65,17 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                 String email = inputEmail.getText().toString();
                 String senha = inputSenha.getText().toString();
                 //patterns de email.
-                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    inputEmail.setError("Email Invalido");
-                    inputEmail.setFocusable(true);
-                }else if(senha.length()<6){
-                    inputSenha.setFocusable(true);
-                    inputSenha.setError("Senha deve ser maior que 6");
-                }else{
-                    Toast.makeText(LoginActivity.this,"okk",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
+                presentLogin.validarLogin(email,senha);
             }
         });
     }
@@ -85,4 +71,34 @@ public class LoginActivity extends AppCompatActivity {
         onBackPressed();
         return super.onSupportNavigateUp();
     }
+
+    @Override
+    public void formatoInvalidoEmail() {
+        inputEmail.setFocusable(true);
+        inputEmail.setError("Email Invalido");
+    }
+
+    @Override
+    public void senhaInvalida() {
+        inputSenha.setFocusable(true);
+        inputSenha.setError("Senha deve ser maior que 6");
+    }
+
+    @Override
+    public void realizarlogin() {
+        Toast.makeText(LoginActivity.this,"okk",Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void usuarioComEmailInvalido() {
+        Toast.makeText(LoginActivity.this,"usuario invalido",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void usuarioComSenha() {
+        Toast.makeText(LoginActivity.this,"senha invalida",Toast.LENGTH_SHORT).show();
+    }
+
 }

@@ -7,6 +7,8 @@ public class Atividade {
     private String tipoDeAtividade;
     private int vagasParticipantes;
     private Endereco endereco;
+    private String idadePublico;
+    private String sexoPublico;
 
     public int getId() {
         return id;
@@ -55,4 +57,5 @@ public class Atividade {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
+
 }

@@ -10,6 +10,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.apptrabalhofinal.R;
+import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
+import com.example.apptrabalhofinal.data.dao.AtividadeDBMemoriaDAO;
 import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.ui.adapter.MinhaAtividadeAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listViewMinhasAtividades;
     private Toolbar myToolbar;
+
+    private static AtividadeDBMemoriaDAO meuBanco;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Atividade> atividades = new ArrayList<>();
         //ContatoDAO contatoDAO = new ContatoDAO(this);
         //contatos = contatoDAO.buscarContato();
+        //meuBanco = AtividadeDBMemoriaDAO.getInstance();
         for (int i =0;i<10;i++){
             Atividade atividade = new Atividade();
             atividade.setDescricao( i +"dsadasdasdasdadasdasdasdaddddddddddddddddddddsadsa");

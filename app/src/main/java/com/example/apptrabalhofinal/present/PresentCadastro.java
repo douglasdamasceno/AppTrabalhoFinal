@@ -27,6 +27,7 @@ public class PresentCadastro implements Cadastro.present {
 
         if(Patterns.EMAIL_ADDRESS.matcher(email).matches() && senha.length()>=6 && username.length()>=6){
             Log.i("err","dddddd");
+            //salva no dao tbm
             cadastroActivity.realizarCadastro();
         }
     }

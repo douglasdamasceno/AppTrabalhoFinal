@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -24,12 +26,12 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity  implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity  implements BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
 
     private ListView listViewMinhasAtividades;
     private Toolbar myToolbar;
     private DrawerLayout drawerLayout;
-    private BottomNavigationView navigationView;
+    private BottomNavigationView bottomNavigationView;
     private NavigationView navigationView;
 
     @Override
@@ -50,8 +52,54 @@ public class MainActivity extends AppCompatActivity  implements BottomNavigation
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = findViewById(R.id.bottomNav);
-        navigationView.setOnNavigationItemSelectedListener(this);
+
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.idAtualizar: {
+                        Toast.makeText(MainActivity.this, "Atualizar", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this,MapsActivity.class));
+                        break;
+                    }
+                    case R.id.idPerfilMenu: {
+                        Toast.makeText(MainActivity.this, "Atualizar", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case R.id.idSairMenu: {
+                        Toast.makeText(MainActivity.this, "Atualizar", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+
+
+        bottomNavigationView = findViewById(R.id.bottomNav);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_home: {
+                        Toast.makeText(MainActivity.this, "home", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case R.id.menu_perfil: {
+                        Toast.makeText(MainActivity.this, "Perfil", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case R.id.menu_buscar: {
+                        Toast.makeText(MainActivity.this, "busca", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this,MapsActivity.class));
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
 
 
         FloatingActionButton fab = findViewById(R.id.fab_add_atividade);
@@ -85,23 +133,17 @@ public class MainActivity extends AppCompatActivity  implements BottomNavigation
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_home: {
-                Toast.makeText(this, "home", Toast.LENGTH_SHORT).show();
-
-                break;
-            }
-            case R.id.menu_perfil: {
-                Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
-                break;
-            }
-            case R.id.menu_buscar: {
-                Toast.makeText(this, "busca", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this,MapsActivity.class));
-                break;
-            }
+    public void onBackPressed(){
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
         }
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
     }
 }

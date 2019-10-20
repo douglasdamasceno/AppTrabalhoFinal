@@ -1,22 +1,14 @@
 <resources>
     <string name="app_name">AppTrabalhoFinal</string>
     <string name="title_activity_maps">Map</string>
-
+    <string name="open_drawer">abrir</string>
+    <string name="closer_drawer">fechar</string>
 
     <string-array name="tipoAtividade">
         <item>Individual</item>
         <item>Grupo</item>
     </string-array>
-    <string-array name="tipoDoSexo">
-        <item>Masculino</item>
-        <item>Feminino</item>
-        <item>Ambos</item>
-    </string-array>
-    <string-array name="tipoIdade">
-        <item>Adulto</item>
-        <item>Infantil</item>
-        <item>Ambos</item>
-    </string-array>
+    
 
 
 </resources>

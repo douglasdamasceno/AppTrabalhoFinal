@@ -1,5 +1,7 @@
 package com.example.apptrabalhofinal.data.model;
 
+import java.util.ArrayList;
+
 public class Atividade {
     private int id;
     private String nome;
@@ -9,6 +11,19 @@ public class Atividade {
     private Endereco endereco;
     private String idadePublico;
     private String sexoPublico;
+    private ArrayList<Participante> meusParticipantes;
+
+    public Atividade(){
+        endereco = new Endereco();
+        meusParticipantes = new ArrayList<Participante>();
+    }
+
+    public void addParticipante(Participante participante){
+        meusParticipantes.add(participante);
+    }
+    public void removerParticipante(Participante participante){
+        meusParticipantes.remove(participante);
+    }
 
     public int getId() {
         return id;

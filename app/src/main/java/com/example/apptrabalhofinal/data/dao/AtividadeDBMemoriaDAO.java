@@ -22,22 +22,20 @@ public class AtividadeDBMemoriaDAO implements AtividadeDAO {
 
     @Override
     public ArrayList<Atividade> listarAtividadesTodos() {
-        return null;
+        return listaAtividades;
     }
 
     @Override
     public void addNovo(Atividade atividade) {
-
+        listaAtividades.add(atividade);
     }
 
     @Override
     public void editar(Atividade atividade) {
-
     }
 
     @Override
     public void remover(int id) {
-
     }
 
     @Override

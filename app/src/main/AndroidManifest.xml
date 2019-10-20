@@ -14,14 +14,14 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.activities.CriarEnderecoAtividadeActivity"></activity>
-        <activity
-            android:name=".ui.activities.CriarAtividadeActivity"
-            android:parentActivityName=".ui.activities.MainActivity">
+        <activity android:name=".ui.activities.CriarAtividadeActivity" android:parentActivityName=".ui.activities.MainActivity">
 
         </activity>
         <activity android:name=".ui.activities.PerfilUsuarioActivity" />
         <activity android:name=".ui.activities.AtividadeDetalheActivity" />
-        <activity android:name=".ui.activities.MainActivity"></activity>
+        <activity android:name=".ui.activities.MainActivity">
+
+        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -38,8 +38,7 @@
             android:name=".ui.activities.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".ui.activities.CadastroActivity"></activity>
-        <activity
-            android:name=".ui.activities.LoginActivity"
+        <activity android:name=".ui.activities.LoginActivity"
             android:parentActivityName=".ui.activities.InicialActivity"></activity>
         <activity android:name=".ui.activities.InicialActivity">
             <intent-filter>
@@ -47,6 +46,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
 
         </activity>
     </application>

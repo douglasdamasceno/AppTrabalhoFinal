@@ -42,6 +42,7 @@
         android:layout_marginTop="14dp"
         android:background="@drawable/bg_botao_rounde_gmail"
         android:text="Login com Gmail"
+        android:drawableLeft="@drawable/ic_perfil_padrao"
         app:layout_constraintEnd_toEndOf="@+id/btnCriar"
         app:layout_constraintStart_toStartOf="@+id/btnCriar"
         app:layout_constraintTop_toBottomOf="@+id/btnCriar" />

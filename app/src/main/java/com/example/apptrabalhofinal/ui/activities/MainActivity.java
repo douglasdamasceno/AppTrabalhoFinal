@@ -1,8 +1,10 @@
 package com.example.apptrabalhofinal.ui.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.ui.adapter.MinhaAtividadeAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
@@ -25,9 +28,9 @@ public class MainActivity extends AppCompatActivity  implements BottomNavigation
 
     private ListView listViewMinhasAtividades;
     private Toolbar myToolbar;
-
+    private DrawerLayout drawerLayout;
     private BottomNavigationView navigationView;
-    private static AtividadeDBMemoriaDAO meuBanco;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +38,21 @@ public class MainActivity extends AppCompatActivity  implements BottomNavigation
         setContentView(R.layout.activity_main);
 
         listViewMinhasAtividades = findViewById(R.id.lista_view_minhas_atividades);
-
-        navigationView = findViewById(R.id.bottomNav);
-        navigationView.setOnNavigationItemSelectedListener(this);
-
         myToolbar = findViewById(R.id.minhaToolbar);
 
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Main");
+
+
+        drawerLayout =(DrawerLayout)  findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,myToolbar
+                ,R.string.open_drawer,R.string.closer_drawer);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = findViewById(R.id.bottomNav);
+        navigationView.setOnNavigationItemSelectedListener(this);
+
 
         FloatingActionButton fab = findViewById(R.id.fab_add_atividade);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -79,14 +89,16 @@ public class MainActivity extends AppCompatActivity  implements BottomNavigation
         switch (item.getItemId()) {
             case R.id.menu_home: {
                 Toast.makeText(this, "home", Toast.LENGTH_SHORT).show();
+
                 break;
             }
-            case R.id.menu_add: {
-                Toast.makeText(this, "Add", Toast.LENGTH_SHORT).show();
+            case R.id.menu_perfil: {
+                Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
                 break;
             }
             case R.id.menu_buscar: {
                 Toast.makeText(this, "busca", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this,MapsActivity.class));
                 break;
             }
         }

@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +27,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity  implements BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity  {
 
     private ListView listViewMinhasAtividades;
     private Toolbar myToolbar;
@@ -53,18 +54,20 @@ public class MainActivity extends AppCompatActivity  implements BottomNavigation
         toggle.syncState();
 
 
-        navigationView = findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
+
                     case R.id.idAtualizar: {
                         Toast.makeText(MainActivity.this, "Atualizar", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(MainActivity.this,MapsActivity.class));
+                        Log.i("click","atualizar");
                         break;
                     }
                     case R.id.idPerfilMenu: {
-                        Toast.makeText(MainActivity.this, "Atualizar", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "perfil", Toast.LENGTH_SHORT).show();
+                        Log.i("click","perfil");
                         break;
                     }
                     case R.id.idSairMenu: {
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity  implements BottomNavigation
                         break;
                     }
                 }
-                drawerLayout.closeDrawer(GravityCompat.START);
+                drawerLayout.closeDrawer(GravityCompat.END);
                 return true;
             }
         });
@@ -142,8 +145,4 @@ public class MainActivity extends AppCompatActivity  implements BottomNavigation
     }
 
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
-    }
 }

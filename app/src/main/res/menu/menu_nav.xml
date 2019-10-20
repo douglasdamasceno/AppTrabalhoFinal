@@ -5,13 +5,11 @@
 
         <item android:title="Atualizar"
             android:id="@+id/idAtualizar"
-            android:icon="@drawable/ic_atualizar"
-            />
+            android:icon="@drawable/ic_atualizar" />
 
         <item android:title="Perfil"
             android:id="@+id/idPerfilMenu"
-            android:icon="@drawable/ic_menu_bottom_perfil"
-            />
+            android:icon="@drawable/ic_menu_bottom_perfil" />
 
     </group>
 

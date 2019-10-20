@@ -20,11 +20,6 @@
         <activity android:name=".ui.activities.PerfilUsuarioActivity" />
         <activity android:name=".ui.activities.AtividadeDetalheActivity" />
         <activity android:name=".ui.activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <!--
@@ -47,6 +42,11 @@
             android:parentActivityName=".ui.activities.InicialActivity"></activity>
         <activity android:name=".ui.activities.InicialActivity">
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
     </application>

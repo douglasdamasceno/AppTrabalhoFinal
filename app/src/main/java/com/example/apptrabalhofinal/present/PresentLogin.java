@@ -2,11 +2,14 @@ package com.example.apptrabalhofinal.present;
 
 import android.util.Patterns;
 
+import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
+import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
 import com.example.apptrabalhofinal.present.interfaces.Login;
 
 
 public class PresentLogin  implements  Login.present{
     Login.view loginActivity;
+    UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
     private String emailMock = "douglas@gmail.com";
     private String senhaMock = "123456";
 
@@ -22,7 +25,7 @@ public class PresentLogin  implements  Login.present{
         if(senha.length()<6){
             loginActivity.senhaInvalida();
         }
-        if(email.equals(emailMock) && senha.equals(senhaMock)){
+        if(usuarioDAO.getLogin(email,senha)){
             loginActivity.realizarlogin();
         }
 

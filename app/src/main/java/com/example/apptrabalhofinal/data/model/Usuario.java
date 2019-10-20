@@ -13,4 +13,27 @@ public class Usuario {
     }
 
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public ArrayList<Atividade> getMinhaAtividades() {
+        return minhaAtividades;
+    }
+
+    public void setMinhaAtividades(ArrayList<Atividade> minhaAtividades) {
+        this.minhaAtividades = minhaAtividades;
+    }
+
+    public PerfilContaUsuario getMeuPerfil() {
+        return meuPerfil;
+    }
+
+    public void setMeuPerfil(PerfilContaUsuario meuPerfil) {
+        this.meuPerfil = meuPerfil;
+    }
 }

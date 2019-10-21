@@ -52,4 +52,14 @@ public class UsuarioDBMemoriaDAO implements  UsuarioDAO {
         }
         return false;
     }
+
+    @Override
+    public boolean getEmailUsuario(String email) {
+        for (Usuario usuario: listaDeUsuarios) {
+            if(email.equals(usuario.getMeuPerfil().getEmail())){
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -7,49 +7,76 @@
     android:orientation="vertical"
     tools:context=".ui.activities.CriarAtividadeActivity">
 
-    <include
-        layout="@layout/minha_toolbar"
-         />
+    <include layout="@layout/minha_toolbar" />
 
-    <EditText
-        android:id="@+id/criar_atividade_nome"
-        android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nomeTextInputLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="68dp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="nome atividade"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/minhaToolbar"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
-    <EditText
-        android:id="@+id/criar_atividade_descricao"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="descricao atividade"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="@+id/criar_atividade_nome"
-        app:layout_constraintStart_toStartOf="@+id/criar_atividade_nome"
-        app:layout_constraintTop_toBottomOf="@+id/criar_atividade_nome" />
+        <EditText
+            android:id="@+id/criar_atividade_nome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="68dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:hint="Nome"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/criar_atividade_quatidade"
-        android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/descricaoTextInputLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="Quantidade de Participantes"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="@+id/criar_atividade_nome"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/criar_atividade_nome"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/nomeTextInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/nomeTextInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/nomeTextInputLayout"
+        tools:ignore="MissingConstraints">
+
+        <EditText
+            android:id="@+id/criar_atividade_descricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Descrição"
+            android:inputType="textMultiLine" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/qtdTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/descricaoTextInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/descricaoTextInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/descricaoTextInputLayout"
+        tools:ignore="MissingConstraints">
+
+        <EditText
+            android:id="@+id/criar_atividade_quatidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Quantidade de Participantes"
+            android:inputType="number"
+             />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -57,13 +84,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/criar_atividade_descricao">
+        app:layout_constraintTop_toBottomOf="@+id/qtdTextInputLayout">
 
         <TextView
             android:id="@+id/criar_atividade_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:padding="10dp"
             android:layout_weight="1"
             android:text="Data " />
 
@@ -72,6 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:padding="10dp"
             android:text="Horario" />
     </LinearLayout>
 
@@ -79,7 +108,7 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@+id/perfil_senha"
         app:layout_constraintStart_toStartOf="@+id/perfil_senha"
@@ -146,15 +175,19 @@
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="idade do Publico: " />
-
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/idadeTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="idade do Public"/>
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            tools:ignore="MissingConstraints">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="idade do Public"/>
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -168,16 +201,19 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
         tools:ignore="MissingConstraints">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="sexo do Publico: " />
-
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sexoTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Sexo do Publico"/>
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            tools:ignore="MissingConstraints">
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Sexo do Publico"/>
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <Button

@@ -9,4 +9,5 @@ public interface UsuarioDAO {
     void remover(int id);
     void getUsuario(int id);
     boolean getLogin(String email,String senha);
+    boolean getEmailUsuario(String email);
 }

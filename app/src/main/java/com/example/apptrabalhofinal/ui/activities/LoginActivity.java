@@ -93,12 +93,14 @@ public class LoginActivity extends AppCompatActivity  implements Login.view {
 
     @Override
     public void usuarioComEmailInvalido() {
-        Toast.makeText(LoginActivity.this,"usuario invalido",Toast.LENGTH_SHORT).show();
+        inputEmail.setFocusable(true);
+        inputEmail.setError("Email não encontrado");
     }
 
     @Override
     public void usuarioComSenha() {
-        Toast.makeText(LoginActivity.this,"senha invalida",Toast.LENGTH_SHORT).show();
+        inputSenha.setFocusable(true);
+        inputSenha.setError("Senha errada");
     }
 
 }

@@ -10,8 +10,6 @@ import com.example.apptrabalhofinal.present.interfaces.Login;
 public class PresentLogin  implements  Login.present{
     Login.view loginActivity;
     UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
-    private String emailMock = "douglas@gmail.com";
-    private String senhaMock = "123456";
 
     public PresentLogin(Login.view loginActivity){
         this.loginActivity = loginActivity;
@@ -27,15 +25,11 @@ public class PresentLogin  implements  Login.present{
         }
         if(usuarioDAO.getLogin(email,senha)){
             loginActivity.realizarlogin();
-        }
-
-        if(!email.equals(emailMock)){
-            //  email nao cadastrada email mock sera do dao
+        }else if(usuarioDAO.getEmailUsuario(email)){
+            loginActivity.usuarioComSenha();
+        }else{
             loginActivity.usuarioComEmailInvalido();
         }
-        if(!email.equals(emailMock)){
-            //senha não cadastrada
-            loginActivity.usuarioComSenha();
-        }
+
     }
 }

@@ -81,12 +81,14 @@
 
         <EditText
             android:id="@+id/perfil_senha"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
             android:ems="10"
             android:hint="senha"
-            android:inputType="textPersonName" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
@@ -106,7 +108,10 @@
             android:checkedButton="@+id/sexo_masculino"
             android:orientation="horizontal"
             >
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Sexo:"/>
             <RadioButton
                 android:id="@+id/sexo_masculino"
                 android:layout_width="wrap_content"

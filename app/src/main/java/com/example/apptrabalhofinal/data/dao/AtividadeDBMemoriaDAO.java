@@ -5,15 +5,14 @@ import com.example.apptrabalhofinal.data.model.Atividade;
 import java.util.ArrayList;
 
 public class AtividadeDBMemoriaDAO implements AtividadeDAO {
-    ArrayList<Atividade> listaAtividades;
-
+    private ArrayList<Atividade> listaAtividades;
     private static AtividadeDBMemoriaDAO minhaInstancia;
 
     private AtividadeDBMemoriaDAO(){
         listaAtividades = new ArrayList<Atividade>();
     }
 
-    public AtividadeDBMemoriaDAO getInstance(){
+    public static AtividadeDBMemoriaDAO getInstance(){
         if(minhaInstancia==null){
             minhaInstancia = new AtividadeDBMemoriaDAO();
         }
@@ -41,5 +40,13 @@ public class AtividadeDBMemoriaDAO implements AtividadeDAO {
     @Override
     public void getAtividade(int id) {
 
+    }
+
+    public ArrayList<Atividade> getListaAtividades() {
+        return listaAtividades;
+    }
+
+    public void setListaAtividades(ArrayList<Atividade> listaAtividades) {
+        this.listaAtividades = listaAtividades;
     }
 }

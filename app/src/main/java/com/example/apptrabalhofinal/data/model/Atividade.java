@@ -18,6 +18,21 @@ public class Atividade {
         meusParticipantes = new ArrayList<Participante>();
     }
 
+    public Atividade( String nome, String descricao, String tipoDeAtividade,
+                     int vagasParticipantes,  String idadePublico, String sexoPublico) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.tipoDeAtividade = tipoDeAtividade;
+        this.vagasParticipantes = vagasParticipantes;
+        this.idadePublico = idadePublico;
+        this.sexoPublico = sexoPublico;
+
+        endereco = new Endereco();
+        meusParticipantes = new ArrayList<Participante>();
+    }
+
+
+
     public void addParticipante(Participante participante){
         meusParticipantes.add(participante);
     }
@@ -73,4 +88,19 @@ public class Atividade {
         this.endereco = endereco;
     }
 
+
+    @Override
+    public String toString() {
+        return "Atividade{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", tipoDeAtividade='" + tipoDeAtividade + '\'' +
+                ", vagasParticipantes=" + vagasParticipantes +
+                ", endereco=" + endereco +
+                ", idadePublico='" + idadePublico + '\'' +
+                ", sexoPublico='" + sexoPublico + '\'' +
+                ", meusParticipantes=" + meusParticipantes +
+                '}';
+    }
 }

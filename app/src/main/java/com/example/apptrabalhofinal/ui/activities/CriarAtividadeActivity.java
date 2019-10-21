@@ -26,23 +26,42 @@ import java.util.Calendar;
 
 public class CriarAtividadeActivity extends AppCompatActivity  implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener,AdapterView.OnItemSelectedListener {
 
-    TextView  atividade_data;
-    TextView  atividade_horario;
+    private TextView atividadeNome;
+    private TextView atividadeDescricao;
+    private TextView atividadeQuantidade;
+    private TextView atividadeIdade;
+    private TextView atividadeSexo;
+
+    private String atividadeTipo;
+
+
+    private TextView  atividadeData;
+    private TextView  atividadeHorario;
     private Toolbar myToolbar;
     private Spinner tipoAtividade;
-    Button btnEnderencoAtividade;
+    private Button btnEnderencoAtividade;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_criar_atividade);
 
-        atividade_data = findViewById(R.id.criar_atividade_data);
-        atividade_horario = findViewById(R.id.criar_atividade_horario);
+        atividadeData = findViewById(R.id.criar_atividade_data);
+        atividadeHorario = findViewById(R.id.criar_atividade_horario);
 
         myToolbar = (Toolbar) findViewById(R.id.minhaToolbar);
 
         tipoAtividade = (Spinner) findViewById(R.id.spinner);
         btnEnderencoAtividade = findViewById(R.id.btn_endereco_atividade);
+
+
+        atividadeNome = findViewById(R.id.criar_atividade_nome);
+        atividadeDescricao = findViewById(R.id.criar_atividade_descricao);
+        atividadeQuantidade = findViewById(R.id.criar_atividade_quatidade);
+        atividadeIdade = findViewById(R.id.criar_atividade_idade);
+        atividadeSexo = findViewById(R.id.criar_atividade_sexo);
+
+
 
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Criar Atividade");
@@ -55,7 +74,7 @@ public class CriarAtividadeActivity extends AppCompatActivity  implements TimePi
         tipoAtividade.setOnItemSelectedListener(this);
 
 
-        atividade_data.setOnClickListener(new View.OnClickListener() {
+        atividadeData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogDataFragmento dialogDataFragmento = new DialogDataFragmento();
@@ -63,7 +82,7 @@ public class CriarAtividadeActivity extends AppCompatActivity  implements TimePi
             }
         });
 
-        atividade_horario.setOnClickListener(new View.OnClickListener() {
+        atividadeHorario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogHorarioFragmento horario = new DialogHorarioFragmento();
@@ -71,19 +90,12 @@ public class CriarAtividadeActivity extends AppCompatActivity  implements TimePi
             }
         });
 
-        btnEnderencoAtividade.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CriarAtividadeActivity.this,CriarEnderecoAtividadeActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
         String horario = "Hora:"+i + " Minuto:"+ i1;
-        atividade_horario.setText(horario);
+        atividadeHorario.setText(horario);
     }
 
     @Override
@@ -95,18 +107,33 @@ public class CriarAtividadeActivity extends AppCompatActivity  implements TimePi
         calendar.set(Calendar.DAY_OF_MONTH,i2);
 
         String data = DateFormat.getDateInstance().format(calendar.getTime());
-        atividade_data.setText(data);
-
-
+        atividadeData.setText(data);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String textoSelecionado = adapterView.getItemAtPosition(i).toString();
+        atividadeTipo = textoSelecionado;
         Toast.makeText(this,"Texto Selecionado "+textoSelecionado,Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
+
+    public void informarEnderenco(View view){
+        Intent intent = new Intent(CriarAtividadeActivity.this,CriarEnderecoAtividadeActivity.class);
+
+
+        intent.putExtra("nome",atividadeNome.getText().toString());
+        intent.putExtra("descricao",atividadeDescricao.getText().toString());
+        intent.putExtra("qtd",atividadeQuantidade.getText().toString());
+        intent.putExtra("idade",atividadeIdade.getText().toString());
+        intent.putExtra("sexo",atividadeSexo.getText().toString());
+        intent.putExtra("hora",atividadeHorario.getText().toString());
+        intent.putExtra("data",atividadeData.getText().toString());
+        intent.putExtra("tipo",atividadeTipo);
+        startActivity(intent);
+    }
+
 }

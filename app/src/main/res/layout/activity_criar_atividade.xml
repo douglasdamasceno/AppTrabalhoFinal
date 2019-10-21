@@ -184,6 +184,7 @@
             tools:ignore="MissingConstraints">
 
             <EditText
+                android:id="@+id/criar_atividade_idade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="idade do Public"/>
@@ -210,6 +211,7 @@
             tools:ignore="MissingConstraints">
 
             <EditText
+                android:id="@+id/criar_atividade_sexo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Sexo do Publico"/>
@@ -221,6 +223,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:onClick="informarEnderenco"
         android:text="endereco"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

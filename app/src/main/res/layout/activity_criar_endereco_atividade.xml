@@ -94,7 +94,8 @@
             android:id="@+id/btn_criar_atividade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Criar"/>
+            android:onClick="criarAtividade"
+            android:text="Criar" />
 
     </LinearLayout>
 

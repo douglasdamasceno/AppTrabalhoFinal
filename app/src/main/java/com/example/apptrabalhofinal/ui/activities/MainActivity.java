@@ -55,19 +55,19 @@ public class MainActivity extends AppCompatActivity  {
 
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
 
+                switch (item.getItemId()){
                     case R.id.idAtualizar: {
                         Toast.makeText(MainActivity.this, "Atualizar", Toast.LENGTH_SHORT).show();
                         Log.i("click","atualizar");
                         break;
                     }
                     case R.id.idPerfilMenu: {
-                        Toast.makeText(MainActivity.this, "perfil", Toast.LENGTH_SHORT).show();
-                        Log.i("click","perfil");
+                        startActivity(new Intent(getApplicationContext(),PerfilUsuarioActivity.class));
                         break;
                     }
                     case R.id.idSairMenu: {

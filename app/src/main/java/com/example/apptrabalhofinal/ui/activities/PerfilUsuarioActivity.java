@@ -29,6 +29,10 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         emailPerfil = findViewById(R.id.perfil_email);
         idadePerfil = findViewById(R.id.perfil_idade);
 
+        usernamePerfil.setText("douglas");
+        senhaPerfil.setText("12345");
+        emailPerfil.setText("dofo@gams.com");
+        idadePerfil.setText("24");
     }
 
 }

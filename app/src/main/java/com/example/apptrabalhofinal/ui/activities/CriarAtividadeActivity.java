@@ -18,13 +18,17 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.apptrabalhofinal.R;
+import com.example.apptrabalhofinal.present.interfaces.CriarAtividade;
 import com.example.apptrabalhofinal.ui.fragments.DialogDataFragmento;
 import com.example.apptrabalhofinal.ui.fragments.DialogHorarioFragmento;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 
-public class CriarAtividadeActivity extends AppCompatActivity  implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener,AdapterView.OnItemSelectedListener {
+public class CriarAtividadeActivity extends AppCompatActivity
+        implements TimePickerDialog.OnTimeSetListener,
+        DatePickerDialog.OnDateSetListener,
+        AdapterView.OnItemSelectedListener , CriarAtividade.view {
 
     private TextView atividadeNome;
     private TextView atividadeDescricao;
@@ -46,20 +50,8 @@ public class CriarAtividadeActivity extends AppCompatActivity  implements TimePi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_criar_atividade);
 
-        atividadeData = findViewById(R.id.criar_atividade_data);
-        atividadeHorario = findViewById(R.id.criar_atividade_horario);
+        inicializarElementos();
 
-        myToolbar = (Toolbar) findViewById(R.id.minhaToolbar);
-
-        tipoAtividade = (Spinner) findViewById(R.id.spinner);
-        btnEnderencoAtividade = findViewById(R.id.btn_endereco_atividade);
-
-
-        atividadeNome = findViewById(R.id.criar_atividade_nome);
-        atividadeDescricao = findViewById(R.id.criar_atividade_descricao);
-        atividadeQuantidade = findViewById(R.id.criar_atividade_quatidade);
-        atividadeIdade = findViewById(R.id.criar_atividade_idade);
-        atividadeSexo = findViewById(R.id.criar_atividade_sexo);
 
 
 
@@ -101,11 +93,9 @@ public class CriarAtividadeActivity extends AppCompatActivity  implements TimePi
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
         Calendar calendar = Calendar.getInstance();
-
         calendar.set(Calendar.YEAR,i);
         calendar.set(Calendar.MONTH,i1);
         calendar.set(Calendar.DAY_OF_MONTH,i2);
-
         String data = DateFormat.getDateInstance().format(calendar.getTime());
         atividadeData.setText(data);
     }
@@ -124,7 +114,6 @@ public class CriarAtividadeActivity extends AppCompatActivity  implements TimePi
     public void informarEnderenco(View view){
         Intent intent = new Intent(CriarAtividadeActivity.this,CriarEnderecoAtividadeActivity.class);
 
-
         intent.putExtra("nome",atividadeNome.getText().toString());
         intent.putExtra("descricao",atividadeDescricao.getText().toString());
         intent.putExtra("qtd",atividadeQuantidade.getText().toString());
@@ -134,6 +123,68 @@ public class CriarAtividadeActivity extends AppCompatActivity  implements TimePi
         intent.putExtra("data",atividadeData.getText().toString());
         intent.putExtra("tipo",atividadeTipo);
         startActivity(intent);
+    }
+
+    public void inicializarElementos(){
+        atividadeNome = findViewById(R.id.criar_atividade_nome);
+        atividadeDescricao = findViewById(R.id.criar_atividade_descricao);
+        atividadeQuantidade = findViewById(R.id.criar_atividade_quatidade);
+        atividadeIdade = findViewById(R.id.criar_atividade_idade);
+        atividadeSexo = findViewById(R.id.criar_atividade_sexo);
+        atividadeData = findViewById(R.id.criar_atividade_data);
+        atividadeHorario = findViewById(R.id.criar_atividade_horario);
+        tipoAtividade = (Spinner) findViewById(R.id.spinner);
+        btnEnderencoAtividade = findViewById(R.id.btn_endereco_atividade);
+
+        myToolbar = (Toolbar) findViewById(R.id.minhaToolbar);
+    }
+
+
+    @Override
+    public void nomeAtividadeInvalido() {
+        atividadeNome.setFocusable(true);
+        atividadeNome.setError("nome da atividade invalido");
+    }
+
+    @Override
+    public void descricaoAtividadeInvalido() {
+        atividadeDescricao.setFocusable(true);
+        atividadeDescricao.setError("descricao da atividade invalido");
+    }
+
+    @Override
+    public void quantidadeAtividadeInvalido() {
+        atividadeQuantidade.setFocusable(true);
+        atividadeQuantidade.setError("quantidade invalido");
+
+    }
+
+    @Override
+    public void tipoAtividadeInvalido() {//não é input
+    }
+
+    @Override
+    public void dataAtividadeInvalido() {
+        atividadeData.setFocusable(true);
+        atividadeData.setError("Data da atividade invalido");
+    }
+
+    @Override
+    public void HorarioAtividadeInvalido() {
+        atividadeHorario.setFocusable(true);
+        atividadeHorario.setError("horario da atividade invalido");
+    }
+
+    @Override
+    public void idadePublicAtividadeInvalido() {
+        atividadeIdade.setFocusable(true);
+        atividadeIdade.setError("idade invalido");
+    }
+
+    @Override
+    public void sexoPublicAtividadeInvalido() {
+        atividadeSexo.setFocusable(true);
+        atividadeSexo.setError("sexo invalido");
     }
 
 }

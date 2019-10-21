@@ -13,7 +13,7 @@ import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.present.interfaces.CriarAtividade;
 
-public class CriarEnderecoAtividadeActivity extends AppCompatActivity  implements CriarAtividade.view {
+public class CriarEnderecoAtividadeActivity extends AppCompatActivity  {
 
     private EditText endAtividadeCidade;
     private EditText endAtividadeRua;

@@ -15,8 +15,6 @@ public class PresentCriarAtividade implements CriarAtividade.present {
     @Override
     public boolean validarAtividade() {
 
-
-
         return false;
     }
 

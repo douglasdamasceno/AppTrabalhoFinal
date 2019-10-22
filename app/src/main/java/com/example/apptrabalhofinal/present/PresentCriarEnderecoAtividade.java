@@ -10,7 +10,7 @@ import com.example.apptrabalhofinal.present.interfaces.ContratoCriarEnderecoAtiv
 
 public class PresentCriarEnderecoAtividade implements ContratoCriarEnderecoAtividade.present {
     private AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
-
+    Atividade atividadeArmazenar;
     private ContratoCriarEnderecoAtividade.view view;
 
     public PresentCriarEnderecoAtividade(ContratoCriarEnderecoAtividade.view view){
@@ -18,12 +18,19 @@ public class PresentCriarEnderecoAtividade implements ContratoCriarEnderecoAtivi
     }
 
     @Override
+    public void receberAtividade(String nome,String descricao,String tipo, String qtd, String idade,String sexo,String hora,String data){
+        atividadeArmazenar = new Atividade(nome,descricao,tipo, Integer.parseInt(qtd),idade,sexo,hora,data);
+    }
+
+    @Override
     public boolean validarEnderecoAtividade(String cidade, String rua, String estado, String cep, String complemento) {
         if(!cidade.isEmpty() && !rua.isEmpty() && !estado.isEmpty() && !cep.isEmpty() && !complemento.isEmpty()){
-            //chamo meu criar e o da view
             view.criarAtividade();
-            Endereco endereco;
-            // criarAtividade(atividade);
+
+            Endereco endereco = new Endereco(cidade,rua,estado,cep,complemento);
+            atividadeArmazenar.setEndereco(endereco);
+            this.salvarAtividade(atividadeArmazenar);
+
         }else{
             if(cidade.isEmpty()){
                 view.cidadeInvalido();
@@ -46,7 +53,7 @@ public class PresentCriarEnderecoAtividade implements ContratoCriarEnderecoAtivi
     }
 
     @Override
-    public void criarAtividade(Atividade atividade) {
+    public void salvarAtividade(Atividade atividade) {
         atividadeDAO.addNovo(atividade);
     }
 }

@@ -18,7 +18,6 @@ public class PresentCriarAtividade implements ContratoCriarAtividade.present {
         if( (!nome.isEmpty() || nome.length()>=5) && (!descricao.isEmpty() || descricao.length()>=10) &&
          (!data.isEmpty() ) && (!horario.isEmpty()) &&  (!idade.isEmpty() ) && (!sexo.isEmpty())){
             view.atividadeValida();
-
             return  true;
         }else{
             if(nome.isEmpty() || nome.length()<5){

@@ -14,8 +14,10 @@ public interface ContratoCriarEnderecoAtividade {
         public void criarAtividade() ;
 
     }
+
     interface present{
+        void receberAtividade(String nome,String descricao,String tipo, String qtd, String idade,String sexo,String hora,String data);
         boolean validarEnderecoAtividade(String cidade,String rua,String estado,String cep,String complemento);
-        void criarAtividade(Atividade atividade);
+        void salvarAtividade(Atividade atividade);
     }
 }

@@ -11,6 +11,9 @@ public class Atividade {
     private Endereco endereco;
     private String idadePublico;
     private String sexoPublico;
+    private String hora;
+    private String data;
+
     private ArrayList<Participante> meusParticipantes;
 
     public Atividade(){
@@ -20,14 +23,15 @@ public class Atividade {
 
 
     public Atividade( String nome, String descricao, String tipoDeAtividade,
-                     int vagasParticipantes,  String idadePublico, String sexoPublico) {
+                     int vagasParticipantes,  String idadePublico, String sexoPublico,String hora,String data) {
         this.nome = nome;
         this.descricao = descricao;
         this.tipoDeAtividade = tipoDeAtividade;
         this.vagasParticipantes = vagasParticipantes;
         this.idadePublico = idadePublico;
         this.sexoPublico = sexoPublico;
-
+        this.hora =hora;
+        this.data = data;
         endereco = new Endereco();
         meusParticipantes = new ArrayList<Participante>();
     }
@@ -91,6 +95,37 @@ public class Atividade {
         this.endereco = endereco;
     }
 
+    public String getIdadePublico() {
+        return idadePublico;
+    }
+
+    public void setIdadePublico(String idadePublico) {
+        this.idadePublico = idadePublico;
+    }
+
+    public String getSexoPublico() {
+        return sexoPublico;
+    }
+
+    public void setSexoPublico(String sexoPublico) {
+        this.sexoPublico = sexoPublico;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
 
     @Override
     public String toString() {
@@ -103,6 +138,8 @@ public class Atividade {
                 ", endereco=" + endereco +
                 ", idadePublico='" + idadePublico + '\'' +
                 ", sexoPublico='" + sexoPublico + '\'' +
+                ", hora='" + hora + '\'' +
+                ", data='" + data + '\'' +
                 ", meusParticipantes=" + meusParticipantes +
                 '}';
     }

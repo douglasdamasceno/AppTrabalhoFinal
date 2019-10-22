@@ -7,13 +7,16 @@ public interface CriarAtividade {
         public void quantidadeAtividadeInvalido() ;
         public void tipoAtividadeInvalido() ;
         public void dataAtividadeInvalido() ;
-        public void HorarioAtividadeInvalido() ;
+        public void horarioAtividadeInvalido() ;
         public void idadePublicAtividadeInvalido() ;
         public void sexoPublicAtividadeInvalido() ;
+
+        public void atividadeValida();
     }
 
     public interface present{
-        boolean validarAtividade();
+        boolean validarAtividade(String nome,String descricao,String quantidade,String tipo,
+                                 String data,String horario,String idade,String sexo);
         boolean validarEnderecoAtividade();
         void criarAtividade();
     }

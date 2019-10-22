@@ -34,7 +34,9 @@ public class Atividade {
 
 
     public void addParticipante(Participante participante){
-        meusParticipantes.add(participante);
+        if(meusParticipantes.size()<= vagasParticipantes) {
+            meusParticipantes.add(participante);
+        }
     }
     public void removerParticipante(Participante participante){
         meusParticipantes.remove(participante);

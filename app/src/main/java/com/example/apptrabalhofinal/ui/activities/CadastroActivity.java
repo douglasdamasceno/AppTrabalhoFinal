@@ -28,7 +28,7 @@ public class CadastroActivity extends AppCompatActivity  implements Cadastro.vie
     private Toolbar myToolbar;
 
     BottomSheetDialog bottomSheetDialog;
-    PresentCadastro presentCadastro;
+    Cadastro.present presentCadastro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

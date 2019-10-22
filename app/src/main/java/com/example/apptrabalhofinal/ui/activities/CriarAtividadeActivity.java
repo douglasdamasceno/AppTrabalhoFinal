@@ -18,6 +18,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.apptrabalhofinal.R;
+import com.example.apptrabalhofinal.present.PresentCriarAtividade;
 import com.example.apptrabalhofinal.present.interfaces.CriarAtividade;
 import com.example.apptrabalhofinal.ui.fragments.DialogDataFragmento;
 import com.example.apptrabalhofinal.ui.fragments.DialogHorarioFragmento;
@@ -44,6 +45,8 @@ public class CriarAtividadeActivity extends AppCompatActivity
     private Toolbar myToolbar;
     private Spinner tipoAtividade;
     private Button btnEnderencoAtividade;
+
+    private CriarAtividade.present present;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,21 @@ public class CriarAtividadeActivity extends AppCompatActivity
             }
         });
 
+        btnEnderencoAtividade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String nome = atividadeNome.getText().toString();
+                String descricao = atividadeDescricao.getText().toString();
+                String quantidade = atividadeQuantidade.getText().toString();
+                present.validarAtividade(nome, descricao,
+                quantidade, atividadeTipo,
+                atividadeIdade.getText().toString(),
+                atividadeSexo.getText().toString(),
+                atividadeHorario.getText().toString(),
+                atividadeData.getText().toString());
+
+            }
+        });
     }
 
     @Override
@@ -111,20 +129,6 @@ public class CriarAtividadeActivity extends AppCompatActivity
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
 
-    public void informarEnderenco(View view){
-        Intent intent = new Intent(CriarAtividadeActivity.this,CriarEnderecoAtividadeActivity.class);
-
-        intent.putExtra("nome",atividadeNome.getText().toString());
-        intent.putExtra("descricao",atividadeDescricao.getText().toString());
-        intent.putExtra("qtd",atividadeQuantidade.getText().toString());
-        intent.putExtra("idade",atividadeIdade.getText().toString());
-        intent.putExtra("sexo",atividadeSexo.getText().toString());
-        intent.putExtra("hora",atividadeHorario.getText().toString());
-        intent.putExtra("data",atividadeData.getText().toString());
-        intent.putExtra("tipo",atividadeTipo);
-        startActivity(intent);
-    }
-
     public void inicializarElementos(){
         atividadeNome = findViewById(R.id.criar_atividade_nome);
         atividadeDescricao = findViewById(R.id.criar_atividade_descricao);
@@ -137,6 +141,8 @@ public class CriarAtividadeActivity extends AppCompatActivity
         btnEnderencoAtividade = findViewById(R.id.btn_endereco_atividade);
 
         myToolbar = (Toolbar) findViewById(R.id.minhaToolbar);
+
+        present = new PresentCriarAtividade(this);
     }
 
 
@@ -161,16 +167,19 @@ public class CriarAtividadeActivity extends AppCompatActivity
 
     @Override
     public void tipoAtividadeInvalido() {//não é input
+        Toast.makeText(this,"Tipo Vazio",Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void dataAtividadeInvalido() {
+        //muda para toast
         atividadeData.setFocusable(true);
         atividadeData.setError("Data da atividade invalido");
     }
 
     @Override
-    public void HorarioAtividadeInvalido() {
+    public void horarioAtividadeInvalido() {
+        //muda para toast
         atividadeHorario.setFocusable(true);
         atividadeHorario.setError("horario da atividade invalido");
     }
@@ -185,6 +194,20 @@ public class CriarAtividadeActivity extends AppCompatActivity
     public void sexoPublicAtividadeInvalido() {
         atividadeSexo.setFocusable(true);
         atividadeSexo.setError("sexo invalido");
+    }
+
+    @Override
+    public void atividadeValida() {
+        Intent intent = new Intent(CriarAtividadeActivity.this,CriarEnderecoAtividadeActivity.class);
+        intent.putExtra("nome",atividadeNome.getText().toString());
+        intent.putExtra("descricao",atividadeDescricao.getText().toString());
+        intent.putExtra("qtd",atividadeQuantidade.getText().toString());
+        intent.putExtra("idade",atividadeIdade.getText().toString());
+        intent.putExtra("sexo",atividadeSexo.getText().toString());
+        intent.putExtra("hora",atividadeHorario.getText().toString());
+        intent.putExtra("data",atividadeData.getText().toString());
+        intent.putExtra("tipo",atividadeTipo);
+        startActivity(intent);
     }
 
 }

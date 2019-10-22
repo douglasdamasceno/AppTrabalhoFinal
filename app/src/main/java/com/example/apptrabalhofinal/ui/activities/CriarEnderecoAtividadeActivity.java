@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.data.model.Atividade;
+import com.example.apptrabalhofinal.data.model.Endereco;
 import com.example.apptrabalhofinal.present.interfaces.CriarAtividade;
 
 public class CriarEnderecoAtividadeActivity extends AppCompatActivity  {
@@ -53,6 +54,9 @@ public class CriarEnderecoAtividadeActivity extends AppCompatActivity  {
         String data = bundle.getString("data");
 
         Atividade atividade = new Atividade(nome,descricao,tipo, Integer.parseInt(qtd),idade,sexo);
+        Endereco endereco = new Endereco();
+        endereco.setCep("dddd");
+        atividade.setEndereco(endereco);
         Toast.makeText(this,atividade.toString(),Toast.LENGTH_LONG).show();
     }
 

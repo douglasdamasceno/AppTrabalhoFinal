@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.present.PresentCriarAtividade;
-import com.example.apptrabalhofinal.present.interfaces.CriarAtividade;
+import com.example.apptrabalhofinal.present.interfaces.ContratoCriarAtividade;
 import com.example.apptrabalhofinal.ui.fragments.DialogDataFragmento;
 import com.example.apptrabalhofinal.ui.fragments.DialogHorarioFragmento;
 
@@ -29,7 +29,7 @@ import java.util.Calendar;
 public class CriarAtividadeActivity extends AppCompatActivity
         implements TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener,
-        AdapterView.OnItemSelectedListener , CriarAtividade.view {
+        AdapterView.OnItemSelectedListener , ContratoCriarAtividade.view {
 
     private TextView atividadeNome;
     private TextView atividadeDescricao;
@@ -46,7 +46,7 @@ public class CriarAtividadeActivity extends AppCompatActivity
     private Spinner tipoAtividade;
     private Button btnEnderencoAtividade;
 
-    private CriarAtividade.present present;
+    private ContratoCriarAtividade.present present;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

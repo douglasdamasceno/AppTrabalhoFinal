@@ -18,6 +18,7 @@ public class Atividade {
         meusParticipantes = new ArrayList<Participante>();
     }
 
+
     public Atividade( String nome, String descricao, String tipoDeAtividade,
                      int vagasParticipantes,  String idadePublico, String sexoPublico) {
         this.nome = nome;

@@ -5,13 +5,13 @@ import android.util.Patterns;
 
 import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
-import com.example.apptrabalhofinal.present.interfaces.Cadastro;
+import com.example.apptrabalhofinal.present.interfaces.ContratoCadastro;
 
-public class PresentCadastro implements Cadastro.present {
-    private Cadastro.view cadastroActivity;
+public class PresentCadastro implements ContratoCadastro.present {
+    private ContratoCadastro.view cadastroActivity;
     UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
 
-    public PresentCadastro(Cadastro.view cadastroActivity){
+    public PresentCadastro(ContratoCadastro.view cadastroActivity){
         this.cadastroActivity = cadastroActivity;
     }
 

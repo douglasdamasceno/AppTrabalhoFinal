@@ -1,6 +1,6 @@
 package com.example.apptrabalhofinal.present.interfaces;
 
-public interface Inicial {
+public interface ContratoInicial {
     interface view{
 
     }

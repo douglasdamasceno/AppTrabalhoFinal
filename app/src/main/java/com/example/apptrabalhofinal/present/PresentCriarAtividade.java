@@ -2,13 +2,12 @@ package com.example.apptrabalhofinal.present;
 
 import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
 import com.example.apptrabalhofinal.data.dao.AtividadeDBMemoriaDAO;
-import com.example.apptrabalhofinal.present.interfaces.CriarAtividade;
+import com.example.apptrabalhofinal.present.interfaces.ContratoCriarAtividade;
 
-public class PresentCriarAtividade implements CriarAtividade.present {
-    private CriarAtividade.view view;
-    AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
-
-    public PresentCriarAtividade(CriarAtividade.view view){
+public class PresentCriarAtividade implements ContratoCriarAtividade.present {
+    private ContratoCriarAtividade.view view;
+    //a view ce criar atividade, esta pasado a atividade para a proxima tela
+    public PresentCriarAtividade(ContratoCriarAtividade.view view){
         this.view =view;
     }
 
@@ -19,6 +18,7 @@ public class PresentCriarAtividade implements CriarAtividade.present {
         if( (!nome.isEmpty() || nome.length()>=5) && (!descricao.isEmpty() || descricao.length()>=10) &&
          (!data.isEmpty() ) && (!horario.isEmpty()) &&  (!idade.isEmpty() ) && (!sexo.isEmpty())){
             view.atividadeValida();
+
             return  true;
         }else{
             if(nome.isEmpty() || nome.length()<5){
@@ -46,13 +46,4 @@ public class PresentCriarAtividade implements CriarAtividade.present {
         return false;
     }
 
-    @Override
-    public boolean validarEnderecoAtividade() {
-        return false;
-    }
-
-    @Override
-    public void criarAtividade() {
-
-    }
-}
+ }

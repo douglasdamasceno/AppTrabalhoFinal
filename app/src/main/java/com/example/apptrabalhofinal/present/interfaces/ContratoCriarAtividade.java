@@ -1,6 +1,6 @@
 package com.example.apptrabalhofinal.present.interfaces;
 
-public interface CriarAtividade {
+public interface ContratoCriarAtividade {
     public interface view{
         public void nomeAtividadeInvalido() ;
         public void descricaoAtividadeInvalido() ;
@@ -17,7 +17,5 @@ public interface CriarAtividade {
     public interface present{
         boolean validarAtividade(String nome,String descricao,String quantidade,String tipo,
                                  String data,String horario,String idade,String sexo);
-        boolean validarEnderecoAtividade();
-        void criarAtividade();
-    }
+        }
 }

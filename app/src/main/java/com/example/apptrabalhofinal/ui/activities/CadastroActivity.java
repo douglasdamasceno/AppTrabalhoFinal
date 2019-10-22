@@ -5,7 +5,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,10 +13,10 @@ import android.widget.Toast;
 
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.present.PresentCadastro;
-import com.example.apptrabalhofinal.present.interfaces.Cadastro;
+import com.example.apptrabalhofinal.present.interfaces.ContratoCadastro;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-public class CadastroActivity extends AppCompatActivity  implements Cadastro.view {
+public class CadastroActivity extends AppCompatActivity  implements ContratoCadastro.view {
 
     private EditText inputUsername;
     private EditText inputEmail;
@@ -28,7 +27,7 @@ public class CadastroActivity extends AppCompatActivity  implements Cadastro.vie
     private Toolbar myToolbar;
 
     BottomSheetDialog bottomSheetDialog;
-    Cadastro.present presentCadastro;
+    ContratoCadastro.present presentCadastro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +116,7 @@ public class CadastroActivity extends AppCompatActivity  implements Cadastro.vie
         btnLogin = findViewById(R.id.btnCadastro);
         myToolbar = findViewById(R.id.minhaToolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("Cadastro");
+        getSupportActionBar().setTitle("ContratoCadastro");
         imageViewPerfil = findViewById(R.id.imageFotoPerfil);
     }
 }

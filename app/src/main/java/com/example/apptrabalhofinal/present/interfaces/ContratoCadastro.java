@@ -1,6 +1,6 @@
 package com.example.apptrabalhofinal.present.interfaces;
 
-public interface Cadastro {
+public interface ContratoCadastro {
     public interface view{
         void formatoUsernameInvalido();
         void formatoInvalidoEmail();

@@ -11,11 +11,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.apptrabalhofinal.R;
-import com.example.apptrabalhofinal.present.interfaces.Login;
+import com.example.apptrabalhofinal.present.interfaces.ContratoLogin;
 import com.example.apptrabalhofinal.present.PresentLogin;
 
 
-public class LoginActivity extends AppCompatActivity  implements Login.view {
+public class LoginActivity extends AppCompatActivity  implements ContratoLogin.view {
 
     private EditText inputEmail;
     private  EditText inputSenha;
@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity  implements Login.view {
 
 
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("Login");
+        getSupportActionBar().setTitle("ContratoLogin");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         presentLogin = new PresentLogin(this);

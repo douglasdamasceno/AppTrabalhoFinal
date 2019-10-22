@@ -4,14 +4,14 @@ import android.util.Patterns;
 
 import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
-import com.example.apptrabalhofinal.present.interfaces.Login;
+import com.example.apptrabalhofinal.present.interfaces.ContratoLogin;
 
 
-public class PresentLogin  implements  Login.present{
-    Login.view loginActivity;
+public class PresentLogin  implements  ContratoLogin.present{
+    ContratoLogin.view loginActivity;
     UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
 
-    public PresentLogin(Login.view loginActivity){
+    public PresentLogin(ContratoLogin.view loginActivity){
         this.loginActivity = loginActivity;
     }
 

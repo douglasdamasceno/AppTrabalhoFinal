@@ -1,6 +1,6 @@
 package com.example.apptrabalhofinal.present.interfaces;
 
-public interface Login {
+public interface ContratoLogin {
     public interface view{
         void formatoInvalidoEmail();
         void senhaInvalida();

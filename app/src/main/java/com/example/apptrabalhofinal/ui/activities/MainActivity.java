@@ -86,7 +86,8 @@ public class MainActivity extends AppCompatActivity  {
                     }
                     case R.id.id_menu_nav_sair: {
                         //fazer logut
-                        Toast.makeText(MainActivity.this, "sair", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "sair", Toast.LENGTH_SHORT).show();
+                        logout();
                         break;
                     }
                     case R.id.id_menu_nav_buscar: {
@@ -151,7 +152,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private ArrayList<Atividade> getMinhaAtividades() {
-        ArrayList<Atividade> atividades = atividadeDAO.listarAtividadesTodos(); //new ArrayList<>();
+        ArrayList<Atividade> atividades = atividadeDAO.listarMinhasAtividades(usuarioAutentificado.getMeuPerfil().getEmail()); //new ArrayList<>();
         return  atividades;
     }
 
@@ -177,4 +178,9 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
+    public void logout(){
+        usuarioAutentificado = null;
+        startActivity(new Intent(this,LoginActivity.class));
+        finish();
+    }
 }

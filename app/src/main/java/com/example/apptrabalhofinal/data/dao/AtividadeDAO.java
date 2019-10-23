@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public interface AtividadeDAO {
     ArrayList<Atividade> listarAtividadesTodos();
+    ArrayList<Atividade> listarMinhasAtividades(String email);
     void addNovo(Atividade atividade);
     void editar(Atividade atividade);
     void remover(int id);

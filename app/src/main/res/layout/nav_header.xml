@@ -9,20 +9,20 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/id_nav_perfil_foto"
+        android:id="@+id/id_nav_header_perfil_foto"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:src="@drawable/ic_perfil_padrao"/>
 
     <TextView
-        android:id="@+id/id_nav_nome"
+        android:id="@+id/id_nav_header_nome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Jao Pinheiro"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     <TextView
-        android:id="@+id/id_nav_email"
+        android:id="@+id/id_nav_header_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="email@gnau.com"

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -32,8 +33,10 @@ public class MainActivity extends AppCompatActivity  {
     private ListView listViewMinhasAtividades;
     private Toolbar myToolbar;
     private DrawerLayout drawerLayout;
-    private BottomNavigationView bottomNavigationView;
+    //private BottomNavigationView bottomNavigationView;
     private NavigationView navigationView;
+
+    private int itemSelecionado = -1;
 
     AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
     @Override
@@ -62,48 +65,52 @@ public class MainActivity extends AppCompatActivity  {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 switch (item.getItemId()){
-                    case R.id.idAtualizar: {
+                    case R.id.id_menu_nav_home: {
                         Toast.makeText(MainActivity.this, "Atualizar", Toast.LENGTH_SHORT).show();
                         Log.i("click","atualizar");
                         break;
                     }
-                    case R.id.idPerfilMenu: {
+                    case R.id.id_menu_nav_perfil: {
                         startActivity(new Intent(getApplicationContext(),PerfilUsuarioActivity.class));
                         break;
                     }
-                    case R.id.idSairMenu: {
-                        Toast.makeText(MainActivity.this, "Atualizar", Toast.LENGTH_SHORT).show();
+                    case R.id.id_menu_nav_sair: {
+                        Toast.makeText(MainActivity.this, "sair", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case R.id.id_menu_nav_buscar: {
+                        Toast.makeText(MainActivity.this, "Buscar", Toast.LENGTH_SHORT).show();
                         break;
                     }
                 }
-                drawerLayout.closeDrawer(GravityCompat.END);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
         });
 
 
-        bottomNavigationView = findViewById(R.id.bottomNav);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu_home: {
-                        Toast.makeText(MainActivity.this, "home", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                    case R.id.menu_perfil: {
-                        Toast.makeText(MainActivity.this, "Perfil", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                    case R.id.menu_buscar: {
-                        Toast.makeText(MainActivity.this, "busca", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(MainActivity.this,MapsActivity.class));
-                        break;
-                    }
-                }
-                return true;
-            }
-        });
+//        bottomNavigationView = findViewById(R.id.bottomNav);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                switch (item.getItemId()) {
+//                    case R.id.menu_home: {
+//                        Toast.makeText(MainActivity.this, "home", Toast.LENGTH_SHORT).show();
+//                        break;
+//                    }
+//                    case R.id.menu_perfil: {
+//                        Toast.makeText(MainActivity.this, "Perfil", Toast.LENGTH_SHORT).show();
+//                        break;
+//                    }
+//                    case R.id.menu_buscar: {
+//                        Toast.makeText(MainActivity.this, "busca", Toast.LENGTH_SHORT).show();
+//                        startActivity(new Intent(getApplicationContext(),MapsActivity.class));
+//                        break;
+//                    }
+//                }
+//                return true;
+//            }
+//        });
 
 
         FloatingActionButton fab = findViewById(R.id.fab_add_atividade);
@@ -112,6 +119,14 @@ public class MainActivity extends AppCompatActivity  {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,CriarAtividadeActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        listViewMinhasAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                itemSelecionado = i;
+                abriItem();
             }
         });
     }
@@ -141,6 +156,18 @@ public class MainActivity extends AppCompatActivity  {
             drawerLayout.closeDrawer(GravityCompat.START);
         }else{
             super.onBackPressed();
+        }
+    }
+
+    public void abriItem() {
+        if (getMinhaAtividades().size() > 0) {
+            Intent intent = new Intent(this, AtividadeDetalheActivity.class);
+            //fazer o put do id data atividade para pegar a atividade pelo id no dao.
+            Atividade atividade = getMinhaAtividades().get(itemSelecionado);
+            intent.putExtra("nome", atividade.getNome());
+            intent.putExtra("descricao", atividade.getDescricao());
+
+            startActivity(intent);
         }
     }
 

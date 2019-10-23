@@ -3,7 +3,8 @@ package com.example.apptrabalhofinal.data.model;
 import java.util.ArrayList;
 
 public class Atividade {
-    private int id;
+    private String id;
+
     private String nome;
     private String descricao;
     private String tipoDeAtividade;
@@ -47,11 +48,11 @@ public class Atividade {
         meusParticipantes.remove(participante);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

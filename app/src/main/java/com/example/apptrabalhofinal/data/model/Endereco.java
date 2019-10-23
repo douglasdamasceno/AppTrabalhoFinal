@@ -1,6 +1,7 @@
 package com.example.apptrabalhofinal.data.model;
 
 public class Endereco {
+    private String id;
     private String cep;
     private String rua;
     private String complemento;

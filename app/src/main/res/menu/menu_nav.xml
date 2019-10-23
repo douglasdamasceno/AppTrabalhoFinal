@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-
-        <item android:title="Atualizar"
-            android:id="@+id/idAtualizar"
-            android:icon="@drawable/ic_atualizar" />
-
-        <item android:title="Perfil"
-            android:id="@+id/idPerfilMenu"
-            android:icon="@drawable/ic_menu_bottom_perfil" />
-
-
-    <item android:title="outros"
-        android:id="@+id/submenu_outros">
+    <item android:title="Atividades"
+        android:id="@+id/submenu_atividades">
         <menu>
+
+            <item android:title="Minha Atividades"
+                android:id="@+id/id_menu_nav_home"
+                android:icon="@drawable/ic_home" />
+
+
+            <item android:title="Buscar Atividades"
+                android:icon="@drawable/ic_buscar"
+                android:id="@+id/id_menu_nav_buscar"/>
+
+        </menu>
+    </item>
+
+    <item android:title="configurações"
+        android:id="@+id/submenu_config">
+        <menu>
+            <item android:title="Perfil"
+                android:id="@+id/id_menu_nav_perfil"
+                android:icon="@drawable/ic_menu_bottom_perfil" />
+
             <item android:title="Sair"
-                android:id="@+id/idSairMenu"
+                android:id="@+id/id_menu_nav_sair"
                 android:icon="@drawable/ic_menu_bottom_perfil" />
         </menu>
     </item>

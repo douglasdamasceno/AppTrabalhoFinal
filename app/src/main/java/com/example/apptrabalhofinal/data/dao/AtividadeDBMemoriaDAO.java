@@ -5,6 +5,7 @@ import com.example.apptrabalhofinal.data.model.Atividade;
 import java.util.ArrayList;
 
 public class AtividadeDBMemoriaDAO implements AtividadeDAO {
+    private static int proximoIdAtividade = 0;
     private ArrayList<Atividade> listaAtividades;
     private static AtividadeDBMemoriaDAO minhaInstancia;
 
@@ -26,6 +27,8 @@ public class AtividadeDBMemoriaDAO implements AtividadeDAO {
 
     @Override
     public void addNovo(Atividade atividade) {
+        proximoIdAtividade++;
+        atividade.setId(proximoIdAtividade+"");
         listaAtividades.add(atividade);
     }
 

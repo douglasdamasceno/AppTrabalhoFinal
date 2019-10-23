@@ -4,7 +4,11 @@ import com.example.apptrabalhofinal.data.model.Usuario;
 
 import java.util.ArrayList;
 
+
 public class UsuarioDBMemoriaDAO implements  UsuarioDAO {
+
+    private static int proximoIdUser = 0;
+
     public static UsuarioDBMemoriaDAO usuarioDBMemoriaDAO;
     private ArrayList<Usuario> listaDeUsuarios;
 
@@ -21,7 +25,11 @@ public class UsuarioDBMemoriaDAO implements  UsuarioDAO {
 
     @Override
     public void addNovo(String username, String email, String senha) {
+        proximoIdUser++;
+        //muda o email e senha para o usuario.
         Usuario usuario = new Usuario();
+        usuario.setId(proximoIdUser+"");
+        usuario.getMeuPerfil().setNome(username);
         usuario.getMeuPerfil().setNome(username);
         usuario.getMeuPerfil().setEmail(email);
         usuario.getMeuPerfil().setSenha(senha);

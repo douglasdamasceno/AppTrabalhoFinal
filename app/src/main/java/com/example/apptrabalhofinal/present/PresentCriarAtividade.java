@@ -15,7 +15,7 @@ public class PresentCriarAtividade implements ContratoCriarAtividade.present {
     @Override
     public boolean validarAtividade(String nome, String descricao, String quantidade,
                                     String tipo, String data, String horario, String idade, String sexo) {
-        if( (!nome.isEmpty() || nome.length()>=5) && (!descricao.isEmpty() || descricao.length()>=10) &&
+        if( (!nome.isEmpty() || nome.length()>=5) && (!descricao.isEmpty() || descricao.length()>=10) && !quantidade.isEmpty() &&
          (!data.isEmpty() ) && (!horario.isEmpty()) &&  (!idade.isEmpty() ) && (!sexo.isEmpty())){
             view.atividadeValida();
             return  true;

@@ -1,7 +1,5 @@
 package com.example.apptrabalhofinal.present;
 
-import android.widget.Toast;
-
 import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
 import com.example.apptrabalhofinal.data.dao.AtividadeDBMemoriaDAO;
 import com.example.apptrabalhofinal.data.model.Atividade;

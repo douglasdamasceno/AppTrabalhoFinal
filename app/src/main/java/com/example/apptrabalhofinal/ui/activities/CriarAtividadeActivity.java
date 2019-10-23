@@ -90,9 +90,9 @@ public class CriarAtividadeActivity extends AppCompatActivity
             public void onClick(View view) {
                 String nome = atividadeNome.getText().toString();
                 String descricao = atividadeDescricao.getText().toString();
-                String quantidade = atividadeQuantidade.getText().toString();
+                String qtd = atividadeQuantidade.getText().toString();
                 present.validarAtividade(nome, descricao,
-                quantidade, atividadeTipo,
+                qtd, atividadeTipo,
                 atividadeIdade.getText().toString(),
                 atividadeSexo.getText().toString(),
                 atividadeHorario.getText().toString(),

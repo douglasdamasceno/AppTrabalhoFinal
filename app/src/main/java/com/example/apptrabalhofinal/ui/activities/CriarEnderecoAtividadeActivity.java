@@ -9,8 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.apptrabalhofinal.R;
-import com.example.apptrabalhofinal.data.model.Atividade;
-import com.example.apptrabalhofinal.data.model.Endereco;
 import com.example.apptrabalhofinal.present.PresentCriarEnderecoAtividade;
 import com.example.apptrabalhofinal.present.interfaces.ContratoCriarEnderecoAtividade;
 

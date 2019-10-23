@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Atividade {
     private String id;
-
+    private String emailProprietario;
     private String nome;
     private String descricao;
     private String tipoDeAtividade;
@@ -22,9 +22,16 @@ public class Atividade {
         meusParticipantes = new ArrayList<Participante>();
     }
 
+    public String getEmailProprietario() {
+        return emailProprietario;
+    }
 
-    public Atividade( String nome, String descricao, String tipoDeAtividade,
-                     int vagasParticipantes,  String idadePublico, String sexoPublico,String hora,String data) {
+    public void setEmailProprietario(String emailProprietario) {
+        this.emailProprietario = emailProprietario;
+    }
+
+    public Atividade(String nome, String descricao, String tipoDeAtividade,
+                     int vagasParticipantes, String idadePublico, String sexoPublico, String hora, String data) {
         this.nome = nome;
         this.descricao = descricao;
         this.tipoDeAtividade = tipoDeAtividade;

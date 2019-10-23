@@ -24,7 +24,7 @@ public class PresentLogin  implements  ContratoLogin.present{
             loginActivity.senhaInvalida();
         }
         if(usuarioDAO.getLogin(email,senha)){
-            loginActivity.realizarlogin();
+            loginActivity.realizarlogin(email);
         }else if(usuarioDAO.getEmailUsuario(email)){
             loginActivity.usuarioComSenha();
         }else{

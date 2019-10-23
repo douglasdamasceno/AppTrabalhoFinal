@@ -30,16 +30,23 @@ public class UsuarioDBMemoriaDAO implements  UsuarioDAO {
         Usuario usuario = new Usuario();
         usuario.setId(proximoIdUser+"");
         usuario.getMeuPerfil().setNome(username);
-        usuario.getMeuPerfil().setNome(username);
         usuario.getMeuPerfil().setEmail(email);
         usuario.getMeuPerfil().setSenha(senha);
         listaDeUsuarios.add(usuario);
     }
 
     @Override
-    public void editar(Usuario usuario) {
-
+    public void editar(String email, String username, String senha, String idade, String sexo) {
+        for (Usuario usuario: listaDeUsuarios) {
+            if(email.equals(usuario.getMeuPerfil().getIdPerfil())){
+                usuario.getMeuPerfil().setNome(username);
+                usuario.getMeuPerfil().setSenha(senha);
+                usuario.getMeuPerfil().setIdade(idade);
+                usuario.getMeuPerfil().setSexo(sexo);
+            }
+        }
     }
+
 
     @Override
     public void remover(int id) {
@@ -70,4 +77,36 @@ public class UsuarioDBMemoriaDAO implements  UsuarioDAO {
         }
         return false;
     }
+
+    @Override
+    public Usuario getUsuarioPorEmail(String email) {
+        for (Usuario usuario: listaDeUsuarios) {
+            if(email.equals(usuario.getMeuPerfil().getEmail())){
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+
+    @Override
+    public String getIDporEmail(String id) {
+        for (Usuario usuario: listaDeUsuarios) {
+            if(id.equals(usuario.getMeuPerfil().getIdPerfil())){
+                return id;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Usuario getUserPorID(String id) {
+        for (Usuario usuario: listaDeUsuarios) {
+            if(id.equals(usuario.getMeuPerfil().getIdPerfil())){
+                return usuario;
+            }
+        }
+        return  null;
+    }
+
 }

@@ -5,9 +5,12 @@ import com.example.apptrabalhofinal.data.model.Usuario;
 
 public interface UsuarioDAO {
     void addNovo(String username, String email,String senha);
-    void editar(Usuario usuario);
+    void editar(String email,String username,String senha,String idade,String sexo);
     void remover(int id);
     void getUsuario(int id);
     boolean getLogin(String email,String senha);
     boolean getEmailUsuario(String email);
+    Usuario getUsuarioPorEmail(String email);
+    String getIDporEmail(String email);
+    Usuario getUserPorID(String id);
 }

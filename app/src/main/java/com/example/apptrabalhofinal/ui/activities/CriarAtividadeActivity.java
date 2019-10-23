@@ -198,6 +198,7 @@ public class CriarAtividadeActivity extends AppCompatActivity
 
     @Override
     public void atividadeValida() {
+        String emailUser = getIntent().getStringExtra("email");
         Intent intent = new Intent(CriarAtividadeActivity.this,CriarEnderecoAtividadeActivity.class);
         intent.putExtra("nome",atividadeNome.getText().toString());
         intent.putExtra("descricao",atividadeDescricao.getText().toString());
@@ -207,6 +208,7 @@ public class CriarAtividadeActivity extends AppCompatActivity
         intent.putExtra("hora",atividadeHorario.getText().toString());
         intent.putExtra("data",atividadeData.getText().toString());
         intent.putExtra("tipo",atividadeTipo);
+        intent.putExtra("email",emailUser);
         startActivity(intent);
     }
 

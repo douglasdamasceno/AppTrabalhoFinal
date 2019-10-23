@@ -4,7 +4,7 @@ public interface ContratoLogin {
     public interface view{
         void formatoInvalidoEmail();
         void senhaInvalida();
-        void realizarlogin();
+        void realizarlogin(String email);
         void usuarioComEmailInvalido();
         void usuarioComSenha();
     }

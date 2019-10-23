@@ -22,6 +22,8 @@ public class LoginActivity extends AppCompatActivity  implements ContratoLogin.v
     private Button btnLogin;
     private Toolbar myToolbar;
 
+    private String idUser;
+
     private PresentLogin presentLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class LoginActivity extends AppCompatActivity  implements ContratoLogin.v
             public void onClick(View view) {
                 String email = inputEmail.getText().toString();
                 String senha = inputSenha.getText().toString();
-                //patterns de email.
+
                 presentLogin.validarLogin(email,senha);
             }
         });
@@ -85,9 +87,9 @@ public class LoginActivity extends AppCompatActivity  implements ContratoLogin.v
     }
 
     @Override
-    public void realizarlogin() {
-        Toast.makeText(LoginActivity.this,"okk",Toast.LENGTH_SHORT).show();
+    public void realizarlogin(String email) {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.putExtra("email",email);
         startActivity(intent);
     }
 

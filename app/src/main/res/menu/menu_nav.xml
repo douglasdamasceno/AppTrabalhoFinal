@@ -7,6 +7,9 @@
             <item android:title="Minha Atividades"
                 android:id="@+id/id_menu_nav_home"
                 android:icon="@drawable/ic_home" />
+            <item android:title="Atividades participando"
+                android:id="@+id/id_menu_nav_participando"
+                android:icon="@drawable/ic_home" />
 
 
             <item android:title="Buscar Atividades"

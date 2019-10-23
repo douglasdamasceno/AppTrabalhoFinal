@@ -52,9 +52,10 @@ public class CriarEnderecoAtividadeActivity extends AppCompatActivity  implement
         String sexo = bundle.getString("sexo");
         String hora = bundle.getString("hora");
         String data = bundle.getString("data");
+        String emailUser = bundle.getString("email");
 
 
-        present.receberAtividade(nome,descricao,tipo,qtd,idade,sexo,hora,data);
+        present.receberAtividade(emailUser,nome,descricao,tipo,qtd,idade,sexo,hora,data);
         present.validarEnderecoAtividade(
                 endAtividadeCidade.getText().toString(),
                 endAtividadeRua.getText().toString(),

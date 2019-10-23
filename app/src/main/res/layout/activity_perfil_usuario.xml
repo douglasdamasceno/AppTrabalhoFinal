@@ -7,11 +7,13 @@
     android:background="#5555"
     tools:context=".ui.activities.PerfilUsuarioActivity">
 
+    <include layout="@layout/minha_toolbar"/>
+
     <ImageView
         android:id="@+id/perfil_foto"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="56dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.19"
@@ -35,48 +37,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="24dp"
             android:ems="10"
             android:hint="nome"
             android:inputType="textPersonName"/>
     </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailPerfilTextInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.19"
-        app:layout_constraintStart_toStartOf="@id/nomePerfilTextInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/nomePerfilTextInputLayout"
-        tools:ignore="MissingConstraints">
 
-        <EditText
+        <TextView
             android:id="@+id/perfil_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="24dp"
             android:ems="10"
             android:hint="email "
-            android:inputType="textPersonName" />
-    </com.google.android.material.textfield.TextInputLayout>
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.19"
+            app:layout_constraintStart_toStartOf="@id/nomePerfilTextInputLayout"
+            app:layout_constraintTop_toBottomOf="@+id/nomePerfilTextInputLayout"
+            />
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/senhaPerfilTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.19"
-        app:layout_constraintStart_toStartOf="@id/emailPerfilTextInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/emailPerfilTextInputLayout"
+        app:layout_constraintStart_toStartOf="@id/perfil_email"
+        app:layout_constraintTop_toBottomOf="@+id/perfil_email"
         tools:ignore="MissingConstraints">
 
         <EditText
@@ -84,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="24dp"
             android:ems="10"
             android:hint="senha"
@@ -132,7 +124,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintHorizontal_bias="0.19"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
@@ -145,10 +137,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="3dp"
             android:layout_marginEnd="24dp"
             android:ems="10"
             android:hint="idade"
             android:inputType="textPersonName" />
+
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnSaveMudaca"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:onClick="editarPerfil"
+        android:text="save mudanças"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idadePerfilTextInputLayout"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="8dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

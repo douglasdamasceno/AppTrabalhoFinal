@@ -36,4 +36,13 @@ public class Usuario {
     public void setMeuPerfil(PerfilContaUsuario meuPerfil) {
         this.meuPerfil = meuPerfil;
     }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id='" + id + '\'' +
+                ", minhaAtividades=" + minhaAtividades +
+                ", meuPerfil=" + meuPerfil +
+                '}';
+    }
 }

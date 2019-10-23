@@ -6,7 +6,7 @@ import com.example.apptrabalhofinal.present.interfaces.ContratoCriarAtividade;
 
 public class PresentCriarAtividade implements ContratoCriarAtividade.present {
     private ContratoCriarAtividade.view view;
-    //a view ce criar atividade, esta pasado a atividade para a proxima tela
+
     public PresentCriarAtividade(ContratoCriarAtividade.view view){
         this.view =view;
     }

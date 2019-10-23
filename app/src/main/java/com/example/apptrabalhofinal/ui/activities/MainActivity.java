@@ -9,8 +9,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,15 +18,21 @@ import android.widget.Toast;
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
 import com.example.apptrabalhofinal.data.dao.AtividadeDBMemoriaDAO;
+import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
+import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
 import com.example.apptrabalhofinal.data.model.Atividade;
+import com.example.apptrabalhofinal.data.model.Usuario;
 import com.example.apptrabalhofinal.ui.adapter.MinhaAtividadeAdapter;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity  {
+
+
+    Usuario usuarioAutentificado;
+    UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
 
     private ListView listViewMinhasAtividades;
     private Toolbar myToolbar;
@@ -39,16 +43,20 @@ public class MainActivity extends AppCompatActivity  {
     private int itemSelecionado = -1;
 
     AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String emailUser = getIntent().getExtras().getString("email");
+        usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailUser);
+
         listViewMinhasAtividades = findViewById(R.id.lista_view_minhas_atividades);
         myToolbar = findViewById(R.id.minhaToolbar);
 
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("Main");
+        getSupportActionBar().setTitle("Minhas Atividades");
 
 
         drawerLayout =(DrawerLayout)  findViewById(R.id.drawer_layout);
@@ -57,6 +65,7 @@ public class MainActivity extends AppCompatActivity  {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        Toast.makeText(this,usuarioAutentificado.toString(),Toast.LENGTH_LONG).show();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.bringToFront();
@@ -66,20 +75,23 @@ public class MainActivity extends AppCompatActivity  {
 
                 switch (item.getItemId()){
                     case R.id.id_menu_nav_home: {
-                        Toast.makeText(MainActivity.this, "Atualizar", Toast.LENGTH_SHORT).show();
-                        Log.i("click","atualizar");
+                           // startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         break;
                     }
                     case R.id.id_menu_nav_perfil: {
-                        startActivity(new Intent(getApplicationContext(),PerfilUsuarioActivity.class));
+                        Intent intent = new Intent(getApplicationContext(),PerfilUsuarioActivity.class);
+                        intent.putExtra("email",usuarioAutentificado.getMeuPerfil().getEmail());
+                        startActivity(intent);
                         break;
                     }
                     case R.id.id_menu_nav_sair: {
+                        //fazer logut
                         Toast.makeText(MainActivity.this, "sair", Toast.LENGTH_SHORT).show();
                         break;
                     }
                     case R.id.id_menu_nav_buscar: {
-                        Toast.makeText(MainActivity.this, "Buscar", Toast.LENGTH_SHORT).show();
+                        //startActivity(new Intent(getApplicationContext(),MapsActivity.class));
+                        startActivity(new Intent(getApplicationContext(), BuscarAtividadeListaActivity.class));
                         break;
                     }
                 }
@@ -118,6 +130,8 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,CriarAtividadeActivity.class);
+                String email = usuarioAutentificado.getMeuPerfil().getEmail();
+                intent.putExtra("email",email);
                 startActivity(intent);
             }
         });
@@ -138,15 +152,6 @@ public class MainActivity extends AppCompatActivity  {
 
     private ArrayList<Atividade> getMinhaAtividades() {
         ArrayList<Atividade> atividades = atividadeDAO.listarAtividadesTodos(); //new ArrayList<>();
-        //ContatoDAO contatoDAO = new ContatoDAO(this);
-        //contatos = contatoDAO.buscarContato();
-        //meuBanco = AtividadeDBMemoriaDAO.getInstance();
-//        for (int i =0;i<10;i++){
-//            Atividade atividade = new Atividade();
-//            atividade.setDescricao( i +"dsadasdasdasdadasdasdasdaddddddddddddddddddddsadsa");
-//            atividade.setNome( i +"nome");
-//            atividades.add(atividade);
-//        }
         return  atividades;
     }
 
@@ -164,6 +169,7 @@ public class MainActivity extends AppCompatActivity  {
             Intent intent = new Intent(this, AtividadeDetalheActivity.class);
             //fazer o put do id data atividade para pegar a atividade pelo id no dao.
             Atividade atividade = getMinhaAtividades().get(itemSelecionado);
+            intent.putExtra("id", atividade.getId());
             intent.putExtra("nome", atividade.getNome());
             intent.putExtra("descricao", atividade.getDescricao());
 

@@ -5,6 +5,7 @@ public class PerfilContaUsuario {
     private String nome;
     private String email;
 
+
     public String getIdPerfil() {
         return idPerfil;
     }
@@ -14,8 +15,8 @@ public class PerfilContaUsuario {
     }
 
     private String senha;
-    private int idade;
-    private char sexo;
+    private String idade;
+    private String sexo;
 
     public String getNome() {
         return nome;
@@ -41,19 +42,31 @@ public class PerfilContaUsuario {
         this.senha = senha;
     }
 
-    public int getIdade() {
+    public String getIdade() {
         return idade;
     }
 
-    public void setIdade(int idade) {
+    public void setIdade(String idade) {
         this.idade = idade;
     }
 
-    public char getSexo() {
+    public String getSexo() {
         return sexo;
     }
 
-    public void setSexo(char sexo) {
+    public void setSexo(String sexo) {
         this.sexo = sexo;
+    }
+
+    @Override
+    public String toString() {
+        return "PerfilContaUsuario{" +
+                "idPerfil='" + idPerfil + '\'' +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", senha='" + senha + '\'' +
+                ", idade=" + idade +
+                ", sexo=" + sexo +
+                '}';
     }
 }

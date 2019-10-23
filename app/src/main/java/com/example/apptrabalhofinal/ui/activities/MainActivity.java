@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity  {
     private BottomNavigationView bottomNavigationView;
     private NavigationView navigationView;
 
+    AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +110,6 @@ public class MainActivity extends AppCompatActivity  {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"ok",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this,CriarAtividadeActivity.class);
                 startActivity(intent);
             }
@@ -122,16 +122,16 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private ArrayList<Atividade> getMinhaAtividades() {
-        ArrayList<Atividade> atividades = new ArrayList<>();
+        ArrayList<Atividade> atividades = atividadeDAO.listarAtividadesTodos(); //new ArrayList<>();
         //ContatoDAO contatoDAO = new ContatoDAO(this);
         //contatos = contatoDAO.buscarContato();
         //meuBanco = AtividadeDBMemoriaDAO.getInstance();
-        for (int i =0;i<10;i++){
-            Atividade atividade = new Atividade();
-            atividade.setDescricao( i +"dsadasdasdasdadasdasdasdaddddddddddddddddddddsadsa");
-            atividade.setNome( i +"nome");
-            atividades.add(atividade);
-        }
+//        for (int i =0;i<10;i++){
+//            Atividade atividade = new Atividade();
+//            atividade.setDescricao( i +"dsadasdasdasdadasdasdasdaddddddddddddddddddddsadsa");
+//            atividade.setNome( i +"nome");
+//            atividades.add(atividade);
+//        }
         return  atividades;
     }
 
@@ -143,6 +143,5 @@ public class MainActivity extends AppCompatActivity  {
             super.onBackPressed();
         }
     }
-
 
 }

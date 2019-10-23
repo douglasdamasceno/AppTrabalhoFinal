@@ -14,10 +14,10 @@ public class PresentCriarEnderecoAtividade implements ContratoCriarEnderecoAtivi
     public PresentCriarEnderecoAtividade(ContratoCriarEnderecoAtividade.view view){
         this.view = view;
     }
-
+//erro devido ao numero grande limitar o campo para apenas 4 digito 9999
     @Override
     public void receberAtividade(String nome,String descricao,String tipo, String qtd, String idade,String sexo,String hora,String data){
-        atividadeArmazenar = new Atividade(nome,descricao,tipo, Integer.parseInt(qtd),idade,sexo,hora,data);
+        atividadeArmazenar = new Atividade(nome,descricao,tipo,Integer.parseInt( qtd),idade,sexo,hora,data);
     }
 
     @Override

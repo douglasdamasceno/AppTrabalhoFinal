@@ -13,16 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activities.BuscarAtividadeListaActivity"></activity>
+        <activity android:name=".ui.activities.BuscarAtividadeListaActivity" />
         <activity android:name=".ui.activities.CriarEnderecoAtividadeActivity" />
         <activity
             android:name=".ui.activities.CriarAtividadeActivity"
-            android:parentActivityName=".ui.activities.MainActivity"></activity>
+            android:parentActivityName=".ui.activities.MainActivity" />
         <activity
             android:name=".ui.activities.PerfilUsuarioActivity"
             android:parentActivityName=".ui.activities.MainActivity" />
         <activity android:name=".ui.activities.AtividadeDetalheActivity" />
-        <activity android:name=".ui.activities.MainActivity"></activity>
+
+        <activity android:name=".ui.activities.MainActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

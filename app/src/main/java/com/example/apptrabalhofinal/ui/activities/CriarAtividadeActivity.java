@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -39,6 +40,8 @@ public class CriarAtividadeActivity extends AppCompatActivity
 
     private String atividadeTipo;
 
+    private RadioButton simParticipar;
+    private RadioButton naoParticipar;
 
     private TextView  atividadeData;
     private TextView  atividadeHorario;
@@ -56,7 +59,8 @@ public class CriarAtividadeActivity extends AppCompatActivity
         inicializarElementos();
 
 
-
+        simParticipar = findViewById(R.id.criar_atividade_individual);
+        naoParticipar = findViewById(R.id.criar_atividade_Grupo);
 
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Criar Atividade");
@@ -85,6 +89,7 @@ public class CriarAtividadeActivity extends AppCompatActivity
             }
         });
 
+
         btnEnderencoAtividade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,6 +106,18 @@ public class CriarAtividadeActivity extends AppCompatActivity
             }
         });
     }
+    public String  radioSelecionado(){
+        String result = "Nao selecionado";
+        if(simParticipar.isChecked()){
+            Toast.makeText(this,"Selecionado "+simParticipar.getText().toString(),Toast.LENGTH_SHORT ).show();
+            result = simParticipar.getText().toString();
+        }else if(naoParticipar.isChecked()){
+            Toast.makeText(this,"Selecionado "+naoParticipar.getText().toString(),Toast.LENGTH_SHORT ).show();
+            result = naoParticipar.getText().toString();
+        }
+        return  result;
+    }
+
 
     @Override
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
@@ -145,6 +162,10 @@ public class CriarAtividadeActivity extends AppCompatActivity
         present = new PresentCriarAtividade(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     public void nomeAtividadeInvalido() {

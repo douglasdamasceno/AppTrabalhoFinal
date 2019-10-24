@@ -77,20 +77,20 @@ public class MainActivity extends AppCompatActivity  {
                     case R.id.id_menu_nav_home: {
                            // startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         break;
-                    }
-                    case R.id.id_menu_nav_perfil: {
+                    }case R.id.id_menu_nav_participando: {
                         Intent intent = new Intent(getApplicationContext(),PerfilUsuarioActivity.class);
                         intent.putExtra("email",usuarioAutentificado.getMeuPerfil().getEmail());
                         startActivity(intent);
                         break;
-                    }
-                    case R.id.id_menu_nav_sair: {
-                        //fazer logut
-                        //Toast.makeText(MainActivity.this, "sair", Toast.LENGTH_SHORT).show();
+                    }case R.id.id_menu_nav_perfil: {
+                        Intent intent = new Intent(getApplicationContext(),PerfilUsuarioActivity.class);
+                        intent.putExtra("email",usuarioAutentificado.getMeuPerfil().getEmail());
+                        startActivity(intent);
+                        break;
+                    }case R.id.id_menu_nav_sair: {
                         logout();
                         break;
-                    }
-                    case R.id.id_menu_nav_buscar: {
+                    }case R.id.id_menu_nav_buscar: {
                         //startActivity(new Intent(getApplicationContext(),MapsActivity.class));
                         startActivity(new Intent(getApplicationContext(), BuscarAtividadeListaActivity.class));
                         break;

@@ -23,12 +23,15 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
     private EditText usernamePerfil;
     private EditText senhaPerfil;
     private TextView emailPerfil;
-    private RadioButton sexoPerfil;
+
     private EditText idadePerfil;
 
     private Toolbar myToolbar;
 
     private Button btnSaveMudancas;
+
+    private RadioButton rbMasculino;
+    private RadioButton rbFeminino;
 
     Usuario usuarioAutentificado;
     UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
@@ -46,6 +49,9 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         senhaPerfil = findViewById(R.id.perfil_senha);
         emailPerfil = findViewById(R.id.perfil_email);
         idadePerfil = findViewById(R.id.perfil_idade);
+
+        rbMasculino = findViewById(R.id.sexo_masculino);
+        rbFeminino = findViewById(R.id.sexo_feminino);
 
         String emailUser = getIntent().getExtras().getString("email");
         usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailUser);
@@ -69,6 +75,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
                 && !senhaPerfil.getText().toString().isEmpty()
                 && !emailPerfil.getText().toString().isEmpty()
         ){
+            usuarioAutentificado.getMeuPerfil().setSexo(radioSelecionado());
             usuarioDAO.editar(
                     usuarioAutentificado.getMeuPerfil().getEmail(),
                     usuarioAutentificado.getMeuPerfil().getNome(),
@@ -82,4 +89,15 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             Toast.makeText(this,"Nao pode deixar campo vazio",Toast.LENGTH_LONG).show();
         }
     }
+
+    public String  radioSelecionado(){
+        String result = "Nao selecionado";
+        if(rbMasculino.isChecked()){
+            result = rbMasculino.getText().toString();
+        }else if(rbFeminino.isChecked()){
+            result = rbFeminino.getText().toString();
+        }
+        return  result;
+    }
+
 }

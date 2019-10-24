@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.apptrabalhofinal.R;
@@ -49,14 +51,16 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String emailUser = getIntent().getExtras().getString("email");
-        usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailUser);
 
         listViewMinhasAtividades = findViewById(R.id.lista_view_minhas_atividades);
         myToolbar = findViewById(R.id.minhaToolbar);
 
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Minhas Atividades");
+
+            String emailUser = getIntent().getExtras().getString("email");
+            usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailUser);
+
 
 
         drawerLayout =(DrawerLayout)  findViewById(R.id.drawer_layout);
@@ -100,6 +104,21 @@ public class MainActivity extends AppCompatActivity  {
                 return true;
             }
         });
+
+        View headView = navigationView.getHeaderView(0);
+        ImageView imgPerfil = (ImageView) headView.findViewById(R.id.id_nav_header_perfil_foto);
+        TextView nomeUsusario = (TextView) headView.findViewById(R.id.id_nav_header_nome);
+        TextView emailUsuario = (TextView) headView.findViewById(R.id.id_nav_header_email);
+        nomeUsusario.setText(usuarioAutentificado.getMeuPerfil().getNome());
+        emailUsuario.setText(usuarioAutentificado.getMeuPerfil().getEmail());
+        imgPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(getApplicationContext(),"foto perifl",Toast.LENGTH_LONG).show();
+            }
+        });
+
 
 
 //        bottomNavigationView = findViewById(R.id.bottomNav);

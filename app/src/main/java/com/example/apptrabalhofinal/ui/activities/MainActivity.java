@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity  {
         TextView emailUsuario = (TextView) headView.findViewById(R.id.id_nav_header_email);
         nomeUsusario.setText(usuarioAutentificado.getMeuPerfil().getNome());
         emailUsuario.setText(usuarioAutentificado.getMeuPerfil().getEmail());
+
         imgPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,9 +191,6 @@ public class MainActivity extends AppCompatActivity  {
             //fazer o put do id data atividade para pegar a atividade pelo id no dao.
             Atividade atividade = getMinhaAtividades().get(itemSelecionado);
             intent.putExtra("id", atividade.getId());
-            intent.putExtra("nome", atividade.getNome());
-            intent.putExtra("descricao", atividade.getDescricao());
-
             startActivity(intent);
         }
     }

@@ -37,6 +37,16 @@ public class AtividadeDBMemoriaDAO implements AtividadeDAO {
     }
 
     @Override
+    public Atividade AtividadePorID(String id) {
+        for (Atividade atividade: listaAtividades) {
+            if(id.equals(atividade.getId())){
+                return atividade;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void addNovo(Atividade atividade) {
         proximoIdAtividade++;
         atividade.setId(proximoIdAtividade+"");
@@ -44,7 +54,19 @@ public class AtividadeDBMemoriaDAO implements AtividadeDAO {
     }
 
     @Override
-    public void editar(Atividade atividade) {
+    public void editar(String id, Atividade atividade) {
+        for (Atividade a: listaAtividades) {
+            if(id.equals(a.getId())){
+                a.setNome(atividade.getNome());
+                a.setDescricao(atividade.getDescricao());
+                a.setVagasParticipantes( atividade.getVagasParticipantes());
+                a.setIdadePublico(atividade.getIdadePublico());
+                a.setSexoPublico(atividade.getSexoPublico());
+                a.setData(atividade.getData());
+                a.setHora(atividade.getHora());
+                a.setTipoDeAtividade(atividade.getTipoDeAtividade());
+            }
+        }
     }
 
     @Override

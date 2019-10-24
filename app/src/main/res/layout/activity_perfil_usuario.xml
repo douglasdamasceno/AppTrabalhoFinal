@@ -94,30 +94,32 @@
         app:layout_constraintTop_toBottomOf="@+id/senhaPerfilTextInputLayout"
         tools:ignore="MissingConstraints">
 
-        <RadioGroup
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sexoPerfilTextInputLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checkedButton="@+id/sexo_masculino"
-            android:orientation="horizontal"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Sexo:"/>
-            <RadioButton
-                android:id="@+id/sexo_masculino"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Masculino" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.19"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+            tools:ignore="MissingConstraints">
 
-            <RadioButton
-                android:id="@+id/sexo_feminino"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/perfil_sexo"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Feminino" />
-        </RadioGroup>
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="24dp"
+                android:ems="10"
+                android:hint="Sexo"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/idadePerfilTextInputLayout"

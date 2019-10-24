@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity  {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                 switch (item.getItemId()){
                     case R.id.id_menu_nav_home: {
                            // startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -105,20 +104,7 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
-        View headView = navigationView.getHeaderView(0);
-        ImageView imgPerfil = (ImageView) headView.findViewById(R.id.id_nav_header_perfil_foto);
-        TextView nomeUsusario = (TextView) headView.findViewById(R.id.id_nav_header_nome);
-        TextView emailUsuario = (TextView) headView.findViewById(R.id.id_nav_header_email);
-        nomeUsusario.setText(usuarioAutentificado.getMeuPerfil().getNome());
-        emailUsuario.setText(usuarioAutentificado.getMeuPerfil().getEmail());
-
-        imgPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Toast.makeText(getApplicationContext(),"foto perifl",Toast.LENGTH_LONG).show();
-            }
-        });
+        AtualizarHeader();
 
 
 
@@ -169,6 +155,24 @@ public class MainActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
         listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,getMinhaAtividades()));
+        AtualizarHeader();
+    }
+
+    void AtualizarHeader(){
+        View headView = navigationView.getHeaderView(0);
+        ImageView imgPerfil = (ImageView) headView.findViewById(R.id.id_nav_header_perfil_foto);
+        TextView nomeUsusario = (TextView) headView.findViewById(R.id.id_nav_header_nome);
+        TextView emailUsuario = (TextView) headView.findViewById(R.id.id_nav_header_email);
+        nomeUsusario.setText(usuarioAutentificado.getMeuPerfil().getNome());
+        emailUsuario.setText(usuarioAutentificado.getMeuPerfil().getEmail());
+
+        imgPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(getApplicationContext(),"foto perifl",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private ArrayList<Atividade> getMinhaAtividades() {
@@ -188,7 +192,6 @@ public class MainActivity extends AppCompatActivity  {
     public void abriItem() {
         if (getMinhaAtividades().size() > 0) {
             Intent intent = new Intent(this, AtividadeDetalheActivity.class);
-            //fazer o put do id data atividade para pegar a atividade pelo id no dao.
             Atividade atividade = getMinhaAtividades().get(itemSelecionado);
             intent.putExtra("id", atividade.getId());
             startActivity(intent);

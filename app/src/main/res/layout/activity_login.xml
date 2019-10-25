@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activities.LoginActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorBackground">
 
     <include layout="@layout/minha_toolbar" />
 
@@ -53,7 +54,6 @@
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-        tools:ignore="MissingConstraints"
         app:passwordToggleEnabled="true">
 
         <EditText
@@ -66,9 +66,7 @@
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
             app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-            tools:ignore="NotSibling"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"  />
 
     </com.google.android.material.textfield.TextInputLayout>
 

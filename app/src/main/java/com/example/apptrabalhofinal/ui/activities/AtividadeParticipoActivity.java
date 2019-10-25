@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
@@ -62,7 +63,6 @@ public class AtividadeParticipoActivity extends AppCompatActivity {
 
     public ArrayList<Atividade> listarAtividadesParticipo(String email){
         return atividadeDAO.listarAtividadesParticipante(email);
-        //return atividadeDAO.listarAtividadesTodos(email);
     }
 
     @Override
@@ -72,9 +72,9 @@ public class AtividadeParticipoActivity extends AppCompatActivity {
         if(bundle!=null) {
             emailProprietario = bundle.getString("email");
         }
-        listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,listarAtividadesParticipo(emailProprietario)));
+        listViewMinhasAtividades.setAdapter
+                (new MinhaAtividadeAdapter(this,listarAtividadesParticipo(emailProprietario)));
+        Toast.makeText(this,"tamanho: "+listarAtividadesParticipo(emailProprietario).size(),Toast.LENGTH_LONG).show();
     }
-
-
 
 }

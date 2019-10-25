@@ -52,7 +52,7 @@
             android:layout_marginTop="5dp"
             android:ems="10"
             android:hint="Descrição"
-            android:inputType="textMultiLine" />
+            android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -75,6 +75,7 @@
             android:ems="10"
             android:hint="Quantidade de Participantes"
             android:inputType="number"
+            android:maxLength="4"
              />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -187,7 +188,8 @@
                 android:id="@+id/criar_atividade_idade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="idade do Public"/>
+                android:hint="idade do Public"
+                android:inputType="textPersonName"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
@@ -214,7 +216,8 @@
                 android:id="@+id/criar_atividade_sexo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Sexo do Publico"/>
+                android:hint="Sexo do Publico"
+                android:inputType="textPersonName"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
@@ -223,7 +226,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:onClick="informarEnderenco"
         android:text="endereco"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

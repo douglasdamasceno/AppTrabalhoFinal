@@ -24,7 +24,7 @@ public class AtividadeDBMemoriaDAO implements AtividadeDAO {
     public ArrayList<Atividade> listarAtividadesTodos(String email) {
         ArrayList<Atividade> listaDeNovasAtividades = new ArrayList<Atividade>();
         for (Atividade atividade: listaAtividades) {
-            if(!email.equals(atividade.getEmailProprietario())){
+            if(!email.equals(atividade.getEmailProprietario()) && !atividade.buscarParticipante(email)){
                 listaDeNovasAtividades.add(atividade);
             }
         }

@@ -30,7 +30,8 @@
                 android:id="@+id/end_id_cidade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Cidade" />
+                android:hint="Cidade"
+                android:inputType="textPersonName"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/ruaTextInputLayout"
@@ -44,7 +45,8 @@
                 android:id="@+id/end_id_rua"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Rua" />
+                android:hint="Rua"
+                android:inputType="textPersonName"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -59,7 +61,8 @@
                 android:id="@+id/end_id_estado"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Estado" />
+                android:hint="Estado"
+                android:inputType="textPersonName"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/cepTextInputLayout"
@@ -73,7 +76,8 @@
                 android:id="@+id/end_id_cep"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="CEP" />
+                android:hint="CEP"
+                android:inputType="textPersonName"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/complementoTextInputLayout"
@@ -87,7 +91,8 @@
                 android:id="@+id/end_id_complemento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Complemento" />
+                android:hint="Complemento"
+                android:inputType="textPersonName"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -95,7 +100,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="validarAtividade"
-            android:text="Criar" />
+            android:text="Criar"
+            android:background="@drawable/bg_botao_rounde"/>
 
     </LinearLayout>
 

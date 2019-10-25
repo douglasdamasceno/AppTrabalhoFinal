@@ -91,6 +91,7 @@ public class LoginActivity extends AppCompatActivity  implements ContratoLogin.v
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.putExtra("email",email);
         startActivity(intent);
+        finish();
     }
 
     @Override

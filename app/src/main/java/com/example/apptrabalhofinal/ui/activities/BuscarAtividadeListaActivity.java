@@ -3,6 +3,7 @@ package com.example.apptrabalhofinal.ui.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,7 +12,10 @@ import android.widget.ListView;
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
 import com.example.apptrabalhofinal.data.dao.AtividadeDBMemoriaDAO;
+import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.ui.adapter.MinhaAtividadeAdapter;
+
+import java.util.ArrayList;
 
 public class BuscarAtividadeListaActivity extends AppCompatActivity {
 
@@ -34,16 +38,30 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
         listViewMinhasAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-               // itemSelecionado = i;
-               // abriItem();
+                abriItem(i);
             }
         });
+    }
+
+
+    public void abriItem(int itemSelecionado) {
+        if (listarTodasAtividades().size() > 0) {
+            Intent intent = new Intent(this, ParticiparAtividadeActivity.class);
+            Atividade atividade = listarTodasAtividades().get(itemSelecionado);
+            intent.putExtra("id", atividade.getId());
+            startActivity(intent);
+        }
+    }
+
+    public ArrayList<Atividade> listarTodasAtividades(){
+        return atividadeDAO.listarAtividadesTodos();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,atividadeDAO.listarAtividadesTodos() ));
-
+        listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,listarTodasAtividades()));
     }
+
+
 }

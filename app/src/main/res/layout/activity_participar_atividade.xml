@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.ParticiparAtividadeActivity"
+    android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/participar_atividade_nome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:hint="Nome"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/participar_atividade_descricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:padding="25dp"
+            android:ems="10"
+            android:hint="Descrição"
+            android:inputType="textMultiLine" />
+
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/qtdTextInputLayout">
+
+        <TextView
+            android:id="@+id/participar_atividade_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:hint="Data" />
+
+        <TextView
+            android:id="@+id/participar_atividade_horario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="Horario" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_marginLeft="15dp"
+            android:id="@+id/participar_atividade_tipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:padding="10dp"
+            android:ems="10"
+            android:hint="Atividade:"
+            android:inputType="number"
+            />
+        <TextView
+            android:padding="15dp"
+            android:id="@+id/participar_atividade_quatidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ems="10"
+            android:hint="Vagas 0/10"
+            android:inputType="number"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/participar_atividade_restricoes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Restrições: "
+            android:layout_marginLeft="18dp"/>
+
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/participar_atividade_idade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Publico Alvo: "
+                android:padding="10dp"/>
+
+            <TextView
+                android:id="@+id/participar_atividade_sexo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Sexo do Publico"
+                android:padding="10dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_participar_atividade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Participar"
+        android:background="@drawable/bg_botao_rounde"/>
+
+
+</LinearLayout>

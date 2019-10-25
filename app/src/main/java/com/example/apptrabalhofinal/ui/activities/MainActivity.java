@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity  {
     //private BottomNavigationView bottomNavigationView;
     private NavigationView navigationView;
 
-    private int itemSelecionado = -1;
+
 
     AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
 
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity  {
                            // startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         break;
                     }case R.id.id_menu_nav_participando: {
-                        Intent intent = new Intent(getApplicationContext(),PerfilUsuarioActivity.class);
+                        Intent intent = new Intent(getApplicationContext(),ParticiparAtividadeActivity.class);
                         intent.putExtra("email",usuarioAutentificado.getMeuPerfil().getEmail());
                         startActivity(intent);
                         break;
@@ -146,8 +146,8 @@ public class MainActivity extends AppCompatActivity  {
         listViewMinhasAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                itemSelecionado = i;
-                abriItem();
+       //         itemSelecionado = i;
+                abriItem(i);
             }
         });
     }
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(getApplicationContext(),"foto perifl",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"foto perfil",Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
-    public void abriItem() {
+    public void abriItem(int itemSelecionado) {
         if (getMinhaAtividades().size() > 0) {
             Intent intent = new Intent(this, AtividadeDetalheActivity.class);
             Atividade atividade = getMinhaAtividades().get(itemSelecionado);

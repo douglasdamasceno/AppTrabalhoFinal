@@ -58,9 +58,12 @@ public class MainActivity extends AppCompatActivity  {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Minhas Atividades");
 
-            String emailUser = getIntent().getExtras().getString("email");
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null) {
+            String emailUser = bundle.getString("email");
             usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailUser);
-
+            Toast.makeText(this,usuarioAutentificado.toString(),Toast.LENGTH_LONG).show();
+        }
 
 
         drawerLayout =(DrawerLayout)  findViewById(R.id.drawer_layout);
@@ -69,7 +72,8 @@ public class MainActivity extends AppCompatActivity  {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        Toast.makeText(this,usuarioAutentificado.toString(),Toast.LENGTH_LONG).show();
+        listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,getMinhaAtividades()));
+
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.bringToFront();
@@ -81,13 +85,17 @@ public class MainActivity extends AppCompatActivity  {
                            // startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         break;
                     }case R.id.id_menu_nav_participando: {
-                        Intent intent = new Intent(getApplicationContext(),ParticiparAtividadeActivity.class);
-                        intent.putExtra("email",usuarioAutentificado.getMeuPerfil().getEmail());
-                        startActivity(intent);
+//                        Intent intent = new Intent(getApplicationContext(),ParticiparAtividadeActivity.class);
+//                        if(usuarioAutentificado!=null) {
+//                            intent.putExtra("email", usuarioAutentificado.getMeuPerfil().getEmail());
+//                        }
+//                        startActivity(intent);
                         break;
                     }case R.id.id_menu_nav_perfil: {
                         Intent intent = new Intent(getApplicationContext(),PerfilUsuarioActivity.class);
-                        intent.putExtra("email",usuarioAutentificado.getMeuPerfil().getEmail());
+                        if(usuarioAutentificado!=null) {
+                            intent.putExtra("email", usuarioAutentificado.getMeuPerfil().getEmail());
+                        }
                         startActivity(intent);
                         break;
                     }case R.id.id_menu_nav_sair: {
@@ -95,7 +103,11 @@ public class MainActivity extends AppCompatActivity  {
                         break;
                     }case R.id.id_menu_nav_buscar: {
                         //startActivity(new Intent(getApplicationContext(),MapsActivity.class));
-                        startActivity(new Intent(getApplicationContext(), BuscarAtividadeListaActivity.class));
+                        Intent intent = new Intent(getApplicationContext(), BuscarAtividadeListaActivity.class);
+                        if(usuarioAutentificado!=null) {
+                            intent.putExtra("email", usuarioAutentificado.getMeuPerfil().getEmail());
+                        }
+                        startActivity(intent);
                         break;
                     }
                 }
@@ -137,8 +149,10 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,CriarAtividadeActivity.class);
-                String email = usuarioAutentificado.getMeuPerfil().getEmail();
-                intent.putExtra("email",email);
+                if(usuarioAutentificado!=null) {
+                    String email = usuarioAutentificado.getMeuPerfil().getEmail();
+                    intent.putExtra("email", email);
+                }
                 startActivity(intent);
             }
         });
@@ -163,9 +177,10 @@ public class MainActivity extends AppCompatActivity  {
         ImageView imgPerfil = (ImageView) headView.findViewById(R.id.id_nav_header_perfil_foto);
         TextView nomeUsusario = (TextView) headView.findViewById(R.id.id_nav_header_nome);
         TextView emailUsuario = (TextView) headView.findViewById(R.id.id_nav_header_email);
-        nomeUsusario.setText(usuarioAutentificado.getMeuPerfil().getNome());
-        emailUsuario.setText(usuarioAutentificado.getMeuPerfil().getEmail());
-
+        if(usuarioAutentificado!=null) {
+            nomeUsusario.setText(usuarioAutentificado.getMeuPerfil().getNome());
+            emailUsuario.setText(usuarioAutentificado.getMeuPerfil().getEmail());
+        }
         imgPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,7 +191,10 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private ArrayList<Atividade> getMinhaAtividades() {
-        ArrayList<Atividade> atividades = atividadeDAO.listarMinhasAtividades(usuarioAutentificado.getMeuPerfil().getEmail()); //new ArrayList<>();
+        ArrayList<Atividade> atividades = null;
+        if(usuarioAutentificado!=null) {
+            atividades = atividadeDAO.listarMinhasAtividades(usuarioAutentificado.getMeuPerfil().getEmail()); //new ArrayList<>();
+        }
         return  atividades;
     }
 

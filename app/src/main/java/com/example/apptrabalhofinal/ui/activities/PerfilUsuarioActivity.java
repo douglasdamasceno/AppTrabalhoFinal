@@ -41,17 +41,13 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil_usuario);
 
+        referenciaElementos();
 
-        fotoPerfil = findViewById(R.id.perfil_foto);
-        usernamePerfil = findViewById(R.id.perfil_nome);
-        senhaPerfil = findViewById(R.id.perfil_senha);
-        emailPerfil = findViewById(R.id.perfil_email);
-        idadePerfil = findViewById(R.id.perfil_idade);
-        sexoPerfil = findViewById(R.id.perfil_sexo);
-
-        String emailUser = getIntent().getExtras().getString("email");
-        usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailUser);
-
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null) {
+            String emailUser = getIntent().getExtras().getString("email");
+            usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailUser);
+        }
         usernamePerfil.setText(usuarioAutentificado.getMeuPerfil().getNome());
         senhaPerfil.setText(usuarioAutentificado.getMeuPerfil().getSenha());
         sexoPerfil.setText(usuarioAutentificado.getMeuPerfil().getSexo());
@@ -92,4 +88,13 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             Toast.makeText(this, "Nao pode deixar campo vazio", Toast.LENGTH_LONG).show();
         }
     }
+    public void referenciaElementos(){
+        fotoPerfil = findViewById(R.id.perfil_foto);
+        usernamePerfil = findViewById(R.id.perfil_nome);
+        senhaPerfil = findViewById(R.id.perfil_senha);
+        emailPerfil = findViewById(R.id.perfil_email);
+        idadePerfil = findViewById(R.id.perfil_idade);
+        sexoPerfil = findViewById(R.id.perfil_sexo);
+    }
+
 }

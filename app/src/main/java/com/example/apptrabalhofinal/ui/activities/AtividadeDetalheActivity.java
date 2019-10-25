@@ -43,33 +43,9 @@ public class AtividadeDetalheActivity extends AppCompatActivity {
 
         atividadeEditada = atividadeDAO.AtividadePorID(getIntent().getExtras().getString("id"));
 
-        atividadeNome = findViewById(R.id.criar_atividade_nome);
-        atividadeDescricao = findViewById(R.id.criar_atividade_descricao);
-        atividadeQuantidade = findViewById(R.id.criar_atividade_quatidade);
-        atividadeIdade = findViewById(R.id.criar_atividade_idade);
-        atividadeSexo = findViewById(R.id.criar_atividade_sexo);
-        atividadeData = findViewById(R.id.criar_atividade_data);
-        atividadeHorario = findViewById(R.id.criar_atividade_horario);
-        tipoAtividade =  findViewById(R.id.criar_atividade_tipo);
-        btnEditar = findViewById(R.id.btn_editar_atividade);
 
-        String nome = atividadeEditada.getNome();
-        String descricao = atividadeEditada.getDescricao();
-        int quatidade = atividadeEditada.getVagasParticipantes();
-        String idade = atividadeEditada.getIdadePublico();
-        String sexo = atividadeEditada.getSexoPublico();
-        String data = atividadeEditada.getData();
-        String horario = atividadeEditada.getHora();
-        String tipo = atividadeEditada.getTipoDeAtividade();
-
-        atividadeNome.setText(nome);
-        atividadeDescricao.setText(descricao);
-        atividadeQuantidade.setText(""+quatidade);
-        atividadeIdade.setText(idade);
-        atividadeSexo.setText(sexo);
-        atividadeData.setText(data);
-        atividadeHorario.setText(horario);
-        tipoAtividade.setText(tipo);
+        referenciarElementos();
+        atualizarValores();
 
         btnEditar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,5 +68,35 @@ public class AtividadeDetalheActivity extends AppCompatActivity {
 
         atividadeDAO.editar(atividade.getId(),atividade);
     }
+    private void referenciarElementos(){
+        atividadeNome = findViewById(R.id.criar_atividade_nome);
+        atividadeDescricao = findViewById(R.id.criar_atividade_descricao);
+        atividadeQuantidade = findViewById(R.id.criar_atividade_quatidade);
+        atividadeIdade = findViewById(R.id.criar_atividade_idade);
+        atividadeSexo = findViewById(R.id.criar_atividade_sexo);
+        atividadeData = findViewById(R.id.criar_atividade_data);
+        atividadeHorario = findViewById(R.id.criar_atividade_horario);
+        tipoAtividade =  findViewById(R.id.criar_atividade_tipo);
+        btnEditar = findViewById(R.id.btn_editar_atividade);
 
+    }
+    void atualizarValores(){
+        String nome = atividadeEditada.getNome();
+        String descricao = atividadeEditada.getDescricao();
+        int quatidade = atividadeEditada.getVagasParticipantes();
+        String idade = atividadeEditada.getIdadePublico();
+        String sexo = atividadeEditada.getSexoPublico();
+        String data = atividadeEditada.getData();
+        String horario = atividadeEditada.getHora();
+        String tipo = atividadeEditada.getTipoDeAtividade();
+
+        atividadeNome.setText(nome);
+        atividadeDescricao.setText(descricao);
+        atividadeQuantidade.setText(""+quatidade);
+        atividadeIdade.setText(idade);
+        atividadeSexo.setText(sexo);
+        atividadeData.setText(data);
+        atividadeHorario.setText(horario);
+        tipoAtividade.setText(tipo);
+    }
 }

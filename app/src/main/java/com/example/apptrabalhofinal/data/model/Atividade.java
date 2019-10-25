@@ -15,6 +15,14 @@ public class Atividade {
     private String hora;
     private String data;
 
+    public ArrayList<Participante> getMeusParticipantes() {
+        return meusParticipantes;
+    }
+
+    public void setMeusParticipantes(ArrayList<Participante> meusParticipantes) {
+        this.meusParticipantes = meusParticipantes;
+    }
+
     private ArrayList<Participante> meusParticipantes;
 
     public Atividade(){

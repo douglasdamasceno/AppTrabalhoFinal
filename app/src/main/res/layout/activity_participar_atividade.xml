@@ -122,7 +122,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Participar"
-        android:background="@drawable/bg_botao_rounde"/>
+        android:background="@drawable/bg_botao_rounde"
+        android:onClick="participarAtividade"/>
 
 
 </LinearLayout>

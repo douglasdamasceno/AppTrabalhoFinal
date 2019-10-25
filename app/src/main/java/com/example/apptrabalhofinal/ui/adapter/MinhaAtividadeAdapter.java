@@ -25,7 +25,10 @@ public class MinhaAtividadeAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return minhasAtividades.size();
+        if(minhasAtividades!=null) {
+            return minhasAtividades.size();
+        }
+        return -1;
     }
 
     @Override

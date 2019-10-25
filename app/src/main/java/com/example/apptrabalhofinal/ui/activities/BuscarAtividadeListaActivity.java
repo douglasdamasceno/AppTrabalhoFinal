@@ -45,10 +45,16 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
 
 
     public void abriItem(int itemSelecionado) {
+        Bundle bundle = getIntent().getExtras();
+        String email = "a";
+        if(bundle!=null) {
+            email = bundle.getString("email");
+        }
         if (listarTodasAtividades().size() > 0) {
             Intent intent = new Intent(this, ParticiparAtividadeActivity.class);
             Atividade atividade = listarTodasAtividades().get(itemSelecionado);
             intent.putExtra("id", atividade.getId());
+            intent.putExtra("email", email);
             startActivity(intent);
         }
     }

@@ -26,7 +26,6 @@ public class UsuarioDBMemoriaDAO implements  UsuarioDAO {
     @Override
     public void addNovo(String username, String email, String senha) {
         proximoIdUser++;
-        //muda o email e senha para o usuario.
         Usuario usuario = new Usuario();
         usuario.setId(proximoIdUser+"");
         usuario.getMeuPerfil().setNome(username);

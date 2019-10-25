@@ -57,6 +57,7 @@ public class AtividadeParticipoActivity extends AppCompatActivity {
             Atividade atividade = listarAtividadesParticipo(emailProprietario).get(itemSelecionado);
             intent.putExtra("id", atividade.getId());
             intent.putExtra("email", emailProprietario);
+            intent.putExtra("chamada", "participo");
             startActivity(intent);
         }
     }

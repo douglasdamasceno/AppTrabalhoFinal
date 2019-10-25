@@ -17,6 +17,7 @@ import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
 import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.data.model.Participante;
 import com.example.apptrabalhofinal.data.model.Usuario;
+import com.example.apptrabalhofinal.ui.adapter.MinhaAtividadeAdapter;
 
 public class ParticiparAtividadeActivity extends AppCompatActivity {
     TextView atividadeNome;
@@ -57,10 +58,19 @@ public class ParticiparAtividadeActivity extends AppCompatActivity {
                     participante.setEmail(usuarioAutentificado.getMeuPerfil().getEmail());
                     participante.setNome(usuarioAutentificado.getMeuPerfil().getNome());
                 }
-                atividadeParticipar.addParticipante(participante);
+                Bundle bundle = getIntent().getExtras();
+                if(bundle!=null) {
+                    if (bundle.getString("chamada").equals("buscar")) {
+                        atividadeParticipar.addParticipante(participante);
+                    }else{
+                        atividadeParticipar.removerParticipante(participante);
+                        Log.i("teste","dentro :"+atividadeParticipar.getMeusParticipantes().size());
+                    }
+                }
                 //atualizar os participantes
                 atividadeDAO.editar(atividadeParticipar.getId(),atividadeParticipar);
-                Toast.makeText(ParticiparAtividadeActivity.this,"Participando atividade ok",Toast.LENGTH_SHORT).show();
+
+                Log.i("teste","fora :"+atividadeParticipar.getMeusParticipantes().size());
                 finish();
             }
         });
@@ -76,7 +86,14 @@ public class ParticiparAtividadeActivity extends AppCompatActivity {
         atividadeIdadePublicoAlvo = findViewById(R.id.participar_atividade_idade);
         atividadeSexoPublicoAlvo = findViewById(R.id.participar_atividade_sexo);
         btnParticipar = findViewById(R.id.btn_participar_atividade);
-
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null){
+            if(!bundle.getString("chamada").equals("buscar")){
+                btnParticipar.setText("Não Participar");
+            }else{
+                btnParticipar.setText("Participar");
+            }
+        }
     }
     void referenciarValores(){
         if(atividadeParticipar!=null) {
@@ -88,19 +105,17 @@ public class ParticiparAtividadeActivity extends AppCompatActivity {
             String data = atividadeParticipar.getData();
             String horario = atividadeParticipar.getHora();
             String tipo = atividadeParticipar.getTipoDeAtividade();
-            Log.i("teste","dentro do if");
 
-            atividadeNome.setText(nome);
-            atividadeDescricao.setText(descricao);
-            atividadeData.setText(data);
-            atividadeHorario.setText(horario);
-            atividadeTipo.setText(tipo);
-            atividadeQuantidades.setText("Participantes: 0/"+quatidade);
-            atividadeIdadePublicoAlvo.setText(idade);
-            atividadeSexoPublicoAlvo.setText(sexo);
+            atividadeNome.setText("Nome: "+nome);
+            atividadeDescricao.setText("Descrição: \n"+descricao);
+            atividadeData.setText("Data: "+data);
+            atividadeHorario.setText("Horario: "+horario);
+            atividadeTipo.setText("Tipo: "+tipo);
+            atividadeQuantidades.setText("Participantes:"+ atividadeDAO.listarAtividadesTodos(usuarioAutentificado.getMeuPerfil().getEmail()).size()+"/"+quatidade);
+            atividadeIdadePublicoAlvo.setText("Publico Alvo: "+idade);
+            atividadeSexoPublicoAlvo.setText("Genero: "+sexo);
 
         }
-        Log.i("teste","fora do if");
     }
 
 }

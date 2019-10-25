@@ -71,6 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:ems="10"
+            android:maxLength="4"
             android:hint="Quantidade de Participantes"
             android:inputType="number"
             />

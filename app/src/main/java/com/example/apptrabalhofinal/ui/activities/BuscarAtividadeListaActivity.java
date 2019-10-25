@@ -24,6 +24,7 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
     private ListView listViewMinhasAtividades;
 
     private String emailProprietario;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +57,7 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
             Atividade atividade = listarTodasAtividades(emailProprietario).get(itemSelecionado);
             intent.putExtra("id", atividade.getId());
             intent.putExtra("email", emailProprietario);
+            intent.putExtra("chamada", "buscar");
             startActivity(intent);
         }
     }

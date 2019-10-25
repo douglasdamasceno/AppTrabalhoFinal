@@ -30,7 +30,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
     private Toolbar myToolbar;
 
     private Button btnSaveMudancas;
-
+    String emailLogado;
 
     Usuario usuarioAutentificado;
     UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
@@ -43,26 +43,36 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
         referenciaElementos();
 
-        Bundle bundle = getIntent().getExtras();
-        if(bundle!=null) {
-            String emailUser = getIntent().getExtras().getString("email");
-            usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailUser);
-        }
-        usernamePerfil.setText(usuarioAutentificado.getMeuPerfil().getNome());
-        senhaPerfil.setText(usuarioAutentificado.getMeuPerfil().getSenha());
-        sexoPerfil.setText(usuarioAutentificado.getMeuPerfil().getSexo());
+        verificarUsuarioAtentificado();
 
-        if (usuarioAutentificado.getMeuPerfil().getIdade() != null) {
-            idadePerfil.setText(usuarioAutentificado.getMeuPerfil().getIdade());
+        if(usuarioAutentificado!=null) {
+            if (usuarioAutentificado.getMeuPerfil().getIdade() != null) {
+                idadePerfil.setText(usuarioAutentificado.getMeuPerfil().getIdade());
+            }
+            emailPerfil.setText("Email :" + usuarioAutentificado.getMeuPerfil().getEmail());
         }
-
-        emailPerfil.setText("Email :" + usuarioAutentificado.getMeuPerfil().getEmail());
 
         myToolbar = findViewById(R.id.minhaToolbar);
 
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Perfil");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    public void verificarUsuarioAtentificado(){
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null) {
+            String emailUser = getIntent().getExtras().getString("email");
+            usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailUser);
+            emailLogado = emailUser;
+            usernamePerfil.setText(usuarioAutentificado.getMeuPerfil().getNome());
+            senhaPerfil.setText(usuarioAutentificado.getMeuPerfil().getSenha());
+            sexoPerfil.setText(usuarioAutentificado.getMeuPerfil().getSexo());
+
+        }else{
+            usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailLogado);
+        }
 
     }
 

@@ -3,6 +3,7 @@ package com.example.apptrabalhofinal.ui.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -86,19 +87,19 @@ public class ParticiparAtividadeActivity extends AppCompatActivity {
             String data = atividadeParticipar.getData();
             String horario = atividadeParticipar.getHora();
             String tipo = atividadeParticipar.getTipoDeAtividade();
-        }
-    }
-    //click
-    public void participarAtividade(View view){
-        Participante participante = new Participante();
-        participante.setId(usuarioAutentificado.getId());
-        participante.setEmail(usuarioAutentificado.getMeuPerfil().getEmail());
-        participante.setNome(usuarioAutentificado.getMeuPerfil().getNome());
-        atividadeParticipar.addParticipante(participante);
-        //atualizar os participantes
-        atividadeDAO.editar(atividadeParticipar.getId(),atividadeParticipar);
+            Log.i("teste","dentro do if");
 
-        Toast.makeText(this,"Participando atividade",Toast.LENGTH_LONG).show();
+            atividadeNome.setText(nome);
+            atividadeDescricao.setText(descricao);
+            atividadeData.setText(data);
+            atividadeHorario.setText(horario);
+            atividadeTipo.setText(tipo);
+            atividadeQuantidades.setText("Participantes: 0/"+quatidade);
+            atividadeIdadePublicoAlvo.setText(idade);
+            atividadeSexoPublicoAlvo.setText(sexo);
+
+        }
+        Log.i("teste","fora do if");
     }
 
 }

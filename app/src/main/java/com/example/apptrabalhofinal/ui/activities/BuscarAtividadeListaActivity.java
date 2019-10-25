@@ -23,6 +23,7 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
     private Toolbar myToolbar;
     private ListView listViewMinhasAtividades;
 
+    private String emailProprietario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,27 +47,31 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
 
     public void abriItem(int itemSelecionado) {
         Bundle bundle = getIntent().getExtras();
-        String email = "a";
+
         if(bundle!=null) {
-            email = bundle.getString("email");
+            emailProprietario = bundle.getString("email");
         }
-        if (listarTodasAtividades().size() > 0) {
+        if (listarTodasAtividades(emailProprietario).size() > 0) {
             Intent intent = new Intent(this, ParticiparAtividadeActivity.class);
-            Atividade atividade = listarTodasAtividades().get(itemSelecionado);
+            Atividade atividade = listarTodasAtividades(emailProprietario).get(itemSelecionado);
             intent.putExtra("id", atividade.getId());
-            intent.putExtra("email", email);
+            intent.putExtra("email", emailProprietario);
             startActivity(intent);
         }
     }
 
-    public ArrayList<Atividade> listarTodasAtividades(){
-        return atividadeDAO.listarAtividadesTodos();
+    public ArrayList<Atividade> listarTodasAtividades(String email){
+        return atividadeDAO.listarAtividadesTodos(email);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,listarTodasAtividades()));
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null) {
+            emailProprietario = bundle.getString("email");
+        }
+        listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,listarTodasAtividades(emailProprietario)));
     }
 
 

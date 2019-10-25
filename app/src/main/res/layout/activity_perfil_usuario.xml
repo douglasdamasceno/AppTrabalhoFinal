@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#5555"
+    android:background="@color/colorBackground"
     tools:context=".ui.activities.PerfilUsuarioActivity">
 
     <include layout="@layout/minha_toolbar"/>
@@ -158,6 +158,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idadePerfilTextInputLayout"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="8dp" />
+        tools:layout_editor_absoluteX="8dp"
+        android:background="@drawable/bg_botao_rounde"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

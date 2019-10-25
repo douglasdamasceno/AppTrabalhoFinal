@@ -85,11 +85,11 @@ public class MainActivity extends AppCompatActivity  {
                            // startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         break;
                     }case R.id.id_menu_nav_participando: {
-//                        Intent intent = new Intent(getApplicationContext(),ParticiparAtividadeActivity.class);
-//                        if(usuarioAutentificado!=null) {
-//                            intent.putExtra("email", usuarioAutentificado.getMeuPerfil().getEmail());
-//                        }
-//                        startActivity(intent);
+                        Intent intent = new Intent(getApplicationContext(),AtividadeParticipoActivity.class);
+                        if(usuarioAutentificado!=null) {
+                            intent.putExtra("email", usuarioAutentificado.getMeuPerfil().getEmail());
+                        }
+                        startActivity(intent);
                         break;
                     }case R.id.id_menu_nav_perfil: {
                         Intent intent = new Intent(getApplicationContext(),PerfilUsuarioActivity.class);

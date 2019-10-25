@@ -63,6 +63,16 @@ public class Atividade {
         meusParticipantes.remove(participante);
     }
 
+    public boolean buscarParticipante(String email){
+        for (Participante participante: meusParticipantes) {
+            if(email.equals(participante.getEmail())){
+                return true;
+            }
+        }
+        return  false;
+    }
+
+
     public String getId() {
         return id;
     }

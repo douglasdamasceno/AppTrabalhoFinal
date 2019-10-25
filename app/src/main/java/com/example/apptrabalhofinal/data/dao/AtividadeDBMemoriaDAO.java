@@ -43,6 +43,17 @@ public class AtividadeDBMemoriaDAO implements AtividadeDAO {
     }
 
     @Override
+    public ArrayList<Atividade> listarAtividadesParticipante(String email) {
+        ArrayList<Atividade> listaAtividadeParticipo = new ArrayList<Atividade>();
+        for (Atividade atividade: listaAtividades) {
+            if(atividade.buscarParticipante(email)){
+                listaAtividadeParticipo.add(atividade);
+            }
+        }
+        return listaAtividadeParticipo;
+    }
+
+    @Override
     public Atividade AtividadePorID(String id) {
         for (Atividade atividade: listaAtividades) {
             if(id.equals(atividade.getId())){

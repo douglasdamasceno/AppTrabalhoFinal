@@ -60,7 +60,8 @@ public class ParticiparAtividadeActivity extends AppCompatActivity {
                 atividadeParticipar.addParticipante(participante);
                 //atualizar os participantes
                 atividadeDAO.editar(atividadeParticipar.getId(),atividadeParticipar);
-                Toast.makeText(ParticiparAtividadeActivity.this,"Participando atividade ok",Toast.LENGTH_LONG).show();
+                Toast.makeText(ParticiparAtividadeActivity.this,"Participando atividade ok",Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }

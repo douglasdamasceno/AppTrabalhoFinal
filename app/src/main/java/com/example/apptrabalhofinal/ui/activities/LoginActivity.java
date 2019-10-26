@@ -22,50 +22,44 @@ public class LoginActivity extends AppCompatActivity  implements ContratoLogin.v
     private Button btnLogin;
     private Toolbar myToolbar;
 
-    private String idUser;
-
     private PresentLogin presentLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        inputEmail = findViewById(R.id.inputEmail);
-        inputSenha = findViewById(R.id.inputSenha);
-        btnLogin = findViewById(R.id.idBtnLogin);
-
-        myToolbar = (Toolbar) findViewById(R.id.minhaToolbar);
-
-
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("ContratoLogin");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        presentLogin = new PresentLogin(this);
-
-        //Pegando intent
-        Bundle bundle = getIntent().getExtras();
-        if(bundle!=null){
-            //intente putExtra data
-            String pEmail = bundle.getString("email");
-            String pSenha = bundle.getString("senha");
-
-            inputEmail.setText(pEmail);
-            inputSenha.setText(pSenha);
-        }
-
-
-
+        inicialiarElementos();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String email = inputEmail.getText().toString();
                 String senha = inputSenha.getText().toString();
-
                 presentLogin.validarLogin(email,senha);
             }
         });
+    }
+
+    private void inicialiarElementos() {
+        inputEmail = findViewById(R.id.inputEmail);
+        inputSenha = findViewById(R.id.inputSenha);
+        btnLogin = findViewById(R.id.idBtnLogin);
+
+        myToolbar = (Toolbar) findViewById(R.id.minhaToolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle("Login");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        presentLogin = new PresentLogin(this);
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null){
+            String pEmail = bundle.getString("email");
+            String pSenha = bundle.getString("senha");
+
+            inputEmail.setText(pEmail);
+            inputSenha.setText(pSenha);
+        }
     }
 
     @Override
@@ -105,5 +99,4 @@ public class LoginActivity extends AppCompatActivity  implements ContratoLogin.v
         inputSenha.setFocusable(true);
         inputSenha.setError("Senha errada");
     }
-
 }

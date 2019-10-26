@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activities.AtividadeParticipoActivity"></activity>
+        <activity android:name=".ui.activities.AtividadeDetalheEnderecoActivity"></activity>
+        <activity android:name=".ui.activities.AtividadeParticipoActivity" />
         <activity android:name=".ui.activities.ParticiparAtividadeActivity" />
         <activity android:name=".ui.activities.BuscarAtividadeListaActivity" />
         <activity android:name=".ui.activities.CriarEnderecoAtividadeActivity" />

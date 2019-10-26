@@ -28,9 +28,7 @@ public class PresentCadastro implements ContratoCadastro.present {
         }
 
         if(Patterns.EMAIL_ADDRESS.matcher(email).matches() && senha.length()>=6 && username.length()>=6){
-            Log.i("err","dddddd");
             usuarioDAO.addNovo(username,email,senha);
-            //salva no dao tbm
             cadastroActivity.realizarCadastro();
         }
     }

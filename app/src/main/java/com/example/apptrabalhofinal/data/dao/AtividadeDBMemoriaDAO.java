@@ -83,6 +83,7 @@ public class AtividadeDBMemoriaDAO implements AtividadeDAO {
                 a.setHora(atividade.getHora());
                 a.setTipoDeAtividade(atividade.getTipoDeAtividade());
                 a.setMeusParticipantes(atividade.getMeusParticipantes());
+                a.setEndereco(atividade.getEndereco());
             }
         }
     }

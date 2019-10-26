@@ -59,14 +59,6 @@ public class CriarAtividadeActivity extends AppCompatActivity
         inicializarElementos();
 
 
-        simParticipar = findViewById(R.id.criar_atividade_individual);
-        naoParticipar = findViewById(R.id.criar_atividade_Grupo);
-
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("Criar Atividade");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
         ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource (this,R.array.tipoAtividade,android.R.layout.simple_spinner_item);
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tipoAtividade.setAdapter(adapterSpinner);
@@ -96,12 +88,12 @@ public class CriarAtividadeActivity extends AppCompatActivity
                 String nome = atividadeNome.getText().toString();
                 String descricao = atividadeDescricao.getText().toString();
                 String qtd = atividadeQuantidade.getText().toString();
-                present.validarAtividade(nome, descricao,
+                if(present.validarAtividade(nome, descricao,
                 qtd, atividadeTipo,
                 atividadeIdade.getText().toString(),
                 atividadeSexo.getText().toString(),
                 atividadeHorario.getText().toString(),
-                atividadeData.getText().toString());
+                atividadeData.getText().toString()))finish();
 
             }
         });
@@ -157,7 +149,13 @@ public class CriarAtividadeActivity extends AppCompatActivity
         tipoAtividade = (Spinner) findViewById(R.id.spinner);
         btnEnderencoAtividade = findViewById(R.id.btn_endereco_atividade);
 
+        simParticipar = findViewById(R.id.criar_atividade_individual);
+        naoParticipar = findViewById(R.id.criar_atividade_Grupo);
+
         myToolbar = (Toolbar) findViewById(R.id.minhaToolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle("Criar Atividade");
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         present = new PresentCriarAtividade(this);
     }
@@ -221,6 +219,7 @@ public class CriarAtividadeActivity extends AppCompatActivity
     public void atividadeValida() {
         String emailUser = getIntent().getStringExtra("email");
         Intent intent = new Intent(CriarAtividadeActivity.this,CriarEnderecoAtividadeActivity.class);
+        intent.putExtra("chamada","criar");
         intent.putExtra("nome",atividadeNome.getText().toString());
         intent.putExtra("descricao",atividadeDescricao.getText().toString());
         intent.putExtra("qtd",atividadeQuantidade.getText().toString());

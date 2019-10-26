@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity  {
     private ListView listViewMinhasAtividades;
     private Toolbar myToolbar;
     private DrawerLayout drawerLayout;
-    //private BottomNavigationView bottomNavigationView;
     private NavigationView navigationView;
 
 
@@ -81,10 +81,7 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.id_menu_nav_home: {
-                           // startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        break;
-                    }case R.id.id_menu_nav_participando: {
+                    case R.id.id_menu_nav_participando: {
                         Intent intent = new Intent(getApplicationContext(),AtividadeParticipoActivity.class);
                         if(usuarioAutentificado!=null) {
                             intent.putExtra("email", usuarioAutentificado.getMeuPerfil().getEmail());
@@ -119,31 +116,6 @@ public class MainActivity extends AppCompatActivity  {
         AtualizarHeader();
 
 
-
-//        bottomNavigationView = findViewById(R.id.bottomNav);
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                switch (item.getItemId()) {
-//                    case R.id.menu_home: {
-//                        Toast.makeText(MainActivity.this, "home", Toast.LENGTH_SHORT).show();
-//                        break;
-//                    }
-//                    case R.id.menu_perfil: {
-//                        Toast.makeText(MainActivity.this, "Perfil", Toast.LENGTH_SHORT).show();
-//                        break;
-//                    }
-//                    case R.id.menu_buscar: {
-//                        Toast.makeText(MainActivity.this, "busca", Toast.LENGTH_SHORT).show();
-//                        startActivity(new Intent(getApplicationContext(),MapsActivity.class));
-//                        break;
-//                    }
-//                }
-//                return true;
-//            }
-//        });
-
-
         FloatingActionButton fab = findViewById(R.id.fab_add_atividade);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +132,6 @@ public class MainActivity extends AppCompatActivity  {
         listViewMinhasAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-       //         itemSelecionado = i;
                 abriItem(i);
             }
         });
@@ -212,9 +183,12 @@ public class MainActivity extends AppCompatActivity  {
             Intent intent = new Intent(this, AtividadeDetalheActivity.class);
             Atividade atividade = getMinhaAtividades().get(itemSelecionado);
             intent.putExtra("id", atividade.getId());
+            Log.i("teste","email user:"+ usuarioAutentificado.getMeuPerfil());
+            intent.putExtra("email", usuarioAutentificado.getMeuPerfil().getEmail());
             startActivity(intent);
         }
     }
+
 
     public void logout(){
         usuarioAutentificado = null;

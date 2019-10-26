@@ -149,16 +149,19 @@
 
     <Button
         android:id="@+id/btnSaveMudaca"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:layout_weight="1"
+        android:background="@drawable/bg_botao_rounde"
         android:onClick="editarPerfil"
         android:text="save mudanças"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idadePerfilTextInputLayout"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="8dp"
-        android:background="@drawable/bg_botao_rounde"/>
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

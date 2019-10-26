@@ -3,6 +3,7 @@ package com.example.apptrabalhofinal.ui.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,7 +32,6 @@ public class CriarEnderecoAtividadeActivity extends AppCompatActivity  implement
         inicializarElementos();
     }
 
-
     void inicializarElementos(){
         endAtividadeCidade = findViewById(R.id.end_id_cidade);
         endAtividadeRua = findViewById(R.id.end_id_rua);
@@ -44,6 +44,7 @@ public class CriarEnderecoAtividadeActivity extends AppCompatActivity  implement
 
     public void validarAtividade(View view){
         Bundle bundle = getIntent().getExtras();
+
         String nome = bundle.getString("nome");
         String descricao = bundle.getString("descricao");
         String tipo = bundle.getString("tipo");
@@ -53,17 +54,23 @@ public class CriarEnderecoAtividadeActivity extends AppCompatActivity  implement
         String hora = bundle.getString("hora");
         String data = bundle.getString("data");
         String emailUser = bundle.getString("email");
+        Log.i("teste","Email "+emailUser);
 
-
-        present.receberAtividade(emailUser,nome,descricao,tipo,qtd,idade,sexo,hora,data);
-        present.validarEnderecoAtividade(
-                endAtividadeCidade.getText().toString(),
-                endAtividadeRua.getText().toString(),
-                endAtividadeEstado.getText().toString(),
-                endAtividadeCEP.getText().toString(),
-                endAtividadeComplemento.getText().toString()
-        );
+        if(bundle.getString("chamada").equals("criar")) {
+            present.receberAtividade(emailUser, nome, descricao, tipo, qtd, idade, sexo, hora, data);
+            if (present.validarEnderecoAtividade(
+                    endAtividadeCidade.getText().toString(),
+                    endAtividadeRua.getText().toString(),
+                    endAtividadeEstado.getText().toString(),
+                    endAtividadeCEP.getText().toString(),
+                    endAtividadeComplemento.getText().toString()
+            )) {
+                present.salvarAtividade();
+                finish();
+            }
+        }
     }
+
 
     @Override
     public void cidadeInvalido() {

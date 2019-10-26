@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.CriarEnderecoAtividadeActivity">
+    tools:context=".ui.activities.AtividadeDetalheEnderecoActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -100,7 +100,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_botao_rounde"
-            android:onClick="validarAtividade"
             android:text="Salva" />
 
     </LinearLayout>

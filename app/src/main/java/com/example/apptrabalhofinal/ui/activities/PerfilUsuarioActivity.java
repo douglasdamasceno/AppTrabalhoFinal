@@ -42,22 +42,13 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil_usuario);
 
         referenciaElementos();
-
         verificarUsuarioAtentificado();
-
         if(usuarioAutentificado!=null) {
             if (usuarioAutentificado.getMeuPerfil().getIdade() != null) {
                 idadePerfil.setText(usuarioAutentificado.getMeuPerfil().getIdade());
             }
             emailPerfil.setText("Email :" + usuarioAutentificado.getMeuPerfil().getEmail());
         }
-
-        myToolbar = findViewById(R.id.minhaToolbar);
-
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("Perfil");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     public void verificarUsuarioAtentificado(){
@@ -69,11 +60,9 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             usernamePerfil.setText(usuarioAutentificado.getMeuPerfil().getNome());
             senhaPerfil.setText(usuarioAutentificado.getMeuPerfil().getSenha());
             sexoPerfil.setText(usuarioAutentificado.getMeuPerfil().getSexo());
-
         }else{
             usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailLogado);
         }
-
     }
 
     public void editarPerfil(View view) {
@@ -105,6 +94,11 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         emailPerfil = findViewById(R.id.perfil_email);
         idadePerfil = findViewById(R.id.perfil_idade);
         sexoPerfil = findViewById(R.id.perfil_sexo);
+
+        myToolbar = findViewById(R.id.minhaToolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle("Perfil");
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 }

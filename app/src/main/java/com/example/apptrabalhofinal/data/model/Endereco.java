@@ -11,7 +11,7 @@ public class Endereco {
     public Endereco(){
 
     }
-    public Endereco(String cep, String rua, String complemento, String cidade, String estado) {
+    public Endereco(String cidade, String rua, String estado, String cep, String complemento) {
         this.cep = cep;
         this.rua = rua;
         this.complemento = complemento;

@@ -44,8 +44,8 @@ public class AtividadeParticipoActivity extends AppCompatActivity {
                 abriItem(i);
             }
         });
-
     }
+
     public void abriItem(int itemSelecionado) {
         Bundle bundle = getIntent().getExtras();
 

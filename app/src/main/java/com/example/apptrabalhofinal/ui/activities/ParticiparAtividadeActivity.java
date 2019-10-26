@@ -35,6 +35,8 @@ public class ParticiparAtividadeActivity extends AppCompatActivity {
     AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
     UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,15 +64,12 @@ public class ParticiparAtividadeActivity extends AppCompatActivity {
                 if(bundle!=null) {
                     if (bundle.getString("chamada").equals("buscar")) {
                         atividadeParticipar.addParticipante(participante);
-                    }else{
-                        atividadeParticipar.removerParticipante(participante);
-                        Log.i("teste","dentro :"+atividadeParticipar.getMeusParticipantes().size());
+                    } else {
+                        atividadeParticipar.removePorIdParticipante(participante.getId());
+
                     }
                 }
-                //atualizar os participantes
                 atividadeDAO.editar(atividadeParticipar.getId(),atividadeParticipar);
-
-                Log.i("teste","fora :"+atividadeParticipar.getMeusParticipantes().size());
                 finish();
             }
         });
@@ -111,11 +110,16 @@ public class ParticiparAtividadeActivity extends AppCompatActivity {
             atividadeData.setText("Data: "+data);
             atividadeHorario.setText("Horario: "+horario);
             atividadeTipo.setText("Tipo: "+tipo);
-            atividadeQuantidades.setText("Participantes:"+ atividadeDAO.listarAtividadesTodos(usuarioAutentificado.getMeuPerfil().getEmail()).size()+"/"+quatidade);
+            atividadeQuantidades.setText("Participantes:"+ atividadeParticipar.getMeusParticipantes().size()+"/"+quatidade);
             atividadeIdadePublicoAlvo.setText("Publico Alvo: "+idade);
             atividadeSexoPublicoAlvo.setText("Genero: "+sexo);
 
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        referenciarValores();
+    }
 }

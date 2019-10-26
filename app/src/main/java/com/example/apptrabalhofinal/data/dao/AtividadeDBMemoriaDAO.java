@@ -89,6 +89,11 @@ public class AtividadeDBMemoriaDAO implements AtividadeDAO {
 
     @Override
     public void remover(int id) {
+        for (Atividade atividade: listaAtividades) {
+            if(""+id==atividade.getId()){
+
+            }
+        }
     }
 
     @Override

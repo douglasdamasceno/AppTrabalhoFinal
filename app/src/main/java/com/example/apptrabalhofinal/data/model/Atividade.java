@@ -72,6 +72,13 @@ public class Atividade {
         return  false;
     }
 
+    public void removePorIdParticipante(String id){
+        for (int i=0;i< meusParticipantes.size();i++) {
+            if(id.equals(meusParticipantes.get(i).getId())){
+                meusParticipantes.remove(i);
+            }
+        }
+    }
 
     public String getId() {
         return id;

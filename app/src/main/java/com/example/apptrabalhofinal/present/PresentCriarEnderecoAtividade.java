@@ -2,19 +2,25 @@ package com.example.apptrabalhofinal.present;
 
 import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
 import com.example.apptrabalhofinal.data.dao.AtividadeDBMemoriaDAO;
+import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
+import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
 import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.data.model.Endereco;
+import com.example.apptrabalhofinal.data.model.Usuario;
 import com.example.apptrabalhofinal.present.interfaces.ContratoCriarEnderecoAtividade;
 
 public class PresentCriarEnderecoAtividade implements ContratoCriarEnderecoAtividade.present {
     private AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
+    private UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
+
+
     Atividade atividadeArmazenar;
     private ContratoCriarEnderecoAtividade.view view;
 
     public PresentCriarEnderecoAtividade(ContratoCriarEnderecoAtividade.view view){
         this.view = view;
     }
-//erro devido ao numero grande limitar o campo para apenas 4 digito 9999
+
     @Override
     public void receberAtividade(String email,String nome,String descricao,String tipo, String qtd, String idade,String sexo,String hora,String data){
         atividadeArmazenar = new Atividade(nome,descricao,tipo,Integer.parseInt( qtd),idade,sexo,hora,data);
@@ -53,6 +59,7 @@ public class PresentCriarEnderecoAtividade implements ContratoCriarEnderecoAtivi
 
     @Override
     public void salvarAtividade(Atividade atividade) {
+
         atividadeDAO.addNovo(atividade);
     }
 }

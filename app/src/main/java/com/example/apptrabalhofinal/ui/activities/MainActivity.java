@@ -2,11 +2,13 @@ package com.example.apptrabalhofinal.ui.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity  {
 
     Usuario usuarioAutentificado;
     UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
+    AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
 
     private ListView listViewMinhasAtividades;
     private Toolbar myToolbar;
@@ -44,7 +47,6 @@ public class MainActivity extends AppCompatActivity  {
 
 
 
-    AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +67,13 @@ public class MainActivity extends AppCompatActivity  {
             Toast.makeText(this,usuarioAutentificado.toString(),Toast.LENGTH_LONG).show();
         }
 
-
         drawerLayout =(DrawerLayout)  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,myToolbar
                 ,R.string.open_drawer,R.string.closer_drawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,getMinhaAtividades()));
-
+        AtualizarMinhasAtividades();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.bringToFront();
@@ -99,7 +99,6 @@ public class MainActivity extends AppCompatActivity  {
                         logout();
                         break;
                     }case R.id.id_menu_nav_buscar: {
-                        //startActivity(new Intent(getApplicationContext(),MapsActivity.class));
                         Intent intent = new Intent(getApplicationContext(), BuscarAtividadeListaActivity.class);
                         if(usuarioAutentificado!=null) {
                             intent.putExtra("email", usuarioAutentificado.getMeuPerfil().getEmail());
@@ -135,11 +134,43 @@ public class MainActivity extends AppCompatActivity  {
                 abriItem(i);
             }
         });
+
+        listViewMinhasAtividades.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int itemSelecionado, long l) {
+                AlertDialog.Builder alerta = new AlertDialog.Builder(MainActivity.this);
+                final String[] opacao = {"deleta"};
+
+                alerta.setItems(opacao, new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(opacao[i].equals("deleta")){
+                            Toast.makeText(MainActivity.this,"Deletado",Toast.LENGTH_SHORT).show();
+                            Atividade atividade = getMinhaAtividades().get(itemSelecionado);
+                            if(atividadeDAO.remover(atividade.getId())){
+                                AtualizarMinhasAtividades();
+                                Toast.makeText(MainActivity.this,"Deletado com sucesso",Toast.LENGTH_SHORT).show();
+
+                            }else{
+                                Toast.makeText(MainActivity.this,"Falha ao Deletar",Toast.LENGTH_SHORT).show();
+
+                            }
+                            //deleta
+                        }
+                        Log.i("teste","saiu do if");
+                    }
+                }).create().show();
+
+                return true;
+            }
+        });
+
     }
     @Override
     protected void onResume() {
         super.onResume();
-        listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,getMinhaAtividades()));
+        AtualizarMinhasAtividades();
         AtualizarHeader();
     }
 
@@ -161,12 +192,16 @@ public class MainActivity extends AppCompatActivity  {
         });
     }
 
-    private ArrayList<Atividade> getMinhaAtividades() {
+    public ArrayList<Atividade> getMinhaAtividades() {
         ArrayList<Atividade> atividades = null;
         if(usuarioAutentificado!=null) {
             atividades = atividadeDAO.listarMinhasAtividades(usuarioAutentificado.getMeuPerfil().getEmail()); //new ArrayList<>();
         }
         return  atividades;
+    }
+
+    public void AtualizarMinhasAtividades(){
+        listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,getMinhaAtividades()));
     }
 
     @Override

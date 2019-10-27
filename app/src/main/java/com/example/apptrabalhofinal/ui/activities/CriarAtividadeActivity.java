@@ -40,8 +40,6 @@ public class CriarAtividadeActivity extends AppCompatActivity
 
     private String atividadeTipo;
 
-    private RadioButton simParticipar;
-    private RadioButton naoParticipar;
 
     private TextView  atividadeData;
     private TextView  atividadeHorario;
@@ -98,18 +96,6 @@ public class CriarAtividadeActivity extends AppCompatActivity
             }
         });
     }
-    public String  radioSelecionado(){
-        String result = "Nao selecionado";
-        if(simParticipar.isChecked()){
-            Toast.makeText(this,"Selecionado "+simParticipar.getText().toString(),Toast.LENGTH_SHORT ).show();
-            result = simParticipar.getText().toString();
-        }else if(naoParticipar.isChecked()){
-            Toast.makeText(this,"Selecionado "+naoParticipar.getText().toString(),Toast.LENGTH_SHORT ).show();
-            result = naoParticipar.getText().toString();
-        }
-        return  result;
-    }
-
 
     @Override
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
@@ -149,9 +135,6 @@ public class CriarAtividadeActivity extends AppCompatActivity
         tipoAtividade = (Spinner) findViewById(R.id.spinner);
         btnEnderencoAtividade = findViewById(R.id.btn_endereco_atividade);
 
-        simParticipar = findViewById(R.id.criar_atividade_individual);
-        naoParticipar = findViewById(R.id.criar_atividade_Grupo);
-
         myToolbar = (Toolbar) findViewById(R.id.minhaToolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Criar Atividade");
@@ -185,7 +168,7 @@ public class CriarAtividadeActivity extends AppCompatActivity
     }
 
     @Override
-    public void tipoAtividadeInvalido() {//não é input
+    public void tipoAtividadeInvalido() {
         Toast.makeText(this,"Tipo Vazio",Toast.LENGTH_LONG).show();
     }
 

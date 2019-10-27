@@ -89,12 +89,14 @@ public class AtividadeDBMemoriaDAO implements AtividadeDAO {
     }
 
     @Override
-    public void remover(int id) {
-        for (Atividade atividade: listaAtividades) {
-            if(""+id==atividade.getId()){
-
+    public boolean remover(String id) {
+        for (int i=0;i< listaAtividades.size();i++) {
+            if(id.equals(listaAtividades.get(i).getId())){
+                listaAtividades.remove(listaAtividades.get(i));
+                return  true;
             }
         }
+        return false;
     }
 
     @Override

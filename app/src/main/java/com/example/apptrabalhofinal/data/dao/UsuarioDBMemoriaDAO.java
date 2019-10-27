@@ -49,7 +49,6 @@ public class UsuarioDBMemoriaDAO implements  UsuarioDAO {
 
     @Override
     public void remover(int id) {
-
     }
 
     @Override

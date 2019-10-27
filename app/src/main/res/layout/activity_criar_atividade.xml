@@ -80,7 +80,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -106,48 +106,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@+id/perfil_senha"
-        app:layout_constraintStart_toStartOf="@+id/perfil_senha"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        tools:ignore="MissingConstraints">
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/criar_atividade_individual"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Individual" />
-
-            <RadioButton
-                android:id="@+id/criar_atividade_Grupo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Grupo" />
-
-        </RadioGroup>
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="8dp"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="@+id/qtdTextInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/qtdTextInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <TextView

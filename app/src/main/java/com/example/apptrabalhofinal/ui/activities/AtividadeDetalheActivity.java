@@ -63,6 +63,7 @@ public class AtividadeDetalheActivity extends AppCompatActivity {
         btnEndereco.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                obtendoValores(atividadeEditada);
                 editarEndereco(atividadeEditada);
             }
         });

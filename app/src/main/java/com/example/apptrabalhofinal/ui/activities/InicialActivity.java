@@ -21,10 +21,7 @@ public class InicialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicial);
 
-        btnLogin = findViewById(R.id.btnCriar);
-        btnLoginGmail = findViewById(R.id.btnLoginGmail);
-        txtCriarConta = findViewById(R.id.txtCriarConta);
-
+        inicializarElementos();
 
         txtCriarConta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,7 +31,6 @@ public class InicialActivity extends AppCompatActivity {
             }
         });
 
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,5 +39,10 @@ public class InicialActivity extends AppCompatActivity {
             }
         });
 
+    }
+    void inicializarElementos(){
+        btnLogin = findViewById(R.id.btnCriar);
+        btnLoginGmail = findViewById(R.id.btnLoginGmail);
+        txtCriarConta = findViewById(R.id.txtCriarConta);
     }
 }

@@ -31,13 +31,7 @@ public class AtividadeParticipoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_atividade_participo);
 
-        myToolbar = findViewById(R.id.minhaToolbar);
-
-        listViewMinhasAtividades = findViewById(R.id.lista_view_atividades_participo);
-
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("Participo");
-
+        inicializarElementos();
         listViewMinhasAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -77,5 +71,11 @@ public class AtividadeParticipoActivity extends AppCompatActivity {
                 (new MinhaAtividadeAdapter(this,listarAtividadesParticipo(emailProprietario)));
         Toast.makeText(this,"tamanho: "+listarAtividadesParticipo(emailProprietario).size(),Toast.LENGTH_LONG).show();
     }
+    void inicializarElementos(){
+        myToolbar = findViewById(R.id.minhaToolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle("Participo");
+        listViewMinhasAtividades = findViewById(R.id.lista_view_atividades_participo);
 
+    }
 }

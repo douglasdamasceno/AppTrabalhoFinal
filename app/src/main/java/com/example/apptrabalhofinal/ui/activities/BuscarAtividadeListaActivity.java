@@ -30,12 +30,7 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar_atividade_lista);
 
-        myToolbar = findViewById(R.id.minhaToolbar);
-
-        listViewMinhasAtividades = findViewById(R.id.lista_view_todas_atividades);
-
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("Busca");
+        inicializarElementos();
 
         listViewMinhasAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -76,5 +71,10 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
         listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,listarTodasAtividades(emailProprietario)));
     }
 
-
+    void inicializarElementos(){
+        myToolbar = findViewById(R.id.minhaToolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle("Busca");
+        listViewMinhasAtividades = findViewById(R.id.lista_view_todas_atividades);
+    }
 }

@@ -53,12 +53,7 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        listViewMinhasAtividades = findViewById(R.id.lista_view_minhas_atividades);
-        myToolbar = findViewById(R.id.minhaToolbar);
-
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("Minhas Atividades");
+        inicializarElementos();
 
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null) {
@@ -128,6 +123,7 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
+
         listViewMinhasAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -156,7 +152,6 @@ public class MainActivity extends AppCompatActivity  {
                                 Toast.makeText(MainActivity.this,"Falha ao Deletar",Toast.LENGTH_SHORT).show();
 
                             }
-                            //deleta
                         }
                         Log.i("teste","saiu do if");
                     }
@@ -167,6 +162,7 @@ public class MainActivity extends AppCompatActivity  {
         });
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -229,5 +225,11 @@ public class MainActivity extends AppCompatActivity  {
         usuarioAutentificado = null;
         startActivity(new Intent(this,LoginActivity.class));
         finish();
+    }
+    void inicializarElementos(){
+        myToolbar = findViewById(R.id.minhaToolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle("Minhas Atividades");
+        listViewMinhasAtividades = findViewById(R.id.lista_view_minhas_atividades);
     }
 }

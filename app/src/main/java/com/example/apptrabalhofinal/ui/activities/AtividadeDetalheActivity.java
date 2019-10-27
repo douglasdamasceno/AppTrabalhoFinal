@@ -68,7 +68,6 @@ public class AtividadeDetalheActivity extends AppCompatActivity {
             }
         });
     }
-
     public void obtendoValores(Atividade atividade){
         atividade.setNome(atividadeNome.getText().toString());
         atividade.setDescricao(atividadeDescricao.getText().toString());

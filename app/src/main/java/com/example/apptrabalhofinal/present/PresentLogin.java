@@ -4,12 +4,15 @@ import android.util.Patterns;
 
 import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
+import com.example.apptrabalhofinal.data.dao.UsuarioFirebaseDAO;
 import com.example.apptrabalhofinal.present.interfaces.ContratoLogin;
 
 
 public class PresentLogin  implements  ContratoLogin.present{
     ContratoLogin.view loginActivity;
-    UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
+    UsuarioDAO usuarioDAOFire = UsuarioFirebaseDAO.getInstance();
+
+    //UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
 
     public PresentLogin(ContratoLogin.view loginActivity){
         this.loginActivity = loginActivity;
@@ -23,9 +26,10 @@ public class PresentLogin  implements  ContratoLogin.present{
         if(senha.length()<6){
             loginActivity.senhaInvalida();
         }
-        if(usuarioDAO.getLogin(email,senha)){
+        //if(usuarioDAO.getLogin(email,senha)){
+        if(usuarioDAOFire.getLogin(email,senha)){
             loginActivity.realizarlogin(email);
-        }else if(usuarioDAO.getEmailUsuario(email)){
+        }else if(usuarioDAOFire.getEmailUsuario(email)){
             loginActivity.usuarioComSenha();
         }else{
             loginActivity.usuarioComEmailInvalido();

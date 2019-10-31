@@ -45,7 +45,6 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
             }
         });
 
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

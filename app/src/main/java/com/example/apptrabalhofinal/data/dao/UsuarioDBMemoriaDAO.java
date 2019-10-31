@@ -1,6 +1,7 @@
 package com.example.apptrabalhofinal.data.dao;
 
 import com.example.apptrabalhofinal.data.model.Usuario;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -105,6 +106,11 @@ public class UsuarioDBMemoriaDAO implements  UsuarioDAO {
             }
         }
         return  null;
+    }
+
+    @Override
+    public FirebaseUser getUsuarioAutentificado() {
+        return null;
     }
 
 }

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1020210595676",
+    "firebase_url": "https://getsapp-36955.firebaseio.com",
+    "project_id": "getsapp-36955",
+    "storage_bucket": "getsapp-36955.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1020210595676:android:83a5a769c4f5764315e399",
+        "android_client_info": {
+          "package_name": "com.example.apptrabalhofinal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1020210595676-9njh40ji28nomv9h7ckugdug16nj6mv5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVEMpu7cMiWjo0WvilbS6THobEXObxtNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1020210595676-9njh40ji28nomv9h7ckugdug16nj6mv5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

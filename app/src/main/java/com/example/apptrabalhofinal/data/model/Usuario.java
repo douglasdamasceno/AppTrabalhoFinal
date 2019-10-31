@@ -14,7 +14,18 @@ public class Usuario {
         meuPerfil.setIdPerfil(this.id);
     }
 
+    public Usuario(String id,String nome,String email,String senha){
+        this.id = id;
 
+        minhaAtividades = new ArrayList<Atividade>();
+
+        meuPerfil = new PerfilContaUsuario();
+
+        meuPerfil.setIdPerfil(this.id);
+        meuPerfil.setNome(nome);
+        meuPerfil.setEmail(email);
+        meuPerfil.setSenha(senha);
+    }
     public String getId() {
         return id;
     }

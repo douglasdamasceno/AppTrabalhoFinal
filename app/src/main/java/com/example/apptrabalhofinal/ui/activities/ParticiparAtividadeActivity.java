@@ -113,7 +113,6 @@ public class ParticiparAtividadeActivity extends AppCompatActivity {
             atividadeQuantidades.setText("Participantes:"+ atividadeParticipar.getMeusParticipantes().size()+"/"+quatidade);
             atividadeIdadePublicoAlvo.setText("Publico Alvo: "+idade);
             atividadeSexoPublicoAlvo.setText("Genero: "+sexo);
-
         }
     }
 

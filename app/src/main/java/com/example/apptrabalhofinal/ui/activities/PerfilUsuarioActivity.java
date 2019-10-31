@@ -24,9 +24,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
     private EditText senhaPerfil;
     private EditText sexoPerfil;
     private TextView emailPerfil;
-
     private EditText idadePerfil;
-
     private Toolbar myToolbar;
 
     private Button btnSaveMudancas;
@@ -34,7 +32,6 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
     Usuario usuarioAutentificado;
     UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +47,6 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             emailPerfil.setText("Email :" + usuarioAutentificado.getMeuPerfil().getEmail());
         }
     }
-
     public void verificarUsuarioAtentificado(){
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null) {
@@ -64,7 +60,6 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailLogado);
         }
     }
-
     public void editarPerfil(View view) {
         if (!usernamePerfil.getText().toString().isEmpty()
                 && !senhaPerfil.getText().toString().isEmpty()
@@ -73,7 +68,6 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             usuarioAutentificado.getMeuPerfil().setNome(usernamePerfil.getText().toString());
             usuarioAutentificado.getMeuPerfil().setSenha(senhaPerfil.getText().toString());
             usuarioAutentificado.getMeuPerfil().setIdade(idadePerfil.getText().toString());
-
             usuarioDAO.editar(
                     usuarioAutentificado.getMeuPerfil().getEmail(),
                     usuarioAutentificado.getMeuPerfil().getNome(),
@@ -100,5 +94,4 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Perfil");
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
 }

@@ -25,11 +25,13 @@ import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
 import com.example.apptrabalhofinal.data.dao.AtividadeDBMemoriaDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
+import com.example.apptrabalhofinal.data.dao.UsuarioFirebaseDAO;
 import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.data.model.Usuario;
 import com.example.apptrabalhofinal.ui.adapter.MinhaAtividadeAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -37,16 +39,17 @@ public class MainActivity extends AppCompatActivity  {
 
 
     Usuario usuarioAutentificado;
+    //FirebaseUser userFirebase;
+
     UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
     AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
+
+    //UsuarioDAO usuarioDAOFirebase = UsuarioFirebaseDAO.getInstance();
 
     private ListView listViewMinhasAtividades;
     private Toolbar myToolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +58,13 @@ public class MainActivity extends AppCompatActivity  {
 
         inicializarElementos();
 
+        //userFirebase = usuarioDAOFirebase.getUsuarioAutentificado();
+
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null) {
             String emailUser = bundle.getString("email");
             usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailUser);
-            Toast.makeText(this,usuarioAutentificado.toString(),Toast.LENGTH_LONG).show();
+          //  Toast.makeText(this,usuarioAutentificado.toString(),Toast.LENGTH_LONG).show();
         }
 
         drawerLayout =(DrawerLayout)  findViewById(R.id.drawer_layout);
@@ -68,9 +73,10 @@ public class MainActivity extends AppCompatActivity  {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        AtualizarMinhasAtividades();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        AtualizarMinhasAtividades();
+        AtualizarHeader();
+
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -106,10 +112,6 @@ public class MainActivity extends AppCompatActivity  {
                 return true;
             }
         });
-
-        AtualizarHeader();
-
-
         FloatingActionButton fab = findViewById(R.id.fab_add_atividade);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,15 +124,12 @@ public class MainActivity extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
-
-
         listViewMinhasAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 abriItem(i);
             }
         });
-
         listViewMinhasAtividades.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int itemSelecionado, long l) {
@@ -147,10 +146,8 @@ public class MainActivity extends AppCompatActivity  {
                             if(atividadeDAO.remover(atividade.getId())){
                                 AtualizarMinhasAtividades();
                                 Toast.makeText(MainActivity.this,"Deletado com sucesso",Toast.LENGTH_SHORT).show();
-
                             }else{
                                 Toast.makeText(MainActivity.this,"Falha ao Deletar",Toast.LENGTH_SHORT).show();
-
                             }
                         }
                         Log.i("teste","saiu do if");
@@ -160,7 +157,17 @@ public class MainActivity extends AppCompatActivity  {
                 return true;
             }
         });
+    }
 
+    void verificarAutentificacao(){
+//        if(userFirebase==null){
+//            Log.i("teste","nulo");
+//            Intent intent = new Intent(this,InicialActivity.class);
+//            startActivity(intent);
+//        }else{
+//            Toast.makeText(this,"user ok ",Toast.LENGTH_LONG).show();
+//            Log.i("teste","não esta nulo");
+//        }
     }
 
     @Override
@@ -169,7 +176,6 @@ public class MainActivity extends AppCompatActivity  {
         AtualizarMinhasAtividades();
         AtualizarHeader();
     }
-
     void AtualizarHeader(){
         View headView = navigationView.getHeaderView(0);
         ImageView imgPerfil = (ImageView) headView.findViewById(R.id.id_nav_header_perfil_foto);
@@ -182,12 +188,10 @@ public class MainActivity extends AppCompatActivity  {
         imgPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Toast.makeText(getApplicationContext(),"foto perfil",Toast.LENGTH_LONG).show();
             }
         });
     }
-
     public ArrayList<Atividade> getMinhaAtividades() {
         ArrayList<Atividade> atividades = null;
         if(usuarioAutentificado!=null) {
@@ -195,11 +199,9 @@ public class MainActivity extends AppCompatActivity  {
         }
         return  atividades;
     }
-
     public void AtualizarMinhasAtividades(){
         listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,getMinhaAtividades()));
     }
-
     @Override
     public void onBackPressed(){
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -208,7 +210,6 @@ public class MainActivity extends AppCompatActivity  {
             super.onBackPressed();
         }
     }
-
     public void abriItem(int itemSelecionado) {
         if (getMinhaAtividades().size() > 0) {
             Intent intent = new Intent(this, AtividadeDetalheActivity.class);
@@ -219,8 +220,6 @@ public class MainActivity extends AppCompatActivity  {
             startActivity(intent);
         }
     }
-
-
     public void logout(){
         usuarioAutentificado = null;
         startActivity(new Intent(this,LoginActivity.class));
@@ -231,5 +230,6 @@ public class MainActivity extends AppCompatActivity  {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Minhas Atividades");
         listViewMinhasAtividades = findViewById(R.id.lista_view_minhas_atividades);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
     }
 }

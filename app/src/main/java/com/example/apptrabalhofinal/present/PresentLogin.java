@@ -1,5 +1,6 @@
 package com.example.apptrabalhofinal.present;
 
+import android.util.Log;
 import android.util.Patterns;
 
 import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
@@ -27,7 +28,8 @@ public class PresentLogin  implements  ContratoLogin.present{
             loginActivity.senhaInvalida();
         }
         //if(usuarioDAO.getLogin(email,senha)){
-        if(usuarioDAOFire.getLogin(email,senha)){
+        if(usuarioDAOFire.getLogin(email,senha)==true){
+            Log.i("teste","Retorno do login: true");
             loginActivity.realizarlogin(email);
         }else if(usuarioDAOFire.getEmailUsuario(email)){
             loginActivity.usuarioComSenha();

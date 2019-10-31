@@ -31,6 +31,7 @@ import com.example.apptrabalhofinal.data.model.Usuario;
 import com.example.apptrabalhofinal.ui.adapter.MinhaAtividadeAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
@@ -39,12 +40,12 @@ public class MainActivity extends AppCompatActivity  {
 
 
     Usuario usuarioAutentificado;
-    //FirebaseUser userFirebase;
+    FirebaseUser userFirebase;
 
     UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
     AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
 
-    //UsuarioDAO usuarioDAOFirebase = UsuarioFirebaseDAO.getInstance();
+    UsuarioDAO usuarioDAOFirebase = UsuarioFirebaseDAO.getInstance();
 
     private ListView listViewMinhasAtividades;
     private Toolbar myToolbar;
@@ -58,7 +59,12 @@ public class MainActivity extends AppCompatActivity  {
 
         inicializarElementos();
 
-        //userFirebase = usuarioDAOFirebase.getUsuarioAutentificado();
+        userFirebase = usuarioDAOFirebase.getUsuarioAutentificado();
+        if(userFirebase!=null) {
+            Log.i("teste", "Main user firebase: " + userFirebase.getUid());
+        }
+
+        verificarAutentificacao();
 
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null) {
@@ -160,14 +166,15 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     void verificarAutentificacao(){
-//        if(userFirebase==null){
-//            Log.i("teste","nulo");
-//            Intent intent = new Intent(this,InicialActivity.class);
-//            startActivity(intent);
-//        }else{
-//            Toast.makeText(this,"user ok ",Toast.LENGTH_LONG).show();
-//            Log.i("teste","não esta nulo");
-//        }
+        if(userFirebase==null){
+            Log.i("teste","Usuario não autentiicado");
+            Intent intent = new Intent(this,InicialActivity.class);
+            startActivity(intent);
+            finish();
+        }else{
+            Toast.makeText(this,"Usuario autenticado",Toast.LENGTH_LONG).show();
+            Log.i("teste","Usuario autentiicado");
+        }
     }
 
     @Override
@@ -222,6 +229,9 @@ public class MainActivity extends AppCompatActivity  {
     }
     public void logout(){
         usuarioAutentificado = null;
+        FirebaseAuth.getInstance().signOut();
+        Log.i("teste","Logout");
+        //userFirebase.signOut();
         startActivity(new Intent(this,LoginActivity.class));
         finish();
     }

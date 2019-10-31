@@ -99,19 +99,20 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        Log.i("teste","Login com sucesso" + authResult.getUser().toString());
+                        Log.i("teste","getLogin com sucesso: " + authResult.getUser().toString());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.i("teste","falha ao fazer login"+ e.getMessage());
+                        Log.i("teste","falha ao fazer login: "+ e.getMessage());
                     }
                 });
 
         this.user = FirebaseAuth.getInstance().getCurrentUser();
 
         if(this.user!=null) {
+            Log.i("teste","Login com sucesso e retornou true");
             return true;
         }
         return false;
@@ -139,6 +140,7 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
 
     @Override
     public FirebaseUser getUsuarioAutentificado() {
+        this.user = FirebaseAuth.getInstance().getCurrentUser();
         return user;
     }
 

@@ -9,7 +9,6 @@ import com.example.apptrabalhofinal.present.interfaces.ContratoCadastro;
 
 public class PresentCadastro implements ContratoCadastro.present {
     private ContratoCadastro.view cadastroActivity;
-    //UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
     UsuarioDAO usuarioFirebaseDAO = UsuarioFirebaseDAO.getInstance();
 
     public PresentCadastro(ContratoCadastro.view cadastroActivity){
@@ -29,7 +28,6 @@ public class PresentCadastro implements ContratoCadastro.present {
         }
 
         if(Patterns.EMAIL_ADDRESS.matcher(email).matches() && senha.length()>=6 && username.length()>=6){
-           // usuarioDAO.addNovo(username,email,senha);
             usuarioFirebaseDAO.addNovo(username,email,senha);
 
             cadastroActivity.realizarCadastro();

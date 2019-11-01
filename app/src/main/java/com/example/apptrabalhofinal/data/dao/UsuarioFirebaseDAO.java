@@ -1,5 +1,6 @@
 package com.example.apptrabalhofinal.data.dao;
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -10,6 +11,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -139,7 +141,7 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
     }
 
     @Override
-    public FirebaseUser getUsuarioAutentificado() {
+    public FirebaseUser getFirebaseUser() {
         this.user = FirebaseAuth.getInstance().getCurrentUser();
         return user;
     }

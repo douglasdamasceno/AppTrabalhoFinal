@@ -109,8 +109,10 @@ public class UsuarioDBMemoriaDAO implements  UsuarioDAO {
     }
 
     @Override
-    public FirebaseUser getUsuarioAutentificado() {
+    public FirebaseUser getFirebaseUser() {
         return null;
     }
+
+
 
 }

@@ -7,15 +7,17 @@ import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioFirebaseDAO;
 import com.example.apptrabalhofinal.present.interfaces.ContratoLogin;
+import com.example.apptrabalhofinal.ui.activities.LoginActivity;
 
 
 public class PresentLogin  implements  ContratoLogin.present{
     ContratoLogin.view loginActivity;
-    UsuarioDAO usuarioFirebaseDAO = UsuarioFirebaseDAO.getInstance();
+    UsuarioDAO usuarioFirebaseDAO;
 
     //UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
 
     public PresentLogin(ContratoLogin.view loginActivity){
+        usuarioFirebaseDAO = UsuarioFirebaseDAO.getInstance();
         this.loginActivity = loginActivity;
     }
 

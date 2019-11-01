@@ -15,5 +15,5 @@ public interface UsuarioDAO {
     String getIDporEmail(String email);
     Usuario getUserPorID(String id);
 
-    FirebaseUser getUsuarioAutentificado();
+    FirebaseUser getFirebaseUser();
 }

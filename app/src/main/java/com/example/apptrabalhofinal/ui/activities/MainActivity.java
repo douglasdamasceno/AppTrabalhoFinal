@@ -10,6 +10,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -20,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
 import com.example.apptrabalhofinal.data.dao.AtividadeDBMemoriaDAO;
@@ -29,8 +33,15 @@ import com.example.apptrabalhofinal.data.dao.UsuarioFirebaseDAO;
 import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.data.model.Usuario;
 import com.example.apptrabalhofinal.ui.adapter.MinhaAtividadeAdapter;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -45,12 +56,15 @@ public class MainActivity extends AppCompatActivity  {
     UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
     AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
 
-    UsuarioDAO usuarioDAOFirebase = UsuarioFirebaseDAO.getInstance();
+   UsuarioDAO usuarioDAOFirebase = UsuarioFirebaseDAO.getInstance();
+
 
     private ListView listViewMinhasAtividades;
     private Toolbar myToolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+
+    GoogleSignInAccount acct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +73,8 @@ public class MainActivity extends AppCompatActivity  {
 
         inicializarElementos();
 
-        userFirebase = usuarioDAOFirebase.getUsuarioAutentificado();
+        userFirebase = usuarioDAOFirebase.getFirebaseUser();
+
         if(userFirebase!=null) {
             Log.i("teste", "Main user firebase: " + userFirebase.getUid());
         }
@@ -70,7 +85,6 @@ public class MainActivity extends AppCompatActivity  {
         if(bundle!=null) {
             String emailUser = bundle.getString("email");
             usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailUser);
-          //  Toast.makeText(this,usuarioAutentificado.toString(),Toast.LENGTH_LONG).show();
         }
 
         drawerLayout =(DrawerLayout)  findViewById(R.id.drawer_layout);
@@ -81,6 +95,7 @@ public class MainActivity extends AppCompatActivity  {
 
 
         AtualizarMinhasAtividades();
+
         AtualizarHeader();
 
         navigationView.bringToFront();
@@ -118,6 +133,7 @@ public class MainActivity extends AppCompatActivity  {
                 return true;
             }
         });
+
         FloatingActionButton fab = findViewById(R.id.fab_add_atividade);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +189,8 @@ public class MainActivity extends AppCompatActivity  {
             finish();
         }else{
             Toast.makeText(this,"Usuario autenticado",Toast.LENGTH_LONG).show();
-            Log.i("teste","Usuario autentiicado");
+            Log.i("teste","Usuario autentiicado nome " + userFirebase.getDisplayName());
+            Log.i("teste","Usuario autentiicado email " + userFirebase.getEmail());
         }
     }
 
@@ -184,21 +201,44 @@ public class MainActivity extends AppCompatActivity  {
         AtualizarHeader();
     }
     void AtualizarHeader(){
+        this.acct = GoogleSignIn.getLastSignedInAccount(this);
         View headView = navigationView.getHeaderView(0);
         ImageView imgPerfil = (ImageView) headView.findViewById(R.id.id_nav_header_perfil_foto);
         TextView nomeUsusario = (TextView) headView.findViewById(R.id.id_nav_header_nome);
         TextView emailUsuario = (TextView) headView.findViewById(R.id.id_nav_header_email);
-        if(usuarioAutentificado!=null) {
-            nomeUsusario.setText(usuarioAutentificado.getMeuPerfil().getNome());
-            emailUsuario.setText(usuarioAutentificado.getMeuPerfil().getEmail());
+
+        if(userFirebase!=null){
+            Log.i("teste","usuario autentificado userFirebase ok");
+
+            nomeUsusario.setText(userFirebase.getDisplayName());
+            emailUsuario.setText(userFirebase.getEmail());
+            //imgPerfil.setImageURI(userFirebase.getPhotoUrl());
+                //Bitmap myImg = BitmapFactory.decodeFile(userFirebase.getPhotoUrl().getPath());
+                //imgPerfil.setImageBitmap(myImg);
+            Glide.with(this).load(String.valueOf(userFirebase.getPhotoUrl())).into(imgPerfil);
+
+                Log.i("teste","nome do usuario logado normal: "+ userFirebase.getDisplayName());
+                Log.i("teste","email do usuario logado normal : "+ userFirebase.getEmail());
+                Log.i("teste","id do usuario logado normal: "+ userFirebase.getUid());
         }
-        imgPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"foto perfil",Toast.LENGTH_LONG).show();
-            }
-        });
+        else if (this.acct != null) {
+            Log.i("teste","acct ok");
+            String personName = this.acct.getDisplayName();
+            String personGivenName = this.acct.getGivenName();
+            String personFamilyName = this.acct.getFamilyName();
+            String personEmail = this.acct.getEmail();
+            String personId = this.acct.getId();
+            Uri personPhoto = this.acct.getPhotoUrl();
+
+            nomeUsusario.setText(personName);
+            emailUsuario.setText(personEmail);
+         //           Bitmap myImg = BitmapFactory.decodeFile(personPhoto.getPath());
+           // imgPerfil.setImageBitmap(myImg);
+            Glide.with(this).load(String.valueOf(personPhoto)).into(imgPerfil);
+            //imgPerfil.setImageURI(personPhoto);
+        }
     }
+
     public ArrayList<Atividade> getMinhaAtividades() {
         ArrayList<Atividade> atividades = null;
         if(usuarioAutentificado!=null) {
@@ -229,9 +269,13 @@ public class MainActivity extends AppCompatActivity  {
     }
     public void logout(){
         usuarioAutentificado = null;
+
         FirebaseAuth.getInstance().signOut();
+        if(this.acct!=null){
+            //chamar logut do inicial Activity
+            Log.i("teste","logut do google entrou não deslogu");
+        }
         Log.i("teste","Logout feito");
-        //userFirebase.signOut();
         startActivity(new Intent(this,LoginActivity.class));
         finish();
     }

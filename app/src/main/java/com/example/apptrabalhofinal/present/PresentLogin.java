@@ -11,7 +11,7 @@ import com.example.apptrabalhofinal.present.interfaces.ContratoLogin;
 
 public class PresentLogin  implements  ContratoLogin.present{
     ContratoLogin.view loginActivity;
-    UsuarioDAO usuarioDAOFire = UsuarioFirebaseDAO.getInstance();
+    UsuarioDAO usuarioFirebaseDAO = UsuarioFirebaseDAO.getInstance();
 
     //UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
 
@@ -28,10 +28,10 @@ public class PresentLogin  implements  ContratoLogin.present{
             loginActivity.senhaInvalida();
         }
         //if(usuarioDAO.getLogin(email,senha)){
-        if(usuarioDAOFire.getLogin(email,senha)==true){
+        if(usuarioFirebaseDAO.getLogin(email,senha)==true){
             Log.i("teste","Retorno do login: true");
             loginActivity.realizarlogin(email);
-        }else if(usuarioDAOFire.getEmailUsuario(email)){
+        }else if(usuarioFirebaseDAO.getEmailUsuario(email)){
             loginActivity.usuarioComSenha();
         }else{
             loginActivity.usuarioComEmailInvalido();

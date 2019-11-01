@@ -33,7 +33,7 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
 
     public static UsuarioFirebaseDAO getInstance(){
         if(usuarioFirebaseDAO==null){
-            return usuarioFirebaseDAO = new UsuarioFirebaseDAO();
+            usuarioFirebaseDAO = new UsuarioFirebaseDAO();
         }
         return usuarioFirebaseDAO;
     }

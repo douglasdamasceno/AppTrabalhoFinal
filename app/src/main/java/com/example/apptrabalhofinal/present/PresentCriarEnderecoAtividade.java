@@ -2,14 +2,16 @@ package com.example.apptrabalhofinal.present;
 
 import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
 import com.example.apptrabalhofinal.data.dao.AtividadeDBMemoriaDAO;
+import com.example.apptrabalhofinal.data.dao.AtividadeFirebaseDAO;
 import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.data.model.Endereco;
 import com.example.apptrabalhofinal.present.interfaces.ContratoCriarEnderecoAtividade;
 
 public class PresentCriarEnderecoAtividade implements ContratoCriarEnderecoAtividade.present {
     private AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
+    private AtividadeDAO atividadeFirebaseDAO = AtividadeFirebaseDAO.getInstance();
 
-    Atividade atividadeArmazenar;
+    private Atividade atividadeArmazenar;
 
     private ContratoCriarEnderecoAtividade.view view;
 
@@ -53,6 +55,7 @@ public class PresentCriarEnderecoAtividade implements ContratoCriarEnderecoAtivi
 
     @Override
     public void salvarAtividade() {
+        atividadeFirebaseDAO.addNovo(atividadeArmazenar);
         atividadeDAO.addNovo(atividadeArmazenar);
     }
 
@@ -62,6 +65,7 @@ public class PresentCriarEnderecoAtividade implements ContratoCriarEnderecoAtivi
         Endereco endereco = new Endereco(cep,rua,complemento,cidade,estado);
         atividade.setEndereco(endereco);
         atividadeDAO.editar(id,atividade);
+        atividadeFirebaseDAO.editar(id,atividade);
     }
 
 }

@@ -12,5 +12,5 @@ public interface AtividadeDAO {
     void addNovo(Atividade atividade);
     void editar(String id,Atividade atividade);
     boolean remover(String id);
-    void getAtividade(int id);
+    void getAtividade(String id);
 }

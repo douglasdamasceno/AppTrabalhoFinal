@@ -7,16 +7,22 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.apptrabalhofinal.data.model.Atividade;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
 public class AtividadeFirebaseDAO  implements  AtividadeDAO{
 
+    boolean removido;
+
+    ArrayList<Atividade> listaAtividades = new ArrayList<Atividade>();
     private FirebaseAuth mAuth;
     private FirebaseFirestore database;
 
@@ -94,10 +100,49 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
 
     @Override
     public boolean remover(String id) {
-
-        return false;
+        //progressDialog.setTitle("Deletando data...");
+        //progressDialog.show();
+       this.removido = false;
+        database.collection("documentos").document(id)
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        //progressDialog.dismiss();
+                        //Toast.makeText(ListaActivity.this,"Deletado.",Toast.LENGTH_SHORT).show();
+                       // showData();
+                        Log.i("teste", "removedo com sucesso: "+task.getResult());
+                        removido = true;
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //called when there is any error
+                        //progressDialog.dismiss();
+                        Log.i("teste", "erro ao remover: "+e.getMessage());
+                    }
+                });
+        return removido;
     }
 
     @Override
-    public void getAtividade(int id) {}
+    public void getAtividade(String id) {
+        DocumentReference docRef = database.collection("atividades").document(id);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("teste", "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d("teste", "No such document");
+                    }
+                } else {
+                    Log.d("teste", "get failed with ", task.getException());
+                }
+            }
+        });
+    }
 }

@@ -50,10 +50,10 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity  {
 
 
-    Usuario usuarioAutentificado;
+    //Usuario usuarioAutentificado;
     FirebaseUser userFirebase;
 
-    UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
+    //UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
     AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
 
    UsuarioDAO usuarioDAOFirebase = UsuarioFirebaseDAO.getInstance();
@@ -80,12 +80,12 @@ public class MainActivity extends AppCompatActivity  {
         }
 
         verificarAutentificacao();
-
-        Bundle bundle = getIntent().getExtras();
-        if(bundle!=null) {
-            String emailUser = bundle.getString("email");
-            usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailUser);
-        }
+//
+//        Bundle bundle = getIntent().getExtras();
+//        if(bundle!=null) {
+//            String emailUser = bundle.getString("email");
+//            usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailUser);
+//        }
 
         drawerLayout =(DrawerLayout)  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,myToolbar
@@ -105,15 +105,15 @@ public class MainActivity extends AppCompatActivity  {
                 switch (item.getItemId()){
                     case R.id.id_menu_nav_participando: {
                         Intent intent = new Intent(getApplicationContext(),AtividadeParticipoActivity.class);
-                        if(usuarioAutentificado!=null) {
-                            intent.putExtra("email", usuarioAutentificado.getMeuPerfil().getEmail());
+                        if(userFirebase!=null) {
+                            intent.putExtra("email", userFirebase.getEmail());
                         }
                         startActivity(intent);
                         break;
                     }case R.id.id_menu_nav_perfil: {
                         Intent intent = new Intent(getApplicationContext(),PerfilUsuarioActivity.class);
-                        if(usuarioAutentificado!=null) {
-                            intent.putExtra("email", usuarioAutentificado.getMeuPerfil().getEmail());
+                        if(userFirebase!=null) {
+                            intent.putExtra("email",userFirebase.getEmail());
                         }
                         startActivity(intent);
                         break;
@@ -122,8 +122,8 @@ public class MainActivity extends AppCompatActivity  {
                         break;
                     }case R.id.id_menu_nav_buscar: {
                         Intent intent = new Intent(getApplicationContext(), BuscarAtividadeListaActivity.class);
-                        if(usuarioAutentificado!=null) {
-                            intent.putExtra("email", usuarioAutentificado.getMeuPerfil().getEmail());
+                        if(userFirebase!=null) {
+                            intent.putExtra("email", userFirebase.getEmail());
                         }
                         startActivity(intent);
                         break;
@@ -139,8 +139,8 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,CriarAtividadeActivity.class);
-                if(usuarioAutentificado!=null) {
-                    String email = usuarioAutentificado.getMeuPerfil().getEmail();
+                if(userFirebase!=null) {
+                    String email = userFirebase.getEmail();
                     intent.putExtra("email", email);
                 }
                 startActivity(intent);
@@ -212,10 +212,10 @@ public class MainActivity extends AppCompatActivity  {
 
             nomeUsusario.setText(userFirebase.getDisplayName());
             emailUsuario.setText(userFirebase.getEmail());
-            //imgPerfil.setImageURI(userFirebase.getPhotoUrl());
+            imgPerfil.setImageURI(userFirebase.getPhotoUrl());
                 //Bitmap myImg = BitmapFactory.decodeFile(userFirebase.getPhotoUrl().getPath());
                 //imgPerfil.setImageBitmap(myImg);
-            Glide.with(this).load(String.valueOf(userFirebase.getPhotoUrl())).into(imgPerfil);
+            //Glide.with(this).load(String.valueOf(userFirebase.getPhotoUrl())).into(imgPerfil);
 
                 Log.i("teste","nome do usuario logado normal: "+ userFirebase.getDisplayName());
                 Log.i("teste","email do usuario logado normal : "+ userFirebase.getEmail());
@@ -230,19 +230,19 @@ public class MainActivity extends AppCompatActivity  {
             String personId = this.acct.getId();
             Uri personPhoto = this.acct.getPhotoUrl();
 
-            nomeUsusario.setText(personName);
+            nomeUsusario.setText(personName + " "+personFamilyName);
             emailUsuario.setText(personEmail);
          //           Bitmap myImg = BitmapFactory.decodeFile(personPhoto.getPath());
-           // imgPerfil.setImageBitmap(myImg);
-            Glide.with(this).load(String.valueOf(personPhoto)).into(imgPerfil);
+           //imgPerfil.setImageURI(personPhoto);
+           Glide.with(this).load(String.valueOf(personPhoto)).into(imgPerfil);
             //imgPerfil.setImageURI(personPhoto);
         }
     }
 
     public ArrayList<Atividade> getMinhaAtividades() {
         ArrayList<Atividade> atividades = null;
-        if(usuarioAutentificado!=null) {
-            atividades = atividadeDAO.listarMinhasAtividades(usuarioAutentificado.getMeuPerfil().getEmail()); //new ArrayList<>();
+        if(userFirebase!=null) {
+            atividades = atividadeDAO.listarMinhasAtividades(userFirebase.getEmail()); //new ArrayList<>();
         }
         return  atividades;
     }
@@ -262,13 +262,12 @@ public class MainActivity extends AppCompatActivity  {
             Intent intent = new Intent(this, AtividadeDetalheActivity.class);
             Atividade atividade = getMinhaAtividades().get(itemSelecionado);
             intent.putExtra("id", atividade.getId());
-            Log.i("teste","email user:"+ usuarioAutentificado.getMeuPerfil());
-            intent.putExtra("email", usuarioAutentificado.getMeuPerfil().getEmail());
+            Log.i("teste","email user:"+ userFirebase.getEmail());
+            intent.putExtra("email", userFirebase.getEmail());
             startActivity(intent);
         }
     }
     public void logout(){
-        usuarioAutentificado = null;
 
         FirebaseAuth.getInstance().signOut();
         if(this.acct!=null){

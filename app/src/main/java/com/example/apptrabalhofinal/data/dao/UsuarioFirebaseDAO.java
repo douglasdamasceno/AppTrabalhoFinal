@@ -1,8 +1,7 @@
 package com.example.apptrabalhofinal.data.dao;
 
-import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -11,26 +10,34 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-import static android.content.ContentValues.TAG;
+import java.util.UUID;
+
 
 public class UsuarioFirebaseDAO implements UsuarioDAO {
 
     static UsuarioFirebaseDAO usuarioFirebaseDAO;
+    private Usuario usuarioRetornado;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore database;
     private FirebaseUser user;
+    private StorageReference mStorageRef;
 
     private UsuarioFirebaseDAO(){
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseFirestore.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        usuarioRetornado = null;
     }
 
     public static UsuarioFirebaseDAO getInstance(){
@@ -41,15 +48,15 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
     }
 
     @Override
-    public void addNovo(final String username, final String email, final String senha) {
+    public void addNovo(final Uri fotoPerfil, final String username, final String email, final String senha) {
         mAuth.createUserWithEmailAndPassword(email,senha)
             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
                     Log.i("teste","sucesso id do usuriao: "+ authResult.getUser().getUid());
                     String id = authResult.getUser().getUid();
-                    salvaInformacaoUsuario(id,username,email,senha);
-
+                    salvaInformacaoUsuario("fotoPerfil",id,username,email,senha);
+                    //salvaFotoDoUsuario(fotoPerfil);
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
@@ -60,8 +67,8 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
             }) ;
     }
 
-    void salvaInformacaoUsuario(String id,String username,String email,String senha){
-        Usuario usuario = new Usuario(id,username,email,senha) ;
+    void salvaInformacaoUsuario(String fotoPerfil,String id,String username,String email,String senha){
+        Usuario usuario = new Usuario(fotoPerfil,id,username,email,senha) ;
 
         database.collection("user")
                 .add(usuario)
@@ -78,7 +85,32 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
                     }
                 });
     }
-
+    void salvaFotoDoUsuario(Uri fotoPerfil){
+        String filename = UUID.randomUUID().toString();
+        final StorageReference riversRef = mStorageRef.getStorage().getReference("sss"+filename);
+        //FirebaseStorage.getInstance().getReference("imagens"+filename);
+        riversRef.putFile(fotoPerfil)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Get a URL to the uploaded content
+                        riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Log.i("teste","fot: "+ uri.toString());
+                            }
+                        });
+                        //Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        // ...
+                    }
+                });
+    }
 
     @Override
     public void editar(String email, String username, String senha, String idade, String sexo) {
@@ -90,10 +122,6 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
 
     }
 
-    @Override
-    public void getUsuario(int id) {
-
-    }
 
     @Override
     public boolean getLogin(String email, String senha) {
@@ -130,14 +158,27 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
         return null;
     }
 
-    @Override
-    public String getIDporEmail(String email) {
-        return null;
-    }
 
     @Override
     public Usuario getUserPorID(String id) {
-        return null;
+        DocumentReference docRef = database.collection("usuario").document(id);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        usuarioRetornado = document.toObject(Usuario.class);
+                        Log.d("teste", "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d("teste", "No such document");
+                    }
+                } else {
+                    Log.d("teste", "get failed with ", task.getException());
+                }
+            }
+        });
+        return this.usuarioRetornado;
     }
 
     @Override
@@ -145,5 +186,6 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
         this.user = FirebaseAuth.getInstance().getCurrentUser();
         return user;
     }
+
 
 }

@@ -14,7 +14,7 @@ public class Usuario {
         meuPerfil.setIdPerfil(this.id);
     }
 
-    public Usuario(String id,String nome,String email,String senha){
+    public Usuario(String id,String fotoPerfil,String nome,String email,String senha){
         this.id = id;
 
         minhaAtividades = new ArrayList<Atividade>();
@@ -25,6 +25,7 @@ public class Usuario {
         meuPerfil.setNome(nome);
         meuPerfil.setEmail(email);
         meuPerfil.setSenha(senha);
+        meuPerfil.setFotoPerfil(fotoPerfil);
     }
     public String getId() {
         return id;

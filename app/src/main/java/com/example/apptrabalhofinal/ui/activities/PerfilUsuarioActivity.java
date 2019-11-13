@@ -15,7 +15,9 @@ import android.widget.Toast;
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
+import com.example.apptrabalhofinal.data.dao.UsuarioFirebaseDAO;
 import com.example.apptrabalhofinal.data.model.Usuario;
+import com.google.firebase.auth.FirebaseUser;
 
 public class PerfilUsuarioActivity extends AppCompatActivity {
 
@@ -28,19 +30,22 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
     private Toolbar myToolbar;
 
     private Button btnSaveMudancas;
-    String emailLogado;
+   // String emailLogado;
+    FirebaseUser userFirebase;
 
     Usuario usuarioAutentificado;
     UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
+    UsuarioDAO usuarioDAOFirebase = UsuarioFirebaseDAO.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil_usuario);
 
+        userFirebase = usuarioDAOFirebase.getFirebaseUser();
         referenciaElementos();
         verificarUsuarioAtentificado();
-        if(usuarioAutentificado!=null) {
+        if(userFirebase!=null) {
             if (usuarioAutentificado.getMeuPerfil().getIdade() != null) {
                 idadePerfil.setText(usuarioAutentificado.getMeuPerfil().getIdade());
             }
@@ -48,17 +53,11 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         }
     }
     public void verificarUsuarioAtentificado(){
-        Bundle bundle = getIntent().getExtras();
-        if(bundle!=null) {
-            String emailUser = getIntent().getExtras().getString("email");
-            usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailUser);
-            emailLogado = emailUser;
+            usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(userFirebase.getEmail());
+            fotoPerfil.setImageURI(userFirebase.getPhotoUrl());
             usernamePerfil.setText(usuarioAutentificado.getMeuPerfil().getNome());
             senhaPerfil.setText(usuarioAutentificado.getMeuPerfil().getSenha());
             sexoPerfil.setText(usuarioAutentificado.getMeuPerfil().getSexo());
-        }else{
-            usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailLogado);
-        }
     }
     public void editarPerfil(View view) {
         if (!usernamePerfil.getText().toString().isEmpty()

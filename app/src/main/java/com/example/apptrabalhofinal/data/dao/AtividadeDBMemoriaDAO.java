@@ -100,7 +100,7 @@ public class AtividadeDBMemoriaDAO implements AtividadeDAO {
     }
 
     @Override
-    public void getAtividade(int id) {
+    public void getAtividade(String id) {
 
     }
 

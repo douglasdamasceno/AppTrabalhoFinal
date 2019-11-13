@@ -10,6 +10,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,18 +18,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.present.PresentCadastro;
 import com.example.apptrabalhofinal.present.interfaces.ContratoCadastro;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+
 
 public class CadastroActivity extends AppCompatActivity  implements ContratoCadastro.view {
 
     private EditText inputUsername;
     private EditText inputEmail;
-    private  EditText inputSenha;
+    private EditText inputSenha;
     private Button btnLogin;
     private ImageView imageViewPerfil;
 
@@ -37,16 +41,15 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
     BottomSheetDialog bottomSheetDialog;
     ContratoCadastro.present presentCadastro;
 
-//foto do perfil
-   // private ImageView imgFoto;
-   // private ImageView imgCamera;
-
-    private Uri imageURI;
+   private Uri imageURI;
+   private Uri fotoPerfilURI;
 
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
     private static final int PERMISSION_CODE_CAMERA = 1002;
     private static final int IMAGE_CAPTURE_CODE = 1003;
+
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +57,7 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
         setContentView(R.layout.activity_cadastro);
 
         inicializarElementos();
-        mostarViewFotoPerfil();
-
+        progressBar = findViewById(R.id.idProgressBar);
 
         imageViewPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,12 +69,13 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presentCadastro.validarCadastro(inputUsername.getText().toString(),
+                presentCadastro.validarCadastro(fotoPerfilURI,inputUsername.getText().toString(),
                         inputEmail.getText().toString(),
                         inputSenha.getText().toString());
             }
         });
 
+        new AsyncCircular().execute();
     }
 
     @Override
@@ -102,6 +105,7 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
     @Override
     public void realizarCadastro() {
         Intent intent = new Intent(CadastroActivity.this,LoginActivity.class);
+        intent.putExtra("name", inputUsername.getText().toString());
         intent.putExtra("email", inputEmail.getText().toString());
         intent.putExtra("senha", inputSenha.getText().toString());
         startActivity(intent);
@@ -121,6 +125,8 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         imageViewPerfil = findViewById(R.id.imageFotoPerfil);
+
+        mostarViewFotoPerfil();
     }
 
     public void mostarViewFotoPerfil(){
@@ -134,7 +140,7 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(CadastroActivity.this,"camera",Toast.LENGTH_LONG).show();
+                //presentCadastro.verificarVersaoAndroidCamera();
                 verificarVersaoAndroidCamera();
             }
         });
@@ -142,6 +148,7 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
             @Override
             public void onClick(View view) {
                 verificarVersaoAndroidGalleria();
+
             }
         });
 
@@ -163,7 +170,6 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
             //sistema abaixo do marshmallow
             pickImageFromGallery();
         }
-        Toast.makeText(CadastroActivity.this,"galeria",Toast.LENGTH_LONG).show();
     }
     private void verificarVersaoAndroidCamera(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
@@ -229,11 +235,43 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
         if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
+            fotoPerfilURI = data.getData();
             imageViewPerfil.setImageURI(data.getData());
         }else if (resultCode == RESULT_OK && requestCode == IMAGE_CAPTURE_CODE){
+            fotoPerfilURI = imageURI;
             imageViewPerfil.setImageURI(imageURI);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    public class AsyncCircular extends AsyncTask<Void,Integer,Void>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            for(int i =0;i<100;i++){
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            progressBar.setVisibility(View.GONE);
+        }
+
     }
 }

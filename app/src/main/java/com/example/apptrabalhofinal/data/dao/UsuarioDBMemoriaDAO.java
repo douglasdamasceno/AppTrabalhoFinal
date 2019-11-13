@@ -1,5 +1,7 @@
 package com.example.apptrabalhofinal.data.dao;
 
+import android.net.Uri;
+
 import com.example.apptrabalhofinal.data.model.Usuario;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -25,7 +27,7 @@ public class UsuarioDBMemoriaDAO implements  UsuarioDAO {
 
 
     @Override
-    public void addNovo(String username, String email, String senha) {
+    public void addNovo(Uri fotoPerfil,String username, String email, String senha) {
         proximoIdUser++;
         Usuario usuario = new Usuario();
         usuario.setId(proximoIdUser+"");
@@ -34,6 +36,7 @@ public class UsuarioDBMemoriaDAO implements  UsuarioDAO {
         usuario.getMeuPerfil().setSenha(senha);
         listaDeUsuarios.add(usuario);
     }
+
 
     @Override
     public void editar(String email, String username, String senha, String idade, String sexo) {
@@ -50,11 +53,6 @@ public class UsuarioDBMemoriaDAO implements  UsuarioDAO {
 
     @Override
     public void remover(int id) {
-    }
-
-    @Override
-    public void getUsuario(int id) {
-
     }
 
     @Override
@@ -88,15 +86,15 @@ public class UsuarioDBMemoriaDAO implements  UsuarioDAO {
     }
 
 
-    @Override
-    public String getIDporEmail(String id) {
-        for (Usuario usuario: listaDeUsuarios) {
-            if(id.equals(usuario.getMeuPerfil().getIdPerfil())){
-                return id;
-            }
-        }
-        return null;
-    }
+//    @Override
+//    public String getIDporEmail(String id) {
+//        for (Usuario usuario: listaDeUsuarios) {
+//            if(id.equals(usuario.getMeuPerfil().getIdPerfil())){
+//                return id;
+//            }
+//        }
+//        return null;
+//    }
 
     @Override
     public Usuario getUserPorID(String id) {

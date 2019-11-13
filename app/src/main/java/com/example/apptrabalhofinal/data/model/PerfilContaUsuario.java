@@ -4,7 +4,7 @@ public class PerfilContaUsuario {
     private String idPerfil;
     private String nome;
     private String email;
-
+    private String fotoPerfil;
 
     public String getIdPerfil() {
         return idPerfil;
@@ -12,6 +12,14 @@ public class PerfilContaUsuario {
 
     public void setIdPerfil(String idPerfil) {
         this.idPerfil = idPerfil;
+    }
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
     private String senha;

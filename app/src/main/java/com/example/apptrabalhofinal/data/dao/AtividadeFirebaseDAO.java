@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,8 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
 
     boolean removido;
 
-    ArrayList<Atividade> listaAtividades = new ArrayList<Atividade>();
+    ArrayList<Atividade> listaAtividades ;
+    ArrayList<Atividade> minhasAtividades ;
     private FirebaseAuth mAuth;
     private FirebaseFirestore database;
 
@@ -31,7 +33,9 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
     private AtividadeFirebaseDAO(){
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseFirestore.getInstance();
-
+        minhasAtividades = new ArrayList<Atividade>();
+        listaAtividades = new ArrayList<Atividade>();
+        removido =false;
     }
 
     public static AtividadeFirebaseDAO getInstance(){
@@ -42,14 +46,55 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
     }
 
     @Override
-    public ArrayList<Atividade> listarAtividadesTodos(String email) {
-
-        return null;
+    public ArrayList<Atividade> listarAtividadesTodos(final String email) {
+        listaAtividades.clear();
+        database.collection("atividades")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (DocumentSnapshot doc: task.getResult()) {
+                            Atividade atividade = doc.toObject(Atividade.class);
+                            if(!atividade.getEmailProprietario().equals(email)){
+                                listaAtividades.add(atividade);
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("teste","falha na hora busca minhas atividade: "+  e.getMessage());
+                    }
+                });
+        return listaAtividades;
     }
 
     @Override
-    public ArrayList<Atividade> listarMinhasAtividades(String email) {
-        return null;
+    public ArrayList<Atividade> listarMinhasAtividades(final String email) {
+        minhasAtividades.clear();
+        Log.i("teste","email do logado no atividadeDAO: "+  email);
+        database.collection("atividades")
+                 .get()
+                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                     @Override
+                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                         for (DocumentSnapshot doc: task.getResult()) {
+                             Atividade atividade = doc.toObject(Atividade.class);
+                             Log.i("teste","tostring atividade: "+  atividade.toString());
+                             if(atividade.getEmailProprietario().equals(email)){
+                                 minhasAtividades.add(atividade);
+                             }
+                         }
+                     }
+                 })
+                 .addOnFailureListener(new OnFailureListener() {
+                     @Override
+                     public void onFailure(@NonNull Exception e) {
+                         Log.i("teste","falha na hora busca minhas atividade: "+  e.getMessage());
+                     }
+                 });
+        return minhasAtividades;
     }
 
     @Override
@@ -87,7 +132,7 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.i("teste","editado com sucesso!");
+                         Log.i("teste","editado com sucesso!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -100,17 +145,11 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
 
     @Override
     public boolean remover(String id) {
-        //progressDialog.setTitle("Deletando data...");
-        //progressDialog.show();
-       this.removido = false;
         database.collection("documentos").document(id)
                 .delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        //progressDialog.dismiss();
-                        //Toast.makeText(ListaActivity.this,"Deletado.",Toast.LENGTH_SHORT).show();
-                       // showData();
                         Log.i("teste", "removedo com sucesso: "+task.getResult());
                         removido = true;
                     }

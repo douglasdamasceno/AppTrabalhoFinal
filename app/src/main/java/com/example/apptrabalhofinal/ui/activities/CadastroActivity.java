@@ -258,11 +258,7 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
         @Override
         protected Void doInBackground(Void... voids) {
             for(int i =0;i<100;i++){
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
             }
             return null;
         }

@@ -68,7 +68,7 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
     }
 
     void salvaInformacaoUsuario(String fotoPerfil,String id,String username,String email,String senha){
-        Usuario usuario = new Usuario(fotoPerfil,id,username,email,senha) ;
+        Usuario usuario = new Usuario(id,fotoPerfil,username,email,senha) ;
 
         database.collection("user")
                 .add(usuario)
@@ -125,6 +125,7 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
 
     @Override
     public boolean getLogin(String email, String senha) {
+
         mAuth.signInWithEmailAndPassword(email,senha)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
@@ -155,13 +156,7 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
 
     @Override
     public Usuario getUsuarioPorEmail(String email) {
-        return null;
-    }
-
-
-    @Override
-    public Usuario getUserPorID(String id) {
-        DocumentReference docRef = database.collection("usuario").document(id);
+        DocumentReference docRef = database.collection("user").document(email);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -172,6 +167,29 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
                         Log.d("teste", "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d("teste", "No such document");
+                    }
+                } else {
+                    Log.d("teste", "get failed with ", task.getException());
+                }
+            }
+        });
+        return this.usuarioRetornado;
+    }
+
+
+    @Override
+    public Usuario getUserPorID(String id) {
+        DocumentReference docRef = database.collection("user").document(id);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        usuarioRetornado = document.toObject(Usuario.class);
+                        Log.d("teste", "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d("teste", "Não encontrado No such document");
                     }
                 } else {
                     Log.d("teste", "get failed with ", task.getException());

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,12 +13,16 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioFirebaseDAO;
 import com.example.apptrabalhofinal.data.model.Usuario;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class PerfilUsuarioActivity extends AppCompatActivity {
 
@@ -29,12 +34,13 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
     private EditText idadePerfil;
     private Toolbar myToolbar;
 
+    GoogleSignInAccount acct;
     private Button btnSaveMudancas;
    // String emailLogado;
     FirebaseUser userFirebase;
 
     Usuario usuarioAutentificado;
-    UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
+   // UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
     UsuarioDAO usuarioDAOFirebase = UsuarioFirebaseDAO.getInstance();
 
     @Override
@@ -44,20 +50,45 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
         userFirebase = usuarioDAOFirebase.getFirebaseUser();
         referenciaElementos();
+        this.acct = GoogleSignIn.getLastSignedInAccount(this);
+
         verificarUsuarioAtentificado();
         if(userFirebase!=null) {
-            if (usuarioAutentificado.getMeuPerfil().getIdade() != null) {
-                idadePerfil.setText(usuarioAutentificado.getMeuPerfil().getIdade());
+            usuarioAutentificado = usuarioDAOFirebase.getUserPorID(userFirebase.getUid());
+            if(usuarioAutentificado!=null){
+               Log.i("teste","testando buscat por email"+  usuarioAutentificado.toString());
             }
-            emailPerfil.setText("Email :" + usuarioAutentificado.getMeuPerfil().getEmail());
+//            if (usuarioAutentificado.getMeuPerfil().getIdade() != null) {
+//                idadePerfil.setText(usuarioAutentificado.getMeuPerfil().getIdade());
+//            }
+            //emailPerfil.setText("Email :" + usuarioAutentificado.getMeuPerfil().getEmail());
+            emailPerfil.setText("Email :" + userFirebase.getEmail());
         }
+
     }
     public void verificarUsuarioAtentificado(){
-            usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(userFirebase.getEmail());
-            fotoPerfil.setImageURI(userFirebase.getPhotoUrl());
-            usernamePerfil.setText(usuarioAutentificado.getMeuPerfil().getNome());
-            senhaPerfil.setText(usuarioAutentificado.getMeuPerfil().getSenha());
-            sexoPerfil.setText(usuarioAutentificado.getMeuPerfil().getSexo());
+            if(acct!=null){
+                Glide.with(this).load(String.valueOf(acct.getPhotoUrl())).into(fotoPerfil);
+
+                Log.i("teste","Logado gmail: "+ acct.getDisplayName());
+
+                usernamePerfil.setText(acct.getDisplayName());
+                senhaPerfil.setText("informe nova senha");
+
+            }else if(userFirebase!=null) {
+
+                // usuarioAutentificado = usuarioDAOFirebase.getUserPorID(userFirebase.getUid());
+                Glide.with(this).load(String.valueOf(userFirebase.getPhotoUrl())).into(fotoPerfil);
+
+//            Log.i("teste","Usuario Autentificado: "+ usuarioAutentificado.toString());
+                //usernamePerfil.setText(usuarioAutentificado.getMeuPerfil().getNome());
+                usernamePerfil.setText(userFirebase.getDisplayName());
+                Log.i("teste","userFirebase: "+ userFirebase.getDisplayName());
+
+                //senhaPerfil.setText(usuarioAutentificado.getMeuPerfil().getSenha());
+                senhaPerfil.setText("informe nova senha");
+                // sexoPerfil.setText(usuarioAutentificado.getMeuPerfil().getSexo());
+            }
     }
     public void editarPerfil(View view) {
         if (!usernamePerfil.getText().toString().isEmpty()
@@ -67,7 +98,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             usuarioAutentificado.getMeuPerfil().setNome(usernamePerfil.getText().toString());
             usuarioAutentificado.getMeuPerfil().setSenha(senhaPerfil.getText().toString());
             usuarioAutentificado.getMeuPerfil().setIdade(idadePerfil.getText().toString());
-            usuarioDAO.editar(
+            usuarioDAOFirebase.editar(
                     usuarioAutentificado.getMeuPerfil().getEmail(),
                     usuarioAutentificado.getMeuPerfil().getNome(),
                     usuarioAutentificado.getMeuPerfil().getSenha(),
@@ -91,6 +122,6 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         myToolbar = findViewById(R.id.minhaToolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Perfil");
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

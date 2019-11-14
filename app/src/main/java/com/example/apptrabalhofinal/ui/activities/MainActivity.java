@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
 import com.example.apptrabalhofinal.data.dao.AtividadeDBMemoriaDAO;
+import com.example.apptrabalhofinal.data.dao.AtividadeFirebaseDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioFirebaseDAO;
@@ -35,13 +36,8 @@ import com.example.apptrabalhofinal.data.model.Usuario;
 import com.example.apptrabalhofinal.ui.adapter.MinhaAtividadeAdapter;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -50,11 +46,10 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity  {
 
 
-    //Usuario usuarioAutentificado;
+    Usuario usuarioAutentificado;
     FirebaseUser userFirebase;
 
-    //UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
-    AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
+    AtividadeDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();
 
    UsuarioDAO usuarioDAOFirebase = UsuarioFirebaseDAO.getInstance();
 
@@ -77,6 +72,7 @@ public class MainActivity extends AppCompatActivity  {
 
         if(userFirebase!=null) {
             Log.i("teste", "Main user firebase: " + userFirebase.getUid());
+            Log.i("teste", "Main user firebase: " + userFirebase.getDisplayName());
         }
 
         verificarAutentificacao();
@@ -215,28 +211,23 @@ public class MainActivity extends AppCompatActivity  {
             imgPerfil.setImageURI(userFirebase.getPhotoUrl());
                 //Bitmap myImg = BitmapFactory.decodeFile(userFirebase.getPhotoUrl().getPath());
                 //imgPerfil.setImageBitmap(myImg);
-            //Glide.with(this).load(String.valueOf(userFirebase.getPhotoUrl())).into(imgPerfil);
+            Glide.with(this).load(String.valueOf(userFirebase.getPhotoUrl())).into(imgPerfil);
 
                 Log.i("teste","nome do usuario logado normal: "+ userFirebase.getDisplayName());
                 Log.i("teste","email do usuario logado normal : "+ userFirebase.getEmail());
                 Log.i("teste","id do usuario logado normal: "+ userFirebase.getUid());
         }
-        else if (this.acct != null) {
+        if (this.acct != null) {
             Log.i("teste","acct ok");
             String personName = this.acct.getDisplayName();
-            String personGivenName = this.acct.getGivenName();
-            String personFamilyName = this.acct.getFamilyName();
             String personEmail = this.acct.getEmail();
-            String personId = this.acct.getId();
+            //String personId = this.acct.getId();
             Uri personPhoto = this.acct.getPhotoUrl();
 
-            nomeUsusario.setText(personName + " "+personFamilyName);
+            nomeUsusario.setText(personName);
             emailUsuario.setText(personEmail);
-         //           Bitmap myImg = BitmapFactory.decodeFile(personPhoto.getPath());
-           //imgPerfil.setImageURI(personPhoto);
            Glide.with(this).load(String.valueOf(personPhoto)).into(imgPerfil);
-            //imgPerfil.setImageURI(personPhoto);
-        }
+         }
     }
 
     public ArrayList<Atividade> getMinhaAtividades() {

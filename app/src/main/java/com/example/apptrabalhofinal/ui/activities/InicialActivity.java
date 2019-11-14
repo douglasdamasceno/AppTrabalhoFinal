@@ -44,18 +44,9 @@ public class InicialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicial);
 
-
-
         inicializarElementos();
         mAuth = FirebaseAuth.getInstance();
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
+        referenciarElementoGmail();
 
         txtCriarConta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +101,10 @@ public class InicialActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(InicialActivity.this,MainActivity.class));
+                            Intent intent = new Intent(InicialActivity.this,MainActivity.class);
+                            //intent.putExtra("loginGmail",mGoogleSignInClient);
+                            startActivity(intent);
+
                             Log.d("teste", "firebaseAuthWithGoogle com sucesso");
                             finish();
                         } else {
@@ -122,15 +116,14 @@ public class InicialActivity extends AppCompatActivity {
                 });
     }
 
-    public void deslogar(){
-        signOut();
+    void referenciarElementoGmail(){
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
     }
-    private void signOut() {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                    }
-                });
-    }
+
 }

@@ -36,6 +36,10 @@ import com.example.apptrabalhofinal.data.model.Usuario;
 import com.example.apptrabalhofinal.ui.adapter.MinhaAtividadeAdapter;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity  {
     private NavigationView navigationView;
 
     GoogleSignInAccount acct;
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,14 +264,19 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
     public void logout(){
-
         FirebaseAuth.getInstance().signOut();
         if(this.acct!=null){
-            //chamar logut do inicial Activity
-            Log.i("teste","logut do google entrou não deslogu");
+            Log.i("teste","logut do google entrou");
+            referenciarElementoGmail();
+            mGoogleSignInClient.signOut()
+                    .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                        }
+                    });
         }
         Log.i("teste","Logout feito");
-        startActivity(new Intent(this,LoginActivity.class));
+        startActivity(new Intent(this,InicialActivity.class));
         finish();
     }
     void inicializarElementos(){
@@ -275,5 +285,14 @@ public class MainActivity extends AppCompatActivity  {
         getSupportActionBar().setTitle("Minhas Atividades");
         listViewMinhasAtividades = findViewById(R.id.lista_view_minhas_atividades);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+    }
+    void referenciarElementoGmail(){
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
     }
 }

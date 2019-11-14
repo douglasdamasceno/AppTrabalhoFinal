@@ -40,7 +40,6 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
     FirebaseUser userFirebase;
 
     Usuario usuarioAutentificado;
-   // UsuarioDAO usuarioDAO = UsuarioDBMemoriaDAO.getInstance();
     UsuarioDAO usuarioDAOFirebase = UsuarioFirebaseDAO.getInstance();
 
     @Override

@@ -4,7 +4,6 @@ import android.util.Log;
 import android.util.Patterns;
 
 import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
-import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioFirebaseDAO;
 import com.example.apptrabalhofinal.present.interfaces.ContratoLogin;
 import com.example.apptrabalhofinal.ui.activities.LoginActivity;

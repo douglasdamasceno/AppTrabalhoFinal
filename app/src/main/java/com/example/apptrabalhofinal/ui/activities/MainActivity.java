@@ -10,8 +10,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,10 +24,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
-import com.example.apptrabalhofinal.data.dao.AtividadeDBMemoriaDAO;
 import com.example.apptrabalhofinal.data.dao.AtividadeFirebaseDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
-import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioFirebaseDAO;
 import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.data.model.Usuario;
@@ -44,6 +40,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 
 import java.util.ArrayList;
 
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity  {
     AtividadeDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();
 
    UsuarioDAO usuarioDAOFirebase = UsuarioFirebaseDAO.getInstance();
-
+   ArrayList<Atividade> minhasAtividade = new ArrayList<Atividade>();
 
     private ListView listViewMinhasAtividades;
     private Toolbar myToolbar;
@@ -75,18 +74,7 @@ public class MainActivity extends AppCompatActivity  {
 
         userFirebase = usuarioDAOFirebase.getFirebaseUser();
 
-        if(userFirebase!=null) {
-            Log.i("teste", "Main user firebase: " + userFirebase.getUid());
-            Log.i("teste", "Main user firebase: " + userFirebase.getDisplayName());
-        }
-
         verificarAutentificacao();
-//
-//        Bundle bundle = getIntent().getExtras();
-//        if(bundle!=null) {
-//            String emailUser = bundle.getString("email");
-//            usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(emailUser);
-//        }
 
         drawerLayout =(DrawerLayout)  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,myToolbar
@@ -96,7 +84,6 @@ public class MainActivity extends AppCompatActivity  {
 
 
         AtualizarMinhasAtividades();
-
         AtualizarHeader();
 
         navigationView.bringToFront();
@@ -165,7 +152,7 @@ public class MainActivity extends AppCompatActivity  {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if(opacao[i].equals("deleta")){
                             Toast.makeText(MainActivity.this,"Deletado",Toast.LENGTH_SHORT).show();
-                            Atividade atividade = getMinhaAtividades().get(itemSelecionado);
+                            Atividade atividade = novasAtivdades().get(itemSelecionado);
                             if(atividadeDAO.remover(atividade.getId())){
                                 AtualizarMinhasAtividades();
                                 Toast.makeText(MainActivity.this,"Deletado com sucesso",Toast.LENGTH_SHORT).show();
@@ -198,11 +185,11 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
+        this.acct = GoogleSignIn.getLastSignedInAccount(this);
         AtualizarMinhasAtividades();
         AtualizarHeader();
     }
     void AtualizarHeader(){
-        this.acct = GoogleSignIn.getLastSignedInAccount(this);
         View headView = navigationView.getHeaderView(0);
         ImageView imgPerfil = (ImageView) headView.findViewById(R.id.id_nav_header_perfil_foto);
         TextView nomeUsusario = (TextView) headView.findViewById(R.id.id_nav_header_nome);
@@ -214,16 +201,11 @@ public class MainActivity extends AppCompatActivity  {
             nomeUsusario.setText(userFirebase.getDisplayName());
             emailUsuario.setText(userFirebase.getEmail());
             imgPerfil.setImageURI(userFirebase.getPhotoUrl());
-                //Bitmap myImg = BitmapFactory.decodeFile(userFirebase.getPhotoUrl().getPath());
-                //imgPerfil.setImageBitmap(myImg);
+
             Glide.with(this).load(String.valueOf(userFirebase.getPhotoUrl())).into(imgPerfil);
 
-                Log.i("teste","nome do usuario logado normal: "+ userFirebase.getDisplayName());
-                Log.i("teste","email do usuario logado normal : "+ userFirebase.getEmail());
-                Log.i("teste","id do usuario logado normal: "+ userFirebase.getUid());
         }
         if (this.acct != null) {
-            Log.i("teste","acct ok");
             String personName = this.acct.getDisplayName();
             String personEmail = this.acct.getEmail();
             //String personId = this.acct.getId();
@@ -231,20 +213,44 @@ public class MainActivity extends AppCompatActivity  {
 
             nomeUsusario.setText(personName);
             emailUsuario.setText(personEmail);
-           Glide.with(this).load(String.valueOf(personPhoto)).into(imgPerfil);
+            Glide.with(this).load(String.valueOf(personPhoto)).into(imgPerfil);
          }
     }
 
     public ArrayList<Atividade> getMinhaAtividades() {
         ArrayList<Atividade> atividades = null;
         if(userFirebase!=null) {
+            Log.i("outro","email : "+ userFirebase.getEmail());
             atividades = atividadeDAO.listarMinhasAtividades(userFirebase.getEmail()); //new ArrayList<>();
+        }
+        if(atividades!=null){
+            Log.i("outro","aitividades tamanho : "+ atividades.size());
         }
         return  atividades;
     }
     public void AtualizarMinhasAtividades(){
         listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,getMinhaAtividades()));
     }
+    public ArrayList<Atividade> novasAtivdades(){
+        atividadeDAO.getDatabase()
+        .collection("atividades")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        minhasAtividade.clear();
+                        for (DocumentSnapshot doc: task.getResult()) {
+                            Atividade atividade = doc.toObject(Atividade.class);
+                            if(atividade.getEmailProprietario().equals(userFirebase.getEmail())){
+                                minhasAtividade.add(atividade);
+                            }
+                        }
+                    }
+                });
+        Log.i("novo","tamanho "+ minhasAtividade.size());
+        return minhasAtividade;
+    }
+
     @Override
     public void onBackPressed(){
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -254,9 +260,9 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
     public void abriItem(int itemSelecionado) {
-        if (getMinhaAtividades().size() > 0) {
+        if (novasAtivdades().size() > 0) {
             Intent intent = new Intent(this, AtividadeDetalheActivity.class);
-            Atividade atividade = getMinhaAtividades().get(itemSelecionado);
+            Atividade atividade = novasAtivdades().get(itemSelecionado);
             intent.putExtra("id", atividade.getId());
             Log.i("teste","email user:"+ userFirebase.getEmail());
             intent.putExtra("email", userFirebase.getEmail());

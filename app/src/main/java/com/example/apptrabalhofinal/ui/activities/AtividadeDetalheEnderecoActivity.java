@@ -9,11 +9,9 @@ import android.widget.EditText;
 
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
-import com.example.apptrabalhofinal.data.dao.AtividadeDBMemoriaDAO;
+import com.example.apptrabalhofinal.data.dao.AtividadeFirebaseDAO;
 import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.data.model.Endereco;
-import com.example.apptrabalhofinal.present.PresentCriarEnderecoAtividade;
-import com.example.apptrabalhofinal.present.interfaces.ContratoCriarEnderecoAtividade;
 
 public class AtividadeDetalheEnderecoActivity extends AppCompatActivity {
 
@@ -24,7 +22,7 @@ public class AtividadeDetalheEnderecoActivity extends AppCompatActivity {
     private EditText endAtividadeComplemento;
     private Button btnEditarAtividade;
 
-    AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
+    AtividadeDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();//AtividadeDBMemoriaDAO.getInstance();
     //Present present;
 
     @Override

@@ -11,7 +11,7 @@ import android.widget.ListView;
 
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
-import com.example.apptrabalhofinal.data.dao.AtividadeDBMemoriaDAO;
+import com.example.apptrabalhofinal.data.dao.AtividadeFirebaseDAO;
 import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.ui.adapter.MinhaAtividadeAdapter;
 
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class BuscarAtividadeListaActivity extends AppCompatActivity {
 
-    AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
+    AtividadeDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();//AtividadeDBMemoriaDAO.getInstance();
     private Toolbar myToolbar;
     private ListView listViewMinhasAtividades;
 
@@ -75,6 +75,8 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
         myToolbar = findViewById(R.id.minhaToolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Busca");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         listViewMinhasAtividades = findViewById(R.id.lista_view_todas_atividades);
     }
 }

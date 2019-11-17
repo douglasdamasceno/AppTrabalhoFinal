@@ -1,6 +1,7 @@
 package com.example.apptrabalhofinal.data.dao;
 
 import com.example.apptrabalhofinal.data.model.Atividade;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -13,4 +14,5 @@ public interface AtividadeDAO {
     void editar(String id,Atividade atividade);
     boolean remover(String id);
     void getAtividade(String id);
+    FirebaseFirestore getDatabase();
 }

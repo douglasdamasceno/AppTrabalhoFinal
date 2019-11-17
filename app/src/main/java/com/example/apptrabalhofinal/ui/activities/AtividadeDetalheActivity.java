@@ -1,28 +1,21 @@
 package com.example.apptrabalhofinal.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
-import com.example.apptrabalhofinal.data.dao.AtividadeDBMemoriaDAO;
-import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
-import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
+import com.example.apptrabalhofinal.data.dao.AtividadeFirebaseDAO;
 import com.example.apptrabalhofinal.data.model.Atividade;
 
 public class AtividadeDetalheActivity extends AppCompatActivity {
 
-    AtividadeDAO atividadeDAO = AtividadeDBMemoriaDAO.getInstance();
-
+    AtividadeDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();
 
     private String emailProprietario;
 

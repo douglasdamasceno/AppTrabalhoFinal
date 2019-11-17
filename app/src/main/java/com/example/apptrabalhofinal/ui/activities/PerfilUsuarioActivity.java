@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
-import com.example.apptrabalhofinal.data.dao.UsuarioDBMemoriaDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioFirebaseDAO;
 import com.example.apptrabalhofinal.data.model.Usuario;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;

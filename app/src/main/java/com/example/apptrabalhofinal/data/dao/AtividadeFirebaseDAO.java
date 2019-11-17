@@ -1,6 +1,7 @@
 package com.example.apptrabalhofinal.data.dao;
 
 
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -24,9 +25,14 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
     boolean removido;
 
     ArrayList<Atividade> listaAtividades ;
-    ArrayList<Atividade> minhasAtividades ;
+    ArrayList<Atividade> minhasAtividades;
     private FirebaseAuth mAuth;
     private FirebaseFirestore database;
+
+    @Override
+    public FirebaseFirestore getDatabase() {
+        return database;
+    }
 
     static AtividadeFirebaseDAO atividadeFirebaseDAO;
 
@@ -47,6 +53,7 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
 
     @Override
     public ArrayList<Atividade> listarAtividadesTodos(final String email) {
+        final ArrayList<Atividade> list = new ArrayList<>();
         listaAtividades.clear();
         database.collection("atividades")
                 .get()
@@ -55,8 +62,12 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         for (DocumentSnapshot doc: task.getResult()) {
                             Atividade atividade = doc.toObject(Atividade.class);
+                            Log.i("teste","Todas minhas atividade: "+  atividade.getNome());
                             if(!atividade.getEmailProprietario().equals(email)){
                                 listaAtividades.add(atividade);
+                                list.add(atividade);
+                                Log.i("teste","minhas atividade: "+  atividade.getNome());
+
                             }
                         }
                     }
@@ -64,44 +75,53 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.i("teste","falha na hora busca minhas atividade: "+  e.getMessage());
+                        Log.i("teste","falha na hora listar todas atividade: "+  e.getMessage());
                     }
                 });
-        return listaAtividades;
+        Log.i("teste","tamanho da lista: "+  list.size());
+        Log.i("teste","tamanho da lista: "+  listaAtividades.size());
+        return list;
     }
 
     @Override
     public ArrayList<Atividade> listarMinhasAtividades(final String email) {
-        minhasAtividades.clear();
-        Log.i("teste","email do logado no atividadeDAO: "+  email);
-        database.collection("atividades")
-                 .get()
-                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                     @Override
-                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                         for (DocumentSnapshot doc: task.getResult()) {
-                             Atividade atividade = doc.toObject(Atividade.class);
-                             Log.i("teste","tostring atividade: "+  atividade.toString());
-                             if(atividade.getEmailProprietario().equals(email)){
-                                 minhasAtividades.add(atividade);
-                             }
-                         }
-                     }
-                 })
-                 .addOnFailureListener(new OnFailureListener() {
-                     @Override
-                     public void onFailure(@NonNull Exception e) {
-                         Log.i("teste","falha na hora busca minhas atividade: "+  e.getMessage());
-                     }
-                 });
+        //minhasAtividades.clear();
+        AtividadeAsync atividadeAsync = new AtividadeAsync();
+        atividadeAsync.execute(email);
+       // ArrayList<Atividade> novasAtividade = atividadeAsync.get();
+
+//        database.collection("atividades")
+//                 .get()
+//                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                     @Override
+//                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                         for (DocumentSnapshot doc: task.getResult()) {
+//                             Atividade atividade = doc.toObject(Atividade.class);
+//                             if(atividade.getEmailProprietario().equals(email)){
+//                                 minhasAtividades.add(atividade);
+//                                 Log.i("outro","ADD atividade: "+  atividade.toString());
+//
+//                             }
+//                         }
+//                         Log.i("outro","Fora do for firebase Minhas atividade: "+  minhasAtividades.size());
+//                     }
+//                 })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.i("teste","falha na hora listar minhas atividade: "+  e.getMessage());
+//                    }
+//                });
+//
         return minhasAtividades;
     }
+
 
     @Override
     public ArrayList<Atividade> listarAtividadesParticipante(String email) {
         return null;
     }
-
+    //precisa fazer
     @Override
     public Atividade AtividadePorID(String id) {
         return null;
@@ -184,4 +204,52 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
             }
         });
     }
+
+    private class AtividadeAsync extends AsyncTask<String,ArrayList<Atividade>,ArrayList<Atividade>>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected ArrayList<Atividade> doInBackground(String... strings) {
+            final String email = strings[0];
+            minhasAtividades.clear();
+            database.collection("atividades")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            for (DocumentSnapshot doc: task.getResult()) {
+                                Atividade atividade = doc.toObject(Atividade.class);
+                                if(atividade.getEmailProprietario().equals(email)){
+                                    minhasAtividades.add(atividade);
+                                    Log.i("outro","ADD atividade: "+  atividade.toString());
+
+                                }
+                            }
+                            Log.i("outro","Fora do for firebase Minhas atividade: "+  minhasAtividades.size());
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i("teste","falha na hora listar minhas atividade: "+  e.getMessage());
+                        }
+                    });
+            return minhasAtividades;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Atividade> atividades) {
+            super.onPostExecute(atividades);
+        }
+
+        @Override
+        protected void onProgressUpdate(ArrayList<Atividade>... values) {
+            //super.onProgressUpdate(values);
+            minhasAtividades = values[0];
+        }
+    }
+
 }

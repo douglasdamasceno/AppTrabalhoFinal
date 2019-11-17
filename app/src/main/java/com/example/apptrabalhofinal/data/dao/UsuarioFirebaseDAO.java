@@ -189,7 +189,7 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
                         usuarioRetornado = document.toObject(Usuario.class);
                         Log.d("teste", "DocumentSnapshot data: " + document.getData());
                     } else {
-                        Log.d("teste", "Não encontrado No such document");
+                        Log.d("teste", "Não encontrado usuario No such document");
                     }
                 } else {
                     Log.d("teste", "get failed with ", task.getException());

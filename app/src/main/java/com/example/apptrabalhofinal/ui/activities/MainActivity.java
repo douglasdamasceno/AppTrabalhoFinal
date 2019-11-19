@@ -40,9 +40,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 
 import java.util.ArrayList;
 
@@ -152,7 +149,7 @@ public class MainActivity extends AppCompatActivity  {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if(opacao[i].equals("deleta")){
                             Toast.makeText(MainActivity.this,"Deletado",Toast.LENGTH_SHORT).show();
-                            Atividade atividade = novasAtivdades().get(itemSelecionado);
+                            Atividade atividade = getMinhaAtividades().get(itemSelecionado);
                             if(atividadeDAO.remover(atividade.getId())){
                                 AtualizarMinhasAtividades();
                                 Toast.makeText(MainActivity.this,"Deletado com sucesso",Toast.LENGTH_SHORT).show();
@@ -208,7 +205,6 @@ public class MainActivity extends AppCompatActivity  {
         if (this.acct != null) {
             String personName = this.acct.getDisplayName();
             String personEmail = this.acct.getEmail();
-            //String personId = this.acct.getId();
             Uri personPhoto = this.acct.getPhotoUrl();
 
             nomeUsusario.setText(personName);
@@ -229,26 +225,8 @@ public class MainActivity extends AppCompatActivity  {
         return  atividades;
     }
     public void AtualizarMinhasAtividades(){
+
         listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,getMinhaAtividades()));
-    }
-    public ArrayList<Atividade> novasAtivdades(){
-        atividadeDAO.getDatabase()
-        .collection("atividades")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        minhasAtividade.clear();
-                        for (DocumentSnapshot doc: task.getResult()) {
-                            Atividade atividade = doc.toObject(Atividade.class);
-                            if(atividade.getEmailProprietario().equals(userFirebase.getEmail())){
-                                minhasAtividade.add(atividade);
-                            }
-                        }
-                    }
-                });
-        Log.i("novo","tamanho "+ minhasAtividade.size());
-        return minhasAtividade;
     }
 
     @Override
@@ -260,9 +238,9 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
     public void abriItem(int itemSelecionado) {
-        if (novasAtivdades().size() > 0) {
+        if (getMinhaAtividades().size() > 0) {
             Intent intent = new Intent(this, AtividadeDetalheActivity.class);
-            Atividade atividade = novasAtivdades().get(itemSelecionado);
+            Atividade atividade = getMinhaAtividades().get(itemSelecionado);
             intent.putExtra("id", atividade.getId());
             Log.i("teste","email user:"+ userFirebase.getEmail());
             intent.putExtra("email", userFirebase.getEmail());

@@ -8,16 +8,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.apptrabalhofinal.R;
+import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
+import com.example.apptrabalhofinal.data.dao.UsuarioFirebaseDAO;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,6 +37,9 @@ public class InicialActivity extends AppCompatActivity {
     private TextView txtCriarConta;
 
     private GoogleSignInClient mGoogleSignInClient;
+
+    UsuarioDAO usuarioDAOFirebase = UsuarioFirebaseDAO.getInstance();
+
 
 
     @Override
@@ -101,8 +104,15 @@ public class InicialActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
+//                            Usuario usuario = new Usuario();
+//                            usuario.setId(user.getUid());
+//                            usuario.getMeuPerfil().setNome(user.getDisplayName());
+//                            usuario.getMeuPerfil().setEmail(user.getEmail());
+//                            usuario.getMeuPerfil().setIdPerfil(user.getUid());
+//                            //usuario.getMeuPerfil().setFotoPerfil(user.getPhotoUrl());
+                           // usuarioDAOFirebase.addNovo(user.getPhotoUrl().toString(),user.getDisplayName(),user.getEmail(),"");
+
                             Intent intent = new Intent(InicialActivity.this,MainActivity.class);
-                            //intent.putExtra("loginGmail",mGoogleSignInClient);
                             startActivity(intent);
 
                             Log.d("teste", "firebaseAuthWithGoogle com sucesso");

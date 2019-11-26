@@ -54,6 +54,7 @@ public class PresentCriarEnderecoAtividade implements ContratoCriarEnderecoAtivi
     @Override
     public void salvarAtividade() {
         atividadeDAO.addNovo(atividadeArmazenar);
+
     }
 
     @Override

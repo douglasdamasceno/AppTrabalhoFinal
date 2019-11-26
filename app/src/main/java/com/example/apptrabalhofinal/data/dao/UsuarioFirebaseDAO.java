@@ -1,10 +1,12 @@
 package com.example.apptrabalhofinal.data.dao;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.data.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -16,11 +18,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 
 public class UsuarioFirebaseDAO implements UsuarioDAO {
@@ -48,14 +53,14 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
     }
 
     @Override
-    public void addNovo(final Uri fotoPerfil, final String username, final String email, final String senha) {
+    public void addNovo(final String fotoPerfil, final String username, final String email, final String senha) {
         mAuth.createUserWithEmailAndPassword(email,senha)
             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
                     Log.i("teste","sucesso id do usuriao: "+ authResult.getUser().getUid());
                     String id = authResult.getUser().getUid();
-                    salvaInformacaoUsuario("fotoPerfil",id,username,email,senha);
+                    salvaInformacaoUsuario(fotoPerfil,id,username,email,senha);
                     //salvaFotoDoUsuario(fotoPerfil);
                 }
             })
@@ -75,7 +80,8 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.i("teste","salvo no db" + documentReference.getId());
+                        Log.i("tags","salvo no db" + documentReference.getId());
+                        atualizarID(documentReference.getId());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -113,7 +119,32 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
     }
 
     @Override
-    public void editar(String email, String username, String senha, String idade, String sexo) {
+    public void atualizarID(final String id) {
+        DocumentReference docRef = database.collection("user").document(id);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    Log.d("tagc", "DocumentSnapshot data: " + document.getData());
+
+                    if (document.exists()) {
+                        usuarioRetornado = document.toObject(Usuario.class);
+                        usuarioRetornado.setId(id);
+
+                        Log.d("tagc", "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d("tagc", "No such document");
+                    }
+                } else {
+                    Log.d("tagc", "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+        @Override
+    public void editar(String id,String email, String username, String senha, String idade, String sexo) {
 
     }
 
@@ -125,12 +156,12 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
 
     @Override
     public boolean getLogin(String email, String senha) {
-
         mAuth.signInWithEmailAndPassword(email,senha)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         Log.i("teste","getLogin com sucesso: " + authResult.getUser().toString());
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -155,48 +186,43 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
     }
 
     @Override
-    public Usuario getUsuarioPorEmail(String email) {
-        DocumentReference docRef = database.collection("user").document(email);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        usuarioRetornado = document.toObject(Usuario.class);
-                        Log.d("teste", "DocumentSnapshot data: " + document.getData());
-                    } else {
-                        Log.d("teste", "No such document");
+    public Usuario getUsuarioPorEmail(final String email) {
+        database.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                usuarioRetornado = document.toObject(Usuario.class);
+                                if(email.equals(usuarioRetornado.getMeuPerfil().getEmail())){
+                                    return;
+                                }
+                                Log.d("novo", document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.w("novo", "Error getting documents.", task.getException());
+                        }
                     }
-                } else {
-                    Log.d("teste", "get failed with ", task.getException());
-                }
-            }
-        });
-        return this.usuarioRetornado;
+                });
+     //   Log.d("novo", "usuario r "+ usuarioRetornado.toString());
+        return usuarioRetornado;
     }
 
 
     @Override
-    public Usuario getUserPorID(String id) {
-        DocumentReference docRef = database.collection("user").document(id);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        usuarioRetornado = document.toObject(Usuario.class);
-                        Log.d("teste", "DocumentSnapshot data: " + document.getData());
-                    } else {
-                        Log.d("teste", "Não encontrado usuario No such document");
-                    }
-                } else {
-                    Log.d("teste", "get failed with ", task.getException());
-                }
-            }
-        });
-        return this.usuarioRetornado;
+    public Usuario getUserPorID(final String id) {
+        GetUsuarioAsycn getUsuarioAsycn = new GetUsuarioAsycn();
+        getUsuarioAsycn.execute(id);
+        Usuario usuario = null;
+        try {
+            usuario = getUsuarioAsycn.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return usuario;
     }
 
     @Override
@@ -205,5 +231,31 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
         return user;
     }
 
+    private class GetUsuarioAsycn extends AsyncTask<String,Void,Usuario>{
 
+        @Override
+        protected Usuario doInBackground(String... strings) {
+            final String id = strings[0];
+            database.collection("user")
+                    .whereEqualTo("id", id)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d("novo", document.getId() + " => " + document.getData());
+                                    usuarioRetornado = document.toObject(Usuario.class);
+
+                                    Log.d("novo", "usuario r "+ usuarioRetornado.toString());
+                                }
+                            } else {
+                                Log.d("novo", "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+            Log.d("novo", "usuario r "+ usuarioRetornado.toString());
+            return usuarioRetornado;
+        }
+    }
 }

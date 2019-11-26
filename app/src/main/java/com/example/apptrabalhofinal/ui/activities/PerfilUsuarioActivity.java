@@ -38,7 +38,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
    // String emailLogado;
     FirebaseUser userFirebase;
 
-    Usuario usuarioAutentificado;
+    //Usuario usuarioAutentificado;
     UsuarioDAO usuarioDAOFirebase = UsuarioFirebaseDAO.getInstance();
 
     @Override
@@ -48,19 +48,19 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
         userFirebase = usuarioDAOFirebase.getFirebaseUser();
         referenciaElementos();
+
         this.acct = GoogleSignIn.getLastSignedInAccount(this);
 
         verificarUsuarioAtentificado();
         if(userFirebase!=null) {
-            usuarioAutentificado = usuarioDAOFirebase.getUserPorID(userFirebase.getUid());
-            if(usuarioAutentificado!=null){
-               Log.i("teste","testando buscat por email"+  usuarioAutentificado.toString());
-            }
-//            if (usuarioAutentificado.getMeuPerfil().getIdade() != null) {
-//                idadePerfil.setText(usuarioAutentificado.getMeuPerfil().getIdade());
+//            usuarioAutentificado = usuarioDAOFirebase.getUsuarioPorEmail(userFirebase.getEmail()); //getUserPorID(userFirebase.getUid());// getUsuarioPorEmail(userFirebase.getEmail());
+//            if(usuarioAutentificado!=null){
+//               Log.i("tagc","testando buscat por email"+  usuarioAutentificado.toString());
+//            }else{
+//                Log.i("tagc","falhar buscat por email"+  usuarioAutentificado);
 //            }
-            //emailPerfil.setText("Email :" + usuarioAutentificado.getMeuPerfil().getEmail());
             emailPerfil.setText("Email :" + userFirebase.getEmail());
+            usernamePerfil.setText(userFirebase.getDisplayName());
         }
 
     }
@@ -68,41 +68,34 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             if(acct!=null){
                 Glide.with(this).load(String.valueOf(acct.getPhotoUrl())).into(fotoPerfil);
 
-                Log.i("teste","Logado gmail: "+ acct.getDisplayName());
-
                 usernamePerfil.setText(acct.getDisplayName());
-                senhaPerfil.setText("informe nova senha");
 
             }else if(userFirebase!=null) {
-
-                // usuarioAutentificado = usuarioDAOFirebase.getUserPorID(userFirebase.getUid());
                 Glide.with(this).load(String.valueOf(userFirebase.getPhotoUrl())).into(fotoPerfil);
-
-//            Log.i("teste","Usuario Autentificado: "+ usuarioAutentificado.toString());
-                //usernamePerfil.setText(usuarioAutentificado.getMeuPerfil().getNome());
                 usernamePerfil.setText(userFirebase.getDisplayName());
                 Log.i("teste","userFirebase: "+ userFirebase.getDisplayName());
 
-                //senhaPerfil.setText(usuarioAutentificado.getMeuPerfil().getSenha());
-                senhaPerfil.setText("informe nova senha");
-                // sexoPerfil.setText(usuarioAutentificado.getMeuPerfil().getSexo());
             }
+        senhaPerfil.setHint("informe nova senha");
     }
     public void editarPerfil(View view) {
         if (!usernamePerfil.getText().toString().isEmpty()
-                && !senhaPerfil.getText().toString().isEmpty()
+
         ) {
-            usuarioAutentificado.getMeuPerfil().setSexo(sexoPerfil.getText().toString());
-            usuarioAutentificado.getMeuPerfil().setNome(usernamePerfil.getText().toString());
-            usuarioAutentificado.getMeuPerfil().setSenha(senhaPerfil.getText().toString());
-            usuarioAutentificado.getMeuPerfil().setIdade(idadePerfil.getText().toString());
-            usuarioDAOFirebase.editar(
-                    usuarioAutentificado.getMeuPerfil().getEmail(),
-                    usuarioAutentificado.getMeuPerfil().getNome(),
-                    usuarioAutentificado.getMeuPerfil().getSenha(),
-                    usuarioAutentificado.getMeuPerfil().getIdade(),
-                    usuarioAutentificado.getMeuPerfil().getSexo()
-            );
+//            if(!senhaPerfil.getText().toString().isEmpty()) {
+//                usuarioAutentificado.getMeuPerfil().setSenha(senhaPerfil.getText().toString());
+//            }
+            if(acct!=null){
+                usuarioDAOFirebase.addNovo(userFirebase.getPhotoUrl().toString(),userFirebase.getDisplayName(),userFirebase.getEmail(),"");
+            }else {
+                usuarioDAOFirebase.editar(userFirebase.getUid(),
+                        emailPerfil.getText().toString(),
+                        usernamePerfil.getText().toString(),
+                        senhaPerfil.getText().toString(),
+                        idadePerfil.getText().toString(),
+                        sexoPerfil.getText().toString()
+                );
+            }
             Toast.makeText(this, "Alterações salvas", Toast.LENGTH_LONG).show();
             finish();
         } else {
@@ -121,5 +114,11 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Perfil");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 }

@@ -33,7 +33,7 @@ public class PresentCadastro implements ContratoCadastro.present {
     }
 
     @Override
-    public void validarCadastro(Uri fotoPerfil, String username, String email, String senha) {
+    public void validarCadastro(String fotoPerfil, String username, String email, String senha) {
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             cadastroActivity.formatoInvalidoEmail();
         }

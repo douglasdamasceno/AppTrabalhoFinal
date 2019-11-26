@@ -22,8 +22,7 @@ public class AtividadeDetalheEnderecoActivity extends AppCompatActivity {
     private EditText endAtividadeComplemento;
     private Button btnEditarAtividade;
 
-    AtividadeDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();//AtividadeDBMemoriaDAO.getInstance();
-    //Present present;
+    AtividadeDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

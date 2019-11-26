@@ -38,7 +38,8 @@ public class AtividadeDetalheActivity extends AppCompatActivity {
         setContentView(R.layout.activity_atividade_detalhe);
 
         Bundle bundle = getIntent().getExtras();
-        atividadeEditada = atividadeDAO.AtividadePorID(bundle.getString("id"));
+//        atividadeEditada = atividadeDAO.AtividadePorID(bundle.getString("id"));
+        atividadeEditada = atividadeDAO.getAtividade(bundle.getString("id"));
         emailProprietario= bundle.getString("email");
 
 

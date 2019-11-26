@@ -42,7 +42,7 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
     ContratoCadastro.present presentCadastro;
 
    private Uri imageURI;
-   private Uri fotoPerfilURI;
+   private String fotoPerfilURI;
 
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
@@ -237,10 +237,10 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            fotoPerfilURI = data.getData();
+            fotoPerfilURI = data.getData().toString();
             imageViewPerfil.setImageURI(data.getData());
         }else if (resultCode == RESULT_OK && requestCode == IMAGE_CAPTURE_CODE){
-            fotoPerfilURI = imageURI;
+            fotoPerfilURI = imageURI.toString();
             imageViewPerfil.setImageURI(imageURI);
         }
         super.onActivityResult(requestCode, resultCode, data);

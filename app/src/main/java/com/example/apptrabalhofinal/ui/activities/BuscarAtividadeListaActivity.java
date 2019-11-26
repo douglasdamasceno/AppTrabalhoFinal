@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -31,6 +32,7 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_buscar_atividade_lista);
 
         inicializarElementos();
+        AtualizarListaTodasAtividades();
 
         listViewMinhasAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -44,9 +46,6 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
     public void abriItem(int itemSelecionado) {
         Bundle bundle = getIntent().getExtras();
 
-        if(bundle!=null) {
-            emailProprietario = bundle.getString("email");
-        }
         if (listarTodasAtividades(emailProprietario).size() > 0) {
             Intent intent = new Intent(this, ParticiparAtividadeActivity.class);
             Atividade atividade = listarTodasAtividades(emailProprietario).get(itemSelecionado);
@@ -64,19 +63,23 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        AtualizarListaTodasAtividades();
+    }
+
+    void AtualizarListaTodasAtividades(){
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null) {
             emailProprietario = bundle.getString("email");
+        }else{
+            Log.i("adds","else");
         }
         listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,listarTodasAtividades(emailProprietario)));
     }
-
     void inicializarElementos(){
         myToolbar = findViewById(R.id.minhaToolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Busca");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         listViewMinhasAtividades = findViewById(R.id.lista_view_todas_atividades);
     }
 }

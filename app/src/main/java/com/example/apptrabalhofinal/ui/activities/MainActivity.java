@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity  {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
+    MinhaAtividadeAdapter atividadeAdapter;
+
     GoogleSignInAccount acct;
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -67,11 +69,14 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        userFirebase = usuarioDAOFirebase.getFirebaseUser();
         inicializarElementos();
 
-        userFirebase = usuarioDAOFirebase.getFirebaseUser();
-
         verificarAutentificacao();
+
+        AtualizarMinhasAtividades();
+        AtualizarHeader();
+
 
         drawerLayout =(DrawerLayout)  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,myToolbar
@@ -80,8 +85,6 @@ public class MainActivity extends AppCompatActivity  {
         toggle.syncState();
 
 
-        AtualizarMinhasAtividades();
-        AtualizarHeader();
 
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -142,7 +145,6 @@ public class MainActivity extends AppCompatActivity  {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int itemSelecionado, long l) {
                 AlertDialog.Builder alerta = new AlertDialog.Builder(MainActivity.this);
                 final String[] opacao = {"deleta"};
-
                 alerta.setItems(opacao, new DialogInterface.OnClickListener(){
 
                     @Override
@@ -151,31 +153,26 @@ public class MainActivity extends AppCompatActivity  {
                             Toast.makeText(MainActivity.this,"Deletado",Toast.LENGTH_SHORT).show();
                             Atividade atividade = getMinhaAtividades().get(itemSelecionado);
                             if(atividadeDAO.remover(atividade.getId())){
-                                AtualizarMinhasAtividades();
                                 Toast.makeText(MainActivity.this,"Deletado com sucesso",Toast.LENGTH_SHORT).show();
                             }else{
                                 Toast.makeText(MainActivity.this,"Falha ao Deletar",Toast.LENGTH_SHORT).show();
                             }
                         }
-                        Log.i("teste","saiu do if");
                     }
                 }).create().show();
 
+                AtualizarMinhasAtividades();
                 return true;
             }
         });
+
     }
 
     void verificarAutentificacao(){
         if(userFirebase==null){
-            Log.i("teste","Usuario não autentiicado");
             Intent intent = new Intent(this,InicialActivity.class);
             startActivity(intent);
             finish();
-        }else{
-            Toast.makeText(this,"Usuario autenticado",Toast.LENGTH_LONG).show();
-            Log.i("teste","Usuario autentiicado nome " + userFirebase.getDisplayName());
-            Log.i("teste","Usuario autentiicado email " + userFirebase.getEmail());
         }
     }
 
@@ -186,6 +183,13 @@ public class MainActivity extends AppCompatActivity  {
         AtualizarMinhasAtividades();
         AtualizarHeader();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AtualizarMinhasAtividades();
+    }
+
     void AtualizarHeader(){
         View headView = navigationView.getHeaderView(0);
         ImageView imgPerfil = (ImageView) headView.findViewById(R.id.id_nav_header_perfil_foto);
@@ -224,9 +228,11 @@ public class MainActivity extends AppCompatActivity  {
         }
         return  atividades;
     }
-    public void AtualizarMinhasAtividades(){
 
-        listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,getMinhaAtividades()));
+    public void AtualizarMinhasAtividades(){
+        atividadeAdapter = new MinhaAtividadeAdapter(this,getMinhaAtividades());
+        listViewMinhasAtividades.setAdapter(atividadeAdapter);
+        atividadeAdapter.notifyDataSetChanged();
     }
 
     @Override

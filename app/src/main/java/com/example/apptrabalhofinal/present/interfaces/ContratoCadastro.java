@@ -13,6 +13,6 @@ public interface ContratoCadastro {
     }
 
     public interface present{
-        void validarCadastro(Uri fotoPerfil,String username, String email, String senha);
+        void validarCadastro(String fotoPerfil,String username, String email, String senha);
     }
 }

@@ -13,6 +13,6 @@ public interface AtividadeDAO {
     void addNovo(Atividade atividade);
     void editar(String id,Atividade atividade);
     boolean remover(String id);
-    void getAtividade(String id);
+    Atividade getAtividade(String id);
     FirebaseFirestore getDatabase();
 }

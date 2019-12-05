@@ -6,7 +6,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.data.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -75,7 +74,7 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
     void salvaInformacaoUsuario(String fotoPerfil,String id,String username,String email,String senha){
         Usuario usuario = new Usuario(id,fotoPerfil,username,email,senha) ;
 
-        database.collection("user")
+        database.collection("usuarios")
                 .add(usuario)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -120,7 +119,7 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
 
     @Override
     public void atualizarID(final String id) {
-        DocumentReference docRef = database.collection("user").document(id);
+        DocumentReference docRef = database.collection("usuarios").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -187,7 +186,7 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
 
     @Override
     public Usuario getUsuarioPorEmail(final String email) {
-        database.collection("users")
+        database.collection("usuarios")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -205,7 +204,6 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
                         }
                     }
                 });
-     //   Log.d("novo", "usuario r "+ usuarioRetornado.toString());
         return usuarioRetornado;
     }
 
@@ -236,7 +234,7 @@ public class UsuarioFirebaseDAO implements UsuarioDAO {
         @Override
         protected Usuario doInBackground(String... strings) {
             final String id = strings[0];
-            database.collection("user")
+            database.collection("usuarios")
                     .whereEqualTo("id", id)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity  {
 
 
     Usuario usuarioAutentificado;
+
     FirebaseUser userFirebase;
 
     AtividadeDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity  {
                         logout();
                         break;
                     }case R.id.id_menu_nav_buscar: {
-                        Intent intent = new Intent(getApplicationContext(), BuscarAtividadeListaActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                         if(userFirebase!=null) {
                             intent.putExtra("email", userFirebase.getEmail());
                         }
@@ -134,6 +135,7 @@ public class MainActivity extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
+
         listViewMinhasAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -144,16 +146,17 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int itemSelecionado, long l) {
                 AlertDialog.Builder alerta = new AlertDialog.Builder(MainActivity.this);
-                final String[] opacao = {"deleta"};
-                alerta.setItems(opacao, new DialogInterface.OnClickListener(){
+                final String[] opcao = {"Deleta"};
+                alerta.setItems(opcao, new DialogInterface.OnClickListener(){
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if(opacao[i].equals("deleta")){
-                            Toast.makeText(MainActivity.this,"Deletado",Toast.LENGTH_SHORT).show();
+                        if(opcao[i].equals("Deleta")){
                             Atividade atividade = getMinhaAtividades().get(itemSelecionado);
                             if(atividadeDAO.remover(atividade.getId())){
                                 Toast.makeText(MainActivity.this,"Deletado com sucesso",Toast.LENGTH_SHORT).show();
+                                AtualizarAdapterMinhasAtividade();
+                                AtualizarMinhasAtividades();
                             }else{
                                 Toast.makeText(MainActivity.this,"Falha ao Deletar",Toast.LENGTH_SHORT).show();
                             }
@@ -161,6 +164,7 @@ public class MainActivity extends AppCompatActivity  {
                     }
                 }).create().show();
 
+                AtualizarAdapterMinhasAtividade();
                 AtualizarMinhasAtividades();
                 return true;
             }
@@ -180,13 +184,18 @@ public class MainActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
         this.acct = GoogleSignIn.getLastSignedInAccount(this);
+        AtualizarAdapterMinhasAtividade();
         AtualizarMinhasAtividades();
         AtualizarHeader();
     }
 
+
+
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStart() {
+        super.onStart();
+        this.acct = GoogleSignIn.getLastSignedInAccount(this);
+        AtualizarAdapterMinhasAtividade();
         AtualizarMinhasAtividades();
     }
 
@@ -230,11 +239,13 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void AtualizarMinhasAtividades(){
-        atividadeAdapter = new MinhaAtividadeAdapter(this,getMinhaAtividades());
+        minhasAtividade = getMinhaAtividades();
+        atividadeAdapter = new MinhaAtividadeAdapter(this,minhasAtividade);
         listViewMinhasAtividades.setAdapter(atividadeAdapter);
+    }
+    void AtualizarAdapterMinhasAtividade(){
         atividadeAdapter.notifyDataSetChanged();
     }
-
     @Override
     public void onBackPressed(){
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -246,10 +257,12 @@ public class MainActivity extends AppCompatActivity  {
     public void abriItem(int itemSelecionado) {
         if (getMinhaAtividades().size() > 0) {
             Intent intent = new Intent(this, AtividadeDetalheActivity.class);
+
             Atividade atividade = getMinhaAtividades().get(itemSelecionado);
             intent.putExtra("id", atividade.getId());
-            Log.i("teste","email user:"+ userFirebase.getEmail());
+            Log.i("adds","id da atividade :"+ atividade.getId());
             intent.putExtra("email", userFirebase.getEmail());
+
             startActivity(intent);
         }
     }
@@ -285,4 +298,5 @@ public class MainActivity extends AppCompatActivity  {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
     }
+
 }

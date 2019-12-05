@@ -2,6 +2,7 @@ package com.example.apptrabalhofinal.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -54,7 +55,6 @@ public class CriarEnderecoAtividadeActivity extends AppCompatActivity  implement
         String hora = bundle.getString("hora");
         String data = bundle.getString("data");
         String emailUser = bundle.getString("email");
-        Log.i("teste","Email "+emailUser);
 
         if(bundle.getString("chamada").equals("criar")) {
             present.receberAtividade(emailUser, nome, descricao, tipo, qtd, idade, sexo, hora, data);
@@ -66,7 +66,7 @@ public class CriarEnderecoAtividadeActivity extends AppCompatActivity  implement
                     endAtividadeComplemento.getText().toString()
             )) {
                 present.salvarAtividade();
-                finish();
+               finish();
             }
         }
     }

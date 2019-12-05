@@ -3,7 +3,6 @@ package com.example.apptrabalhofinal.data.dao;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -15,13 +14,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import javax.annotation.Nullable;
 
 public class AtividadeFirebaseDAO  implements  AtividadeDAO{
 
@@ -94,19 +98,18 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
 
     @Override
     public ArrayList<Atividade> listarAtividadesParticipante(String email) {
-        database.collection("atividades")
-               // .whereEqualTo("emailProprietario", email)
-                .whereArrayContains("meusParticipantes", email)
+        database.collection("participantes")
+                .whereArrayContains("email", email)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                           // minhasAtividades.clear();
+                            listaAtividadesParticipo.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Atividade atividade = document.toObject(Atividade.class);
                                 listaAtividadesParticipo.add(atividade);
-                                Log.d("minhas", document.getId() + " => " + document.getData());
+                                Log.d("xxxx", document.getId() + " => " + document.getData());
                             }
                         } else {
                             Log.d("minhas", "Error getting documents: ", task.getException());
@@ -115,7 +118,7 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
                 });
         return listaAtividadesParticipo;
     }
-    //precisa fazer
+
     @Override
     public Atividade AtividadePorID(String id) {
         database.collection("atividades")
@@ -162,7 +165,8 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
     @Override
     public void editar(String id, Atividade atividade) {
         database.collection("atividades").document(id)
-                .update("id",atividade.getId(),"nome",atividade.getNome(),"descricao",atividade.getDescricao()
+                .update("id",atividade.getId(),"nome",atividade.getNome(),
+                        "descricao",atividade.getDescricao(),"data",atividade.getData()
                 )
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -181,25 +185,16 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
     @Override
     public boolean remover(String id) {
         database.collection("atividades").document(id)
-                .delete()
+        .delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         Log.i("teste", "removedo com sucesso: "+task.getResult());
                         removido = true;
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.i("teste", "erro ao remover: "+e.getMessage());
-                    }
                 });
-        Log.i("xxx","valorr do removido: "+ removido);
-        //return removido;
         return true;
     }
-
     @Override
     public Atividade getAtividade(String id) {
         GetAtividadeAsync atividadeAsync = new GetAtividadeAsync();
@@ -212,11 +207,55 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
         return  atividade;
     }
+    @Override
+    public void participarAtividade(String idUsuario,String email,String idAtividade) {
+        Map<String,String> participar = new HashMap<>();
+        participar.put("idUsuario",idUsuario);
+        participar.put("email",email);
+        participar.put("idAtividade",idAtividade);
+        database.collection("participantes").add(participar)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.i("teste","participando com sucesso!");
+                    }
+                });
+    }
+    @Override
+    public void naoParticiparAtividade(String idUsuario,String idAtividade) {
+        final Map<String,String> participar = new HashMap<>();
+        participar.put("idUsuario",idUsuario);
+        participar.put("idAtividade",idAtividade);
+        database.collection("participantes")
+                .whereEqualTo("idUsuario", idUsuario)
+                .whereEqualTo("idAtividade",idAtividade)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w("teste", "Listen failed.", e);
+                            return;
+                        }
 
+                        for (QueryDocumentSnapshot doc : value) {
+                            if (doc.get("idUsuario") != null) {
+                                DocumentSnapshot documentSnapshot = (DocumentSnapshot) doc.getData();
+                                database.collection("participantes").document(documentSnapshot.getId())
+                                        .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.i("teste","removido com sucesso");
+                                    }
+                                });
+                            }
+                        }
+                        //Log.d(TAG, "Current cites in CA: " + cities);
+                    }
+                });
+    }
     private class MinhasAtividadeAsync extends AsyncTask<String,Void,ArrayList<Atividade>>{
         @Override
         protected void onPreExecute() {
@@ -226,22 +265,27 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
         @Override
         protected ArrayList<Atividade> doInBackground(String... strings) {
             final String email = strings[0];
+
             database.collection("atividades")
                     .whereEqualTo("emailProprietario", email)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                minhasAtividades.clear();
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Atividade atividade = document.toObject(Atividade.class);
-                                    minhasAtividades.add(atividade);
-                                    Log.d("minhas", document.getId() + " => " + document.getData());
-                                }
-                            } else {
-                                Log.d("minhas", "Error getting documents: ", task.getException());
+                        public void onEvent(@Nullable QuerySnapshot value,
+                                            @Nullable FirebaseFirestoreException e) {
+                            if (e != null) {
+                //                Log.w(TAG, "Listen failed.", e);
+                                return;
                             }
+                            minhasAtividades.clear();
+                //            List<String> cities = new ArrayList<>();
+                            for (QueryDocumentSnapshot doc : value) {
+                                Atividade atividade = doc.toObject(Atividade.class);
+                                if (atividade.getEmailProprietario().equals(email)) {
+                                    //cities.add(doc.getString("name"));
+                                    minhasAtividades.add(atividade);
+                                }
+                            }
+                            //Log.d(TAG, "Current cites in CA: " + cities);
                         }
                     });
             return minhasAtividades;
@@ -262,24 +306,16 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
         @Override
         protected Atividade doInBackground(String... strings) {
             final String id = strings[0];
+
             DocumentReference docRef = database.collection("atividades").document(id);
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            Log.d("xxx", "DocumentSnapshot data: " + document.getData());
-                            atividadeRetornada = document.toObject(Atividade.class);
-                        } else {
-                            Log.d("teste", "No such document");
-                        }
-                    } else {
-                        Log.d("xxx", "get failed with ", task.getException());
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if(documentSnapshot.exists()) {
+                        atividadeRetornada = documentSnapshot.toObject(Atividade.class);
                     }
                 }
             });
-            Log.i("xxx","atividade retornada"+ atividadeRetornada);
             return  atividadeRetornada;
         }
 
@@ -293,7 +329,6 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
             super.onPostExecute(atividade);
         }
     }
-
     private class TodasAtividadeAsync extends AsyncTask<String,Void,ArrayList<Atividade>>{
         @Override
         protected void onPreExecute() {
@@ -303,20 +338,17 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
         @Override
         protected ArrayList<Atividade> doInBackground(String... strings) {
             final String email = strings[0];
-            final ArrayList<Atividade> list = new ArrayList<>();
-            database.collection("atividades")
+               database.collection("atividades")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            listaTodasAtividades.clear();
                             for (DocumentSnapshot doc: task.getResult()) {
                                 Atividade atividade = doc.toObject(Atividade.class);
                                 Log.i("teste","Todas minhas atividade: "+  atividade.getNome());
                                 if(!atividade.getEmailProprietario().equals(email)){
                                     listaTodasAtividades.add(atividade);
-                                    list.add(atividade);
-                                    Log.i("adds","add atividade: "+  atividade.getNome());
-
                                 }
                             }
                         }
@@ -327,7 +359,6 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
                             Log.i("teste","falha na hora listar todas atividade: "+  e.getMessage());
                         }
                     });
-            Log.i("adds","lista de todas"+ listaTodasAtividades.size());
             return listaTodasAtividades;
         }
 

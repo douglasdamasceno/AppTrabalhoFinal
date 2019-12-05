@@ -32,20 +32,22 @@ public class AtividadeDetalheActivity extends AppCompatActivity {
     Atividade atividadeEditada;
     private Button btnSalva;
     private Button btnEndereco;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_atividade_detalhe);
 
         Bundle bundle = getIntent().getExtras();
-//        atividadeEditada = atividadeDAO.AtividadePorID(bundle.getString("id"));
-        atividadeEditada = atividadeDAO.getAtividade(bundle.getString("id"));
-        emailProprietario= bundle.getString("email");
+        if(bundle!=null) {
+            atividadeEditada = atividadeDAO.getAtividade(bundle.getString("id"));
+        }
 
 
         referenciarElementos();
-        atualizarValores();
-
+        if(atividadeEditada!=null) {
+            atualizarValores();
+        }
         btnSalva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,4 +123,20 @@ public class AtividadeDetalheActivity extends AppCompatActivity {
         tipoAtividade.setText(tipo);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(atividadeEditada!=null) {
+            atualizarValores();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        if(atividadeEditada!=null) {
+            atualizarValores();
+        }
+    }
 }

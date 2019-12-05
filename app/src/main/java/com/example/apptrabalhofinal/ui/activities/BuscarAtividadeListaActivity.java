@@ -20,10 +20,10 @@ import java.util.ArrayList;
 
 public class BuscarAtividadeListaActivity extends AppCompatActivity {
 
-    AtividadeDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();//AtividadeDBMemoriaDAO.getInstance();
+    AtividadeDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();
     private Toolbar myToolbar;
     private ListView listViewMinhasAtividades;
-
+    MinhaAtividadeAdapter minhaAtividadeAdapter;
     private String emailProprietario;
 
     @Override
@@ -44,8 +44,6 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
 
 
     public void abriItem(int itemSelecionado) {
-        Bundle bundle = getIntent().getExtras();
-
         if (listarTodasAtividades(emailProprietario).size() > 0) {
             Intent intent = new Intent(this, ParticiparAtividadeActivity.class);
             Atividade atividade = listarTodasAtividades(emailProprietario).get(itemSelecionado);
@@ -63,7 +61,15 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        AtualizarListaTodasAtividades();
+       AtualizarMeuAdapter();
+        // AtualizarListaTodasAtividades();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+       // AtualizarListaTodasAtividades();
+        AtualizarMeuAdapter();
     }
 
     void AtualizarListaTodasAtividades(){
@@ -71,9 +77,17 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
         if(bundle!=null) {
             emailProprietario = bundle.getString("email");
         }else{
-            Log.i("adds","else");
+            Log.i("teste","bundle null");
         }
-        listViewMinhasAtividades.setAdapter(new MinhaAtividadeAdapter(this,listarTodasAtividades(emailProprietario)));
+        minhaAtividadeAdapter = new MinhaAtividadeAdapter(this,listarTodasAtividades(emailProprietario));
+        listViewMinhasAtividades.setAdapter(minhaAtividadeAdapter);
+    }
+    void AtualizarMeuAdapter(){
+        if(minhaAtividadeAdapter!=null) {
+            minhaAtividadeAdapter.notifyDataSetChanged();
+        }else{
+            AtualizarListaTodasAtividades();
+        }
     }
     void inicializarElementos(){
         myToolbar = findViewById(R.id.minhaToolbar);

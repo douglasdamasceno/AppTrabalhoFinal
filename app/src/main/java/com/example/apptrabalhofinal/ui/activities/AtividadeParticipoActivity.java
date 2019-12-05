@@ -13,14 +13,19 @@ import android.widget.Toast;
 import com.example.apptrabalhofinal.R;
 import com.example.apptrabalhofinal.data.dao.AtividadeDAO;
 import com.example.apptrabalhofinal.data.dao.AtividadeFirebaseDAO;
+import com.example.apptrabalhofinal.data.dao.UsuarioFirebaseDAO;
 import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.ui.adapter.MinhaAtividadeAdapter;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
 public class AtividadeParticipoActivity extends AppCompatActivity {
 
-    AtividadeDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();//AtividadeDBMemoriaDAO.getInstance();
+    UsuarioFirebaseDAO usuarioFirebaseDAO = UsuarioFirebaseDAO.getInstance();
+    AtividadeFirebaseDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();
+
+    FirebaseUser userFirebase;
     private Toolbar myToolbar;
     private ListView listViewMinhasAtividades;
 
@@ -32,6 +37,8 @@ public class AtividadeParticipoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_atividade_participo);
 
         inicializarElementos();
+        userFirebase = usuarioFirebaseDAO.getFirebaseUser();
+
         listViewMinhasAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -42,7 +49,6 @@ public class AtividadeParticipoActivity extends AppCompatActivity {
 
     public void abriItem(int itemSelecionado) {
         Bundle bundle = getIntent().getExtras();
-
         if(bundle!=null) {
             emailProprietario = bundle.getString("email");
         }
@@ -76,6 +82,5 @@ public class AtividadeParticipoActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Participo");
         listViewMinhasAtividades = findViewById(R.id.lista_view_atividades_participo);
-
     }
 }

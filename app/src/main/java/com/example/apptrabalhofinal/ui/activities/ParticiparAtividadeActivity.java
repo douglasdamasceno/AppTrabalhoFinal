@@ -15,6 +15,7 @@ import com.example.apptrabalhofinal.data.dao.UsuarioFirebaseDAO;
 import com.example.apptrabalhofinal.data.model.Atividade;
 import com.example.apptrabalhofinal.data.model.Participante;
 import com.example.apptrabalhofinal.data.model.Usuario;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ParticiparAtividadeActivity extends AppCompatActivity {
     TextView atividadeNome;
@@ -27,11 +28,10 @@ public class ParticiparAtividadeActivity extends AppCompatActivity {
     TextView atividadeSexoPublicoAlvo;
 
     Button btnParticipar;
-    Usuario usuarioAutentificado;
     Atividade atividadeParticipar;
     AtividadeDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();//AtividadeDBMemoriaDAO.getInstance();
     UsuarioDAO usuarioDAO = UsuarioFirebaseDAO.getInstance();//UsuarioDBMemoriaDAO.getInstance();
-
+    FirebaseUser userFirebase;
 
 
     @Override
@@ -40,33 +40,26 @@ public class ParticiparAtividadeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_participar_atividade);
 
         referenciarElementos();
+        userFirebase = usuarioDAO.getFirebaseUser();
 
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null) {
             atividadeParticipar = atividadeDAO.AtividadePorID(bundle.getString("id"));
-            usuarioAutentificado = usuarioDAO.getUsuarioPorEmail(bundle.getString("email"));
         }
         referenciarValores();
 
         btnParticipar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Participante participante = new Participante();
-                if(usuarioAutentificado!=null) {
-                    participante.setId(usuarioAutentificado.getId());
-                    participante.setEmail(usuarioAutentificado.getMeuPerfil().getEmail());
-                    participante.setNome(usuarioAutentificado.getMeuPerfil().getNome());
-                }
                 Bundle bundle = getIntent().getExtras();
                 if(bundle!=null) {
                     if (bundle.getString("chamada").equals("buscar")) {
-                        atividadeParticipar.addParticipante(participante);
+                        atividadeDAO.participarAtividade(userFirebase.getUid(),userFirebase.getEmail()
+                                ,atividadeParticipar.getId());
                     } else {
-                        atividadeParticipar.removePorIdParticipante(participante.getId());
-
+                        atividadeDAO.naoParticiparAtividade(userFirebase.getUid(),atividadeParticipar.getId());
                     }
                 }
-                atividadeDAO.editar(atividadeParticipar.getId(),atividadeParticipar);
                 finish();
             }
         });
@@ -111,6 +104,12 @@ public class ParticiparAtividadeActivity extends AppCompatActivity {
             atividadeIdadePublicoAlvo.setText("Publico Alvo: "+idade);
             atividadeSexoPublicoAlvo.setText("Genero: "+sexo);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        referenciarValores();
     }
 
     @Override

@@ -53,7 +53,7 @@ public class MinhaAtividadeAdapter extends BaseAdapter {
         TextView viewData = view.findViewById(R.id.lista_minha_atividades_data);
         TextView viewHorario = view.findViewById(R.id.lista_minha_atividades_horario);
 
-        ImageView viewImage = view.findViewById(R.id.lista_minha_atividades_imagem);
+        //ImageView viewImage = view.findViewById(R.id.lista_minha_atividades_imagem);
 
 
         viewNome.setText(atividade.getNome());

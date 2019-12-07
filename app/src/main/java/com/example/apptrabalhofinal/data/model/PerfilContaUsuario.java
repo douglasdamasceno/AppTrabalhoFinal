@@ -1,6 +1,8 @@
 package com.example.apptrabalhofinal.data.model;
 
-public class PerfilContaUsuario {
+import java.io.Serializable;
+
+public class PerfilContaUsuario  implements Serializable {
     private String idPerfil;
     private String nome;
     private String email;

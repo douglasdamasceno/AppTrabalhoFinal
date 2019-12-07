@@ -32,7 +32,8 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_buscar_atividade_lista);
 
         inicializarElementos();
-        AtualizarListaTodasAtividades();
+        criarListaTodasAtividades();
+        notificarMeuAdapter();
 
         listViewMinhasAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -48,8 +49,18 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ParticiparAtividadeActivity.class);
             Atividade atividade = listarTodasAtividades(emailProprietario).get(itemSelecionado);
             intent.putExtra("id", atividade.getId());
-            intent.putExtra("email", emailProprietario);
+            intent.putExtra("email", atividade.getEmailProprietario());
             intent.putExtra("chamada", "buscar");
+            intent.putExtra("nome", atividade.getNome());
+            intent.putExtra("descricao", atividade.getDescricao());
+            intent.putExtra("quantidade", Integer.toString(atividade.getVagasParticipantes()));
+            intent.putExtra("data", atividade.getData());
+            intent.putExtra("hora", atividade.getHora());
+            intent.putExtra("tipo", atividade.getTipoDeAtividade());
+            intent.putExtra("idade", atividade.getIdadePublico());
+            intent.putExtra("sexo", atividade.getSexoPublico());
+            intent.putExtra("totalParticantes", Integer.toString(atividade.getMeusParticipantes().size()));
+
             startActivity(intent);
         }
     }
@@ -61,18 +72,16 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-       AtualizarMeuAdapter();
-        // AtualizarListaTodasAtividades();
+       notificarMeuAdapter();
+        // criarListaTodasAtividades();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-       // AtualizarListaTodasAtividades();
-        AtualizarMeuAdapter();
     }
 
-    void AtualizarListaTodasAtividades(){
+    void criarListaTodasAtividades(){
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null) {
             emailProprietario = bundle.getString("email");
@@ -82,11 +91,11 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
         minhaAtividadeAdapter = new MinhaAtividadeAdapter(this,listarTodasAtividades(emailProprietario));
         listViewMinhasAtividades.setAdapter(minhaAtividadeAdapter);
     }
-    void AtualizarMeuAdapter(){
+    void notificarMeuAdapter(){
         if(minhaAtividadeAdapter!=null) {
             minhaAtividadeAdapter.notifyDataSetChanged();
         }else{
-            AtualizarListaTodasAtividades();
+            criarListaTodasAtividades();
         }
     }
     void inicializarElementos(){

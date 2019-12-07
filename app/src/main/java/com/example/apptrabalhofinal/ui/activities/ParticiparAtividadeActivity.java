@@ -28,9 +28,9 @@ public class ParticiparAtividadeActivity extends AppCompatActivity {
     TextView atividadeSexoPublicoAlvo;
 
     Button btnParticipar;
-    Atividade atividadeParticipar;
-    AtividadeDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();//AtividadeDBMemoriaDAO.getInstance();
-    UsuarioDAO usuarioDAO = UsuarioFirebaseDAO.getInstance();//UsuarioDBMemoriaDAO.getInstance();
+    //Atividade atividadeParticipar;
+    AtividadeDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();
+    UsuarioDAO usuarioDAO = UsuarioFirebaseDAO.getInstance();
     FirebaseUser userFirebase;
 
 
@@ -42,22 +42,20 @@ public class ParticiparAtividadeActivity extends AppCompatActivity {
         referenciarElementos();
         userFirebase = usuarioDAO.getFirebaseUser();
 
-        Bundle bundle = getIntent().getExtras();
-        if(bundle!=null) {
-            atividadeParticipar = atividadeDAO.AtividadePorID(bundle.getString("id"));
-        }
-        referenciarValores();
+        referenciarValoresAtividade();
 
         btnParticipar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle bundle = getIntent().getExtras();
                 if(bundle!=null) {
+                    String idAtividade = bundle.getString("id");
                     if (bundle.getString("chamada").equals("buscar")) {
+
                         atividadeDAO.participarAtividade(userFirebase.getUid(),userFirebase.getEmail()
-                                ,atividadeParticipar.getId());
+                               ,idAtividade);
                     } else {
-                        atividadeDAO.naoParticiparAtividade(userFirebase.getUid(),atividadeParticipar.getId());
+                        atividadeDAO.naoParticiparAtividade(userFirebase.getUid(),idAtividade);
                     }
                 }
                 finish();
@@ -84,37 +82,38 @@ public class ParticiparAtividadeActivity extends AppCompatActivity {
             }
         }
     }
-    void referenciarValores(){
-        if(atividadeParticipar!=null) {
-            String nome = atividadeParticipar.getNome();
-            String descricao = atividadeParticipar.getDescricao();
-            int quatidade = atividadeParticipar.getVagasParticipantes();
-            String idade = atividadeParticipar.getIdadePublico();
-            String sexo = atividadeParticipar.getSexoPublico();
-            String data = atividadeParticipar.getData();
-            String horario = atividadeParticipar.getHora();
-            String tipo = atividadeParticipar.getTipoDeAtividade();
 
-            atividadeNome.setText("Nome: "+nome);
-            atividadeDescricao.setText("Descrição: \n"+descricao);
-            atividadeData.setText("Data: "+data);
-            atividadeHorario.setText("Horario: "+horario);
-            atividadeTipo.setText("Tipo: "+tipo);
-            atividadeQuantidades.setText("Participantes:"+ atividadeParticipar.getMeusParticipantes().size()+"/"+quatidade);
-            atividadeIdadePublicoAlvo.setText("Publico Alvo: "+idade);
-            atividadeSexoPublicoAlvo.setText("Genero: "+sexo);
+    void referenciarValoresAtividade(){
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null) {
+            String nome = bundle.getString("nome");
+            String descricao = bundle.getString("descricao");
+            String quantidade = bundle.getString("quantidade");
+            String idade = bundle.getString("idade");
+            String sexo = bundle.getString("sexo");
+            String data = bundle.getString("data");
+            String horario = bundle.getString("hora");
+            String tipo = bundle.getString("tipo");
+            String totalParticipantes = bundle.getString("totalParticantes");
+
+            atividadeNome.setText("Nome: " + nome);
+            atividadeDescricao.setText("Descrição: \n" + descricao);
+            atividadeData.setText("Data: " + data);
+            atividadeHorario.setText("Horario: " + horario);
+            atividadeTipo.setText("Tipo: " + tipo);
+            atividadeQuantidades.setText("Participantes:" + totalParticipantes + "/" + quantidade);
+            atividadeIdadePublicoAlvo.setText("Publico Alvo: " + idade);
+            atividadeSexoPublicoAlvo.setText("Genero: " + sexo);
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        referenciarValores();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        referenciarValores();
     }
 }

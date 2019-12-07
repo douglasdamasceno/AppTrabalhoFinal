@@ -1,6 +1,8 @@
 package com.example.apptrabalhofinal.data.model;
 
-public class Participante {
+import java.io.Serializable;
+
+public class Participante implements Serializable {
     private String id;
     private String nome;
     private String email;

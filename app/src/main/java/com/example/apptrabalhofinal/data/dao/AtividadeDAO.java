@@ -12,7 +12,7 @@ public interface AtividadeDAO {
     Atividade AtividadePorID(String id);
     void addNovo(Atividade atividade);
     void editar(String id,Atividade atividade);
-    boolean remover(String id);
+    void remover(String id);
     Atividade getAtividade(String id);
     void participarAtividade(String idUsuario,String email,String idAtividade);
     void naoParticiparAtividade(String idUsuario,String idAtividade);

@@ -47,7 +47,6 @@ public class AtividadeDetalheEnderecoActivity extends AppCompatActivity {
         endAtividadeCEP = findViewById(R.id.end_id_cep);
         endAtividadeComplemento = findViewById(R.id.end_id_complemento);
         btnEditarAtividade = findViewById(R.id.btn_criar_atividade);
-       // present = new PresentCriarEnderecoAtividade(this);
     }
 
     void atualizarCamposEndereco() {
@@ -74,9 +73,18 @@ public class AtividadeDetalheEnderecoActivity extends AppCompatActivity {
         if (bundle.getString("chamada").equals("editar")) {
             btnEditarAtividade.setText("Editar");
 
+            Atividade atividade = new Atividade();
             String id = bundle.getString("id");
+            atividade.setId(id);
+            atividade.setNome(bundle.getString("nome"));
+            atividade.setDescricao(bundle.getString("descricao"));
+            atividade.setVagasParticipantes(Integer.parseInt( bundle.getString("quantidade")));
+            atividade.setData( bundle.getString("data"));
+            atividade.setHora( bundle.getString("hora"));
+            atividade.setTipoDeAtividade( bundle.getString("tipo"));
+            atividade.setIdadePublico( bundle.getString("idade"));
+            atividade.setSexoPublico( bundle.getString("sexo"));
 
-            Atividade atividade = atividadeDAO.AtividadePorID(id);
             Endereco endereco = new Endereco();
             endereco.setCidade(endAtividadeCidade.getText().toString());
             endereco.setRua(endAtividadeRua.getText().toString());
@@ -84,6 +92,7 @@ public class AtividadeDetalheEnderecoActivity extends AppCompatActivity {
             endereco.setCep(endAtividadeCEP.getText().toString());
             endereco.setComplemento(endAtividadeComplemento.getText().toString());
             atividade.setEndereco(endereco);
+
             atividadeDAO.editar(id,atividade);
             finish();
         }

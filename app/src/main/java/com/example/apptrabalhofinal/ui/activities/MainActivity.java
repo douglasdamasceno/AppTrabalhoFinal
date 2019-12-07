@@ -28,7 +28,6 @@ import com.example.apptrabalhofinal.data.dao.AtividadeFirebaseDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioDAO;
 import com.example.apptrabalhofinal.data.dao.UsuarioFirebaseDAO;
 import com.example.apptrabalhofinal.data.model.Atividade;
-import com.example.apptrabalhofinal.data.model.Usuario;
 import com.example.apptrabalhofinal.ui.adapter.MinhaAtividadeAdapter;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -44,9 +43,6 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity  {
-
-
-    Usuario usuarioAutentificado;
 
     FirebaseUser userFirebase;
 
@@ -65,18 +61,20 @@ public class MainActivity extends AppCompatActivity  {
     GoogleSignInAccount acct;
     private GoogleSignInClient mGoogleSignInClient;
 
+    int selected;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        selected = -1;
         userFirebase = usuarioDAOFirebase.getFirebaseUser();
         inicializarElementos();
 
         verificarAutentificacao();
-
-        AtualizarMinhasAtividades();
-        AtualizarHeader();
+        criarMinhasAtividades();
+        atualizarHeader();
 
 
         drawerLayout =(DrawerLayout)  findViewById(R.id.drawer_layout);
@@ -84,8 +82,6 @@ public class MainActivity extends AppCompatActivity  {
                 ,R.string.open_drawer,R.string.closer_drawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-
 
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -106,11 +102,15 @@ public class MainActivity extends AppCompatActivity  {
                         }
                         startActivity(intent);
                         break;
+                    }case R.id.id_menu_nav_proxima: {
+                        Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
+                        startActivity(intent);
+                        break;
                     }case R.id.id_menu_nav_sair: {
                         logout();
                         break;
                     }case R.id.id_menu_nav_buscar: {
-                        Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), BuscarAtividadeListaActivity.class);
                         if(userFirebase!=null) {
                             intent.putExtra("email", userFirebase.getEmail());
                         }
@@ -139,9 +139,11 @@ public class MainActivity extends AppCompatActivity  {
         listViewMinhasAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                abriItem(i);
+                selected = i;
+                abriItem();
             }
         });
+
         listViewMinhasAtividades.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int itemSelecionado, long l) {
@@ -152,24 +154,21 @@ public class MainActivity extends AppCompatActivity  {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if(opcao[i].equals("Deleta")){
-                            Atividade atividade = getMinhaAtividades().get(itemSelecionado);
-                            if(atividadeDAO.remover(atividade.getId())){
-                                Toast.makeText(MainActivity.this,"Deletado com sucesso",Toast.LENGTH_SHORT).show();
-                                AtualizarAdapterMinhasAtividade();
-                                AtualizarMinhasAtividades();
-                            }else{
-                                Toast.makeText(MainActivity.this,"Falha ao Deletar",Toast.LENGTH_SHORT).show();
-                            }
+                            selected = itemSelecionado;
+                            Atividade atividade = getMinhaAtividades().get(selected);
+                            selected = -1;
+                            atividadeDAO.remover(atividade.getId());
+                            notificarAdapterMinhasAtividade();
+                            Toast.makeText(MainActivity.this,"Deletado com sucesso",Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).create().show();
-
-                AtualizarAdapterMinhasAtividade();
-                AtualizarMinhasAtividades();
+                notificarAdapterMinhasAtividade();
                 return true;
             }
-        });
 
+        });
+        notificarAdapterMinhasAtividade();
     }
 
     void verificarAutentificacao(){
@@ -184,22 +183,20 @@ public class MainActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
         this.acct = GoogleSignIn.getLastSignedInAccount(this);
-        AtualizarAdapterMinhasAtividade();
-        AtualizarMinhasAtividades();
-        AtualizarHeader();
+        notificarAdapterMinhasAtividade();
+        selected = -1;
+        atualizarHeader();
     }
-
-
 
     @Override
     protected void onStart() {
         super.onStart();
+        selected = -1;
         this.acct = GoogleSignIn.getLastSignedInAccount(this);
-        AtualizarAdapterMinhasAtividade();
-        AtualizarMinhasAtividades();
+        notificarAdapterMinhasAtividade();
     }
 
-    void AtualizarHeader(){
+    void atualizarHeader(){
         View headView = navigationView.getHeaderView(0);
         ImageView imgPerfil = (ImageView) headView.findViewById(R.id.id_nav_header_perfil_foto);
         TextView nomeUsusario = (TextView) headView.findViewById(R.id.id_nav_header_nome);
@@ -226,26 +223,23 @@ public class MainActivity extends AppCompatActivity  {
          }
     }
 
-    public ArrayList<Atividade> getMinhaAtividades() {
+    private ArrayList<Atividade> getMinhaAtividades() {
         ArrayList<Atividade> atividades = null;
         if(userFirebase!=null) {
-            Log.i("outro","email : "+ userFirebase.getEmail());
-            atividades = atividadeDAO.listarMinhasAtividades(userFirebase.getEmail()); //new ArrayList<>();
-        }
-        if(atividades!=null){
-            Log.i("outro","aitividades tamanho : "+ atividades.size());
+            atividades = atividadeDAO.listarMinhasAtividades(userFirebase.getEmail());
         }
         return  atividades;
     }
 
-    public void AtualizarMinhasAtividades(){
+    private void criarMinhasAtividades(){
         minhasAtividade = getMinhaAtividades();
         atividadeAdapter = new MinhaAtividadeAdapter(this,minhasAtividade);
         listViewMinhasAtividades.setAdapter(atividadeAdapter);
     }
-    void AtualizarAdapterMinhasAtividade(){
+    private void notificarAdapterMinhasAtividade(){
         atividadeAdapter.notifyDataSetChanged();
     }
+
     @Override
     public void onBackPressed(){
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -254,18 +248,34 @@ public class MainActivity extends AppCompatActivity  {
             super.onBackPressed();
         }
     }
-    public void abriItem(int itemSelecionado) {
-        if (getMinhaAtividades().size() > 0) {
+    public void abriItem() {
+        if (getMinhaAtividades().size() > 0  && selected >=0) {
             Intent intent = new Intent(this, AtividadeDetalheActivity.class);
-
-            Atividade atividade = getMinhaAtividades().get(itemSelecionado);
+            Atividade atividade = getMinhaAtividades().get(selected);
+            selected = -1;
             intent.putExtra("id", atividade.getId());
-            Log.i("adds","id da atividade :"+ atividade.getId());
-            intent.putExtra("email", userFirebase.getEmail());
+            intent.putExtra("nome", atividade.getNome());
+            intent.putExtra("descricao", atividade.getDescricao());
+            intent.putExtra("quantidade", Integer.toString(atividade.getVagasParticipantes()));
+            intent.putExtra("data", atividade.getData());
+            intent.putExtra("hora", atividade.getHora());
+            intent.putExtra("tipo", atividade.getTipoDeAtividade());
+            intent.putExtra("idade", atividade.getIdadePublico());
+            intent.putExtra("sexo", atividade.getSexoPublico());
+
+            intent.putExtra("cidade",atividade.getEndereco().getCidade());
+            intent.putExtra("rua",atividade.getEndereco().getRua());
+            intent.putExtra("estado",atividade.getEndereco().getEstado());
+            intent.putExtra("cep",atividade.getEndereco().getCep());
+            intent.putExtra("complemento",atividade.getEndereco().getComplemento());
+
 
             startActivity(intent);
         }
+
     }
+
+
     public void logout(){
         FirebaseAuth.getInstance().signOut();
         if(this.acct!=null){
@@ -298,5 +308,4 @@ public class MainActivity extends AppCompatActivity  {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
     }
-
 }

@@ -12,9 +12,13 @@
                 android:icon="@drawable/ic_home" />
 
 
-            <item android:title="Buscar Atividades"
+            <item android:title="Listar Atividades"
                 android:icon="@drawable/ic_buscar"
                 android:id="@+id/id_menu_nav_buscar"/>
+
+            <item android:title="Atividades Proximas"
+                android:icon="@drawable/ic_buscar"
+                android:id="@+id/id_menu_nav_proxima"/>
 
         </menu>
     </item>

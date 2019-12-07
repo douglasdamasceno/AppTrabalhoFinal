@@ -17,8 +17,6 @@ public class AtividadeDetalheActivity extends AppCompatActivity {
 
     AtividadeDAO atividadeDAO = AtividadeFirebaseDAO.getInstance();
 
-    private String emailProprietario;
-
     private TextView atividadeNome;
     private TextView atividadeDescricao;
     private TextView atividadeQuantidade;
@@ -42,29 +40,34 @@ public class AtividadeDetalheActivity extends AppCompatActivity {
         if(bundle!=null) {
             atividadeEditada = atividadeDAO.getAtividade(bundle.getString("id"));
         }
-
-
         referenciarElementos();
-        if(atividadeEditada!=null) {
-            atualizarValores();
-        }
+        atualizarValoresAtividade();
+
+
         btnSalva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                obtendoValores(atividadeEditada);
+                obtendoValores();
                 finish();
             }
         });
-
+//ediarebdereco ajeita
         btnEndereco.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                obtendoValores(atividadeEditada);
-                editarEndereco(atividadeEditada);
+                if(atividadeEditada!=null) {
+                    obtendoValores();
+                    editarEndereco();
+                }
             }
         });
     }
-    public void obtendoValores(Atividade atividade){
+    public void obtendoValores(){
+        Atividade atividade = new Atividade();
+        Bundle bundle = getIntent().getExtras();
+        String id = bundle.getString("id");
+        atividade.setId(id);
+
         atividade.setNome(atividadeNome.getText().toString());
         atividade.setDescricao(atividadeDescricao.getText().toString());
         atividade.setVagasParticipantes( Integer.parseInt(atividadeQuantidade.getText().toString()));
@@ -73,19 +76,56 @@ public class AtividadeDetalheActivity extends AppCompatActivity {
         atividade.setData(atividadeData.getText().toString());
         atividade.setHora(atividadeHorario.getText().toString());
         atividade.setTipoDeAtividade(tipoAtividade.getText().toString());
+
         atividadeDAO.editar(atividade.getId(),atividade);
     }
 
-    public void editarEndereco(Atividade atividade){
+    public void atualizarValoresAtividade(){
+        Bundle bundle = getIntent().getExtras();
+
+        String nome = bundle.getString("nome");
+        String descricao = bundle.getString("descricao");
+        String quantidade = bundle.getString("quantidade");
+        String data = bundle.getString("data");
+        String hora = bundle.getString("hora");
+        String tipo = bundle.getString("tipo");
+        String idade = bundle.getString("idade");
+        String sexo = bundle.getString("sexo");
+
+        atividadeNome.setText(nome);
+        atividadeDescricao.setText(descricao);
+        atividadeQuantidade.setText(quantidade);
+        atividadeIdade.setText(idade);
+        atividadeSexo.setText(sexo);
+        atividadeData.setText(data);
+        atividadeHorario.setText(hora);
+        tipoAtividade.setText(tipo);
+    }
+
+    public void editarEndereco(){
+        Bundle bundle = getIntent().getExtras();
+
         Intent intent = new Intent(this, AtividadeDetalheEnderecoActivity.class);
+
         intent.putExtra("chamada","editar");
-        intent.putExtra("email", emailProprietario);
-        intent.putExtra("id",atividade.getId());
-        intent.putExtra("cidade",atividade.getEndereco().getCidade());
-        intent.putExtra("rua",atividade.getEndereco().getRua());
-        intent.putExtra("estado",atividade.getEndereco().getEstado());
-        intent.putExtra("cep",atividade.getEndereco().getCep());
-        intent.putExtra("complemento",atividade.getEndereco().getComplemento());
+        intent.putExtra("email", bundle.getString("email"));
+        intent.putExtra("id",bundle.getString("id"));
+
+        intent.putExtra("nome", atividadeNome.getText().toString());
+        intent.putExtra("descricao", atividadeDescricao.getText().toString());
+        intent.putExtra("quantidade", atividadeQuantidade.getText().toString());
+        intent.putExtra("data", atividadeData.getText().toString());
+        intent.putExtra("hora", atividadeHorario.getText().toString());
+        intent.putExtra("tipo", tipoAtividade.getText().toString());
+        intent.putExtra("idade", atividadeIdade.getText().toString());
+        intent.putExtra("sexo", atividadeSexo.getText().toString());
+
+        intent.putExtra("cidade",bundle.getString("cidade"));
+        intent.putExtra("rua",bundle.getString("rua"));
+        intent.putExtra("estado",bundle.getString("estado"));
+        intent.putExtra("cep",bundle.getString("cep"));
+        intent.putExtra("complemento",bundle.getString("complemento"));
+
         startActivity(intent);
         finish();
     }
@@ -103,40 +143,12 @@ public class AtividadeDetalheActivity extends AppCompatActivity {
         btnEndereco = findViewById(R.id.btn_editar_endereco);
     }
 
-    void atualizarValores(){
-        String nome = atividadeEditada.getNome();
-        String descricao = atividadeEditada.getDescricao();
-        int quatidade = atividadeEditada.getVagasParticipantes();
-        String idade = atividadeEditada.getIdadePublico();
-        String sexo = atividadeEditada.getSexoPublico();
-        String data = atividadeEditada.getData();
-        String horario = atividadeEditada.getHora();
-        String tipo = atividadeEditada.getTipoDeAtividade();
-
-        atividadeNome.setText(nome);
-        atividadeDescricao.setText(descricao);
-        atividadeQuantidade.setText(""+quatidade);
-        atividadeIdade.setText(idade);
-        atividadeSexo.setText(sexo);
-        atividadeData.setText(data);
-        atividadeHorario.setText(horario);
-        tipoAtividade.setText(tipo);
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
-        if(atividadeEditada!=null) {
-            atualizarValores();
-        }
     }
-
     @Override
     protected void onResume() {
-
         super.onResume();
-        if(atividadeEditada!=null) {
-            atualizarValores();
-        }
     }
 }

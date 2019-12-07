@@ -1,6 +1,8 @@
 package com.example.apptrabalhofinal.data.model;
 
-public class Endereco {
+import java.io.Serializable;
+
+public class Endereco  implements Serializable {
     private String id;
     private String cep;
     private String rua;

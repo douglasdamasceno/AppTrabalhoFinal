@@ -44,12 +44,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     UsuarioFirebaseDAO usuarioDAO = UsuarioFirebaseDAO.getInstance();
 
     private GoogleMap mMap;
-
     ArrayList<Atividade> listaAtividade;
-
     private Marker currentLocationMaker;
     private LatLng currentLocationLatLong;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,40 +64,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onStart() {
         super.onStart();
         listaAtividade = listarAtividades();
+        Log.i("teste","add "+listaAtividade.size());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listaAtividade = listarAtividades();
     }
 
     public ArrayList<Atividade> listarAtividades(){
         FirebaseUser user = usuarioDAO.getFirebaseUser();
-        return atividadeDAO.listarAtividadesParticipante(user.getEmail());
+        return atividadeDAO.listarAtividadesTodos(user.getEmail());
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        for (MarkerOptions market: addAtividadeNoMapa() ) {
-            mMap.addMarker(market);
-        }
-        LatLng address = getLocationFromAddress(this,"Av. José Caetano Almeida,Quixadá,CE,63900-000");
-        LatLng address2 = getLocationFromAddress(this,"Av. José Caetano Almeida,Quixadá,CE,63900-000");
-
-        mMap.addMarker(new MarkerOptions().position(address).title("Marker in Sydney"));
-        mMap.addMarker(new MarkerOptions().position(address2).title("Marker in CASA"));
+        addAtividadeNoMapa(mMap);
         mMap.setOnInfoWindowClickListener(this);
-//        //addAtividadeNoMapa();
-        //mMap.addMarker(new MarkerOptions().position(address).title("ss"));
-
-        //CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15.f).target(address).build();
-
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(address));
-        //mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
 
-
-    public ArrayList<MarkerOptions> addAtividadeNoMapa(){
+    private void addAtividadeNoMapa(GoogleMap googleMap){
+        mMap = googleMap;
         String rua,cidade,estado,cep;
-        ArrayList<MarkerOptions> listaMarket = new ArrayList<>();
         for (Atividade atividade:listaAtividade) {
             rua = atividade.getEndereco().getRua();
             cidade = atividade.getEndereco().getCidade();
@@ -111,12 +99,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     (this,endereco);
             MarkerOptions markerOptions = new MarkerOptions().position(address)
                     .title(atividade.getNome())
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+            mMap.addMarker(markerOptions);
         }
-        return listaMarket;
     }
+
     @Override
     public void onInfoWindowClick(Marker marker) {
+        Log.i("teste","id : "+ marker.getId());
         Toast.makeText(this, "Info window clicked",
                 Toast.LENGTH_SHORT).show();
     }
@@ -156,20 +146,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.alpha(0);
         currentLocationMaker = mMap.addMarker(markerOptions);
         //Move to new location
-        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).target(currentLocationLatLong).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(14).target(currentLocationLatLong).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        //LocationData locationData = new LocationData(location.getLatitude(), location.getLongitude());
-        //mDatabase.child("location").child(String.valueOf(new Date().getTime())).setValue(locationData);
         Toast.makeText(this, "Localização atualizada", Toast.LENGTH_SHORT).show();
-        //getMarkers();
     }
-
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {}
-
     @Override
     public void onProviderEnabled(String s) { }
-
     @Override
     public void onProviderDisabled(String s) { }
 
@@ -183,7 +167,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         return result;
     }
-
     private boolean hasPermission(String permission) {
         if (canAskPermission()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -192,11 +175,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         return true;
     }
-
     private boolean canAskPermission() {
         return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
     }
-
     public void showSettingsAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("GPS desativado!");
@@ -214,7 +195,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
         alertDialog.show();
     }
-
     private void startGettingLocations() {
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -272,6 +252,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(this, "Não é possível obter a localização", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 }

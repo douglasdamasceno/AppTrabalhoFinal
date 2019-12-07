@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -55,13 +56,23 @@ public class AtividadeParticipoActivity extends AppCompatActivity {
         if (listarAtividadesParticipo(emailProprietario).size() > 0) {
             Intent intent = new Intent(this, ParticiparAtividadeActivity.class);
             Atividade atividade = listarAtividadesParticipo(emailProprietario).get(itemSelecionado);
+
             intent.putExtra("id", atividade.getId());
+            intent.putExtra("nome", atividade.getNome());
+            intent.putExtra("descricao", atividade.getDescricao());
+            intent.putExtra("quantidade",Integer.toString( atividade.getVagasParticipantes()));
+            intent.putExtra("idade", atividade.getIdadePublico());
+            intent.putExtra("sexo", atividade.getSexoPublico());
+            intent.putExtra("data", atividade.getData());
+            intent.putExtra("hora", atividade.getHora());
+            intent.putExtra("tipo", atividade.getTipoDeAtividade());
+            intent.putExtra("totalParticantes", Integer.toString(atividade.getMeusParticipantes().size()));
+
             intent.putExtra("email", emailProprietario);
             intent.putExtra("chamada", "participo");
             startActivity(intent);
         }
     }
-
     public ArrayList<Atividade> listarAtividadesParticipo(String email){
         return atividadeDAO.listarAtividadesParticipante(email);
     }
@@ -80,7 +91,7 @@ public class AtividadeParticipoActivity extends AppCompatActivity {
     void inicializarElementos(){
         myToolbar = findViewById(R.id.minhaToolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("Participo");
+        getSupportActionBar().setTitle("Atividades Participo");
         listViewMinhasAtividades = findViewById(R.id.lista_view_atividades_participo);
     }
 }

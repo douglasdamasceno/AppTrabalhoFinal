@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.apptrabalhofinal.data.model.Atividade;
+import com.example.apptrabalhofinal.data.model.Participante;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -98,25 +99,17 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
 
     @Override
     public ArrayList<Atividade> listarAtividadesParticipante(String email) {
-        database.collection("participantes")
-                .whereArrayContains("email", email)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            listaAtividadesParticipo.clear();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Atividade atividade = document.toObject(Atividade.class);
-                                listaAtividadesParticipo.add(atividade);
-                                Log.d("xxxx", document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.d("minhas", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-        return listaAtividadesParticipo;
+        AtividadeParticipoAsync atividadeParticipoAsync = new AtividadeParticipoAsync();
+        atividadeParticipoAsync.execute(email);
+        ArrayList<Atividade> participantesAtividade = new ArrayList<>();
+        try {
+            participantesAtividade = atividadeParticipoAsync.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return participantesAtividade;
     }
 
     @Override
@@ -124,7 +117,7 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
         database.collection("atividades")
                 .whereEqualTo("id",id)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+              .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
@@ -183,17 +176,21 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
     }
 
     @Override
-    public boolean remover(String id) {
+    public void remover(String id) {
         database.collection("atividades").document(id)
         .delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Log.i("teste", "removedo com sucesso: "+task.getResult());
-                        removido = true;
+                    public void onSuccess(Void aVoid) {
+                        Log.i("teste", "removedo com sucesso: ");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("teste", "Falha ao tentar remover: "+e.getMessage());
                     }
                 });
-        return true;
     }
     @Override
     public Atividade getAtividade(String id) {
@@ -256,16 +253,15 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
                     }
                 });
     }
+
     private class MinhasAtividadeAsync extends AsyncTask<String,Void,ArrayList<Atividade>>{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
-
         @Override
         protected ArrayList<Atividade> doInBackground(String... strings) {
             final String email = strings[0];
-
             database.collection("atividades")
                     .whereEqualTo("emailProprietario", email)
                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -273,19 +269,15 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
                         public void onEvent(@Nullable QuerySnapshot value,
                                             @Nullable FirebaseFirestoreException e) {
                             if (e != null) {
-                //                Log.w(TAG, "Listen failed.", e);
                                 return;
                             }
                             minhasAtividades.clear();
-                //            List<String> cities = new ArrayList<>();
                             for (QueryDocumentSnapshot doc : value) {
                                 Atividade atividade = doc.toObject(Atividade.class);
                                 if (atividade.getEmailProprietario().equals(email)) {
-                                    //cities.add(doc.getString("name"));
                                     minhasAtividades.add(atividade);
                                 }
                             }
-                            //Log.d(TAG, "Current cites in CA: " + cities);
                         }
                     });
             return minhasAtividades;
@@ -360,6 +352,40 @@ public class AtividadeFirebaseDAO  implements  AtividadeDAO{
                         }
                     });
             return listaTodasAtividades;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Atividade> atividades) {
+            super.onPostExecute(atividades);
+        }
+
+    }
+    private class AtividadeParticipoAsync extends AsyncTask<String,Void,ArrayList<Atividade>>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected ArrayList<Atividade> doInBackground(String... strings) {
+            final String email = strings[0];
+            database.collection("participantes")
+                    .whereEqualTo("email", email)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            listaAtividadesParticipo.clear();
+                            for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots) {
+                                String idAtividade = (String) documentSnapshot.get("idAtividade").toString();
+                                Atividade atividade = getAtividade(idAtividade);
+                                Log.i("xxxx","atvidade "+ atividade);
+                                listaAtividadesParticipo.add(atividade);
+                                Log.i("xxxx","document idAtividade  "+idAtividade);
+                            }
+                        }
+                    });
+            return listaAtividadesParticipo;
         }
 
         @Override

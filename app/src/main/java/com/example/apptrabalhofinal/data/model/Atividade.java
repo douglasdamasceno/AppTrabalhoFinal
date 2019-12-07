@@ -1,8 +1,9 @@
 package com.example.apptrabalhofinal.data.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Atividade {
+public class Atividade  implements Serializable {
     private String id;
     private String emailProprietario;
     private String nome;

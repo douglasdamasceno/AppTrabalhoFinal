@@ -33,7 +33,6 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
 
         inicializarElementos();
         criarListaTodasAtividades();
-        notificarMeuAdapter();
 
         listViewMinhasAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -72,36 +71,29 @@ public class BuscarAtividadeListaActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-       notificarMeuAdapter();
-        // criarListaTodasAtividades();
+        notificarMeuAdapter();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        notificarMeuAdapter();
     }
 
     void criarListaTodasAtividades(){
         Bundle bundle = getIntent().getExtras();
-        if(bundle!=null) {
-            emailProprietario = bundle.getString("email");
-        }else{
-            Log.i("teste","bundle null");
-        }
+        emailProprietario = bundle.getString("email");
         minhaAtividadeAdapter = new MinhaAtividadeAdapter(this,listarTodasAtividades(emailProprietario));
         listViewMinhasAtividades.setAdapter(minhaAtividadeAdapter);
     }
+
     void notificarMeuAdapter(){
-        if(minhaAtividadeAdapter!=null) {
-            minhaAtividadeAdapter.notifyDataSetChanged();
-        }else{
-            criarListaTodasAtividades();
-        }
-    }
+        minhaAtividadeAdapter.notifyDataSetChanged();}
+
     void inicializarElementos(){
         myToolbar = findViewById(R.id.minhaToolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("Busca");
+        getSupportActionBar().setTitle("Listar Atividades");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listViewMinhasAtividades = findViewById(R.id.lista_view_todas_atividades);
     }

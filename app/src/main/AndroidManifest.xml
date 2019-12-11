@@ -11,10 +11,8 @@
     <!-- acessar a camera -->
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
     <!-- API to use WiFi para posição-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,7 +24,8 @@
         <activity android:name=".ui.activities.AtividadeDetalheEnderecoActivity"></activity>
         <activity android:name=".ui.activities.AtividadeParticipoActivity" />
         <activity android:name=".ui.activities.ParticiparAtividadeActivity" />
-        <activity android:name=".ui.activities.BuscarAtividadeListaActivity" />
+        <activity android:name=".ui.activities.BuscarAtividadeListaActivity"
+            android:parentActivityName=".ui.activities.MainActivity"/>
         <activity android:name=".ui.activities.CriarEnderecoAtividadeActivity" />
         <activity
             android:name=".ui.activities.CriarAtividadeActivity"

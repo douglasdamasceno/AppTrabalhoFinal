@@ -21,7 +21,6 @@ public class LoginActivity extends AppCompatActivity  implements ContratoLogin.v
     private  EditText inputSenha;
     private Button btnLogin;
     private Toolbar myToolbar;
-
     private PresentLogin presentLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +28,6 @@ public class LoginActivity extends AppCompatActivity  implements ContratoLogin.v
         setContentView(R.layout.activity_login);
 
         inicialiarElementos();
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,47 +37,39 @@ public class LoginActivity extends AppCompatActivity  implements ContratoLogin.v
             }
         });
     }
-
     private void inicialiarElementos() {
         inputEmail = findViewById(R.id.inputEmail);
         inputSenha = findViewById(R.id.inputSenha);
         btnLogin = findViewById(R.id.idBtnLogin);
-
         myToolbar = (Toolbar) findViewById(R.id.minhaToolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Login");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         presentLogin = new PresentLogin(this);
-
         Bundle bundle = getIntent().getExtras();
+
         if(bundle!=null){
             String pEmail = bundle.getString("email");
             String pSenha = bundle.getString("senha");
-
             inputEmail.setText(pEmail);
             inputSenha.setText(pSenha);
         }
     }
-
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
     }
-
     @Override
     public void formatoInvalidoEmail() {
         inputEmail.setFocusable(true);
         inputEmail.setError("Email Invalido");
     }
-
     @Override
     public void senhaInvalida() {
         inputSenha.setFocusable(true);
         inputSenha.setError("Senha deve ser maior que 6");
     }
-
     @Override
     public void realizarlogin(String email) {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -87,13 +77,11 @@ public class LoginActivity extends AppCompatActivity  implements ContratoLogin.v
         startActivity(intent);
         finish();
     }
-
     @Override
     public void usuarioComEmailInvalido() {
         inputEmail.setFocusable(true);
         inputEmail.setError("Email não encontrado");
     }
-
     @Override
     public void usuarioComSenha() {
         inputSenha.setFocusable(true);

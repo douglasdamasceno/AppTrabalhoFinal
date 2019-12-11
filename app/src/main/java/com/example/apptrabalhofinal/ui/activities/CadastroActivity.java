@@ -29,27 +29,21 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 
 public class CadastroActivity extends AppCompatActivity  implements ContratoCadastro.view {
-
     private EditText inputUsername;
     private EditText inputEmail;
     private EditText inputSenha;
     private Button btnLogin;
     private ImageView imageViewPerfil;
-
     private Toolbar myToolbar;
-
     BottomSheetDialog bottomSheetDialog;
     ContratoCadastro.present presentCadastro;
-
-   private Uri imageURI;
-   private String fotoPerfilURI;
+    private Uri imageURI;
+    private String fotoPerfilURI;
 
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
     private static final int PERMISSION_CODE_CAMERA = 1002;
     private static final int IMAGE_CAPTURE_CODE = 1003;
-
-    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +51,6 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
         setContentView(R.layout.activity_cadastro);
 
         inicializarElementos();
-        progressBar = findViewById(R.id.idProgressBar);
 
         imageViewPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,33 +68,27 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
             }
         });
 
-        new AsyncCircular().execute();
     }
-
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
     }
-
     @Override
     public void formatoUsernameInvalido() {
         inputUsername.setFocusable(true);
         inputUsername.setError("Username deve ser maior que 5");
     }
-
     @Override
     public void formatoInvalidoEmail() {
         inputEmail.setFocusable(true);
         inputEmail.setError("Email Invalido");
     }
-
     @Override
     public void senhaInvalida() {
         inputSenha.setFocusable(true);
         inputSenha.setError("Senha deve ser maior que 6");
     }
-
     @Override
     public void realizarCadastro() {
         Intent intent = new Intent(CadastroActivity.this,LoginActivity.class);
@@ -111,7 +98,6 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
         startActivity(intent);
         finish();
     }
-
     public void inicializarElementos(){
         presentCadastro = new PresentCadastro(CadastroActivity.this);
         inputUsername = findViewById(R.id.inputUsernameCadastro);
@@ -128,7 +114,6 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
 
         mostarViewFotoPerfil();
     }
-
     public void mostarViewFotoPerfil(){
         bottomSheetDialog = new BottomSheetDialog(CadastroActivity.this);
         View menu_foto = getLayoutInflater().inflate(R.layout.dialog_foto_fragmento,null);
@@ -140,7 +125,6 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //presentCadastro.verificarVersaoAndroidCamera();
                 verificarVersaoAndroidCamera();
             }
         });
@@ -153,7 +137,6 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
         });
 
     }
-
     private void verificarVersaoAndroidGalleria(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -192,7 +175,6 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
             openCamera();
         }
     }
-
     private void pickImageFromGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
@@ -232,7 +214,6 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
             }
         }
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
@@ -244,30 +225,5 @@ public class CadastroActivity extends AppCompatActivity  implements ContratoCada
             imageViewPerfil.setImageURI(imageURI);
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-
-    public class AsyncCircular extends AsyncTask<Void,Integer,Void>{
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            for(int i =0;i<100;i++){
-
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            progressBar.setVisibility(View.GONE);
-        }
-
     }
 }

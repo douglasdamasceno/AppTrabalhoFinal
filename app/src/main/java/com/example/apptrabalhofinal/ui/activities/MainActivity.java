@@ -163,12 +163,10 @@ public class MainActivity extends AppCompatActivity  {
                         }
                     }
                 }).create().show();
-                notificarAdapterMinhasAtividade();
+                //notificarAdapterMinhasAtividade();
                 return true;
             }
-
         });
-        notificarAdapterMinhasAtividade();
     }
 
     void verificarAutentificacao(){
@@ -193,7 +191,6 @@ public class MainActivity extends AppCompatActivity  {
         super.onStart();
         selected = -1;
         this.acct = GoogleSignIn.getLastSignedInAccount(this);
-        notificarAdapterMinhasAtividade();
     }
 
     void atualizarHeader(){
@@ -274,7 +271,6 @@ public class MainActivity extends AppCompatActivity  {
         }
 
     }
-
 
     public void logout(){
         FirebaseAuth.getInstance().signOut();
